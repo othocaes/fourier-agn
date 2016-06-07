@@ -1,0 +1,43 @@
+time-domain techniques provide average time-lag
+
+more information is contained 
+
+opticla analyses gives avg time-lag between driving and repreoccessing light curve
+
+more information in the light curves than just the average time lag
+
+X-ray astornomers have developed technique to get time-lag as a function of freq. or time scales
+
+We want to be the first people to apply this technique to optical curves
+
+
+
+
+standard fourier technique:
+
+    astronomers using CC techniques to check corrleation of light curves
+    
+    using fourier techniques to learn if time-delay is different as a function of time scales/freq.
+    
+    taking a fourier transform:
+    
+        each sin and cos has a power and aphse, for each fourier frequency
+    
+    two light curves, each has a power and phase set, and the phase different as the time-lag
+    
+    so can figure out the time-lag at each fourier frequency
+
+X-ray data is evenly distributed
+
+optical data is not evenly distributed
+
+    - maybe because of weather
+
+certain x-ray telescopes have gappy data because of low-earth orbit
+
+    
+
+
+
+power in the fourier techniques, more information than the cross-correlation curve
+
