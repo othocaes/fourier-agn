@@ -1,0 +1,47 @@
+data check.dat
+read f 1
+read pow 2
+limits f pow
+box
+ptype 10 3
+points f pow
+quit
+data check.dat
+read f 1
+read pow 2
+limits f pow
+ptype 10 3
+points f pow
+box
+quit
+data check.dat
+read f 1
+read pow 2
+limits f pow
+box
+ptype 10 3
+points f pow
+set lgf = log10(f)
+set lgf = alog10(f)
+set lgf = lg(f)
+erase
+box
+erase
+limits lgf pow
+points lgf pow
+box
+erase
+limits lgf 0. 3.
+box
+points lgf pow
+quit
+data check.dat
+read 1 f
+read f 1
+read pow 2
+set lgf = lg(f)
+limits lgf pow
+box
+ptype 10 3
+points lgf pow
+quit
