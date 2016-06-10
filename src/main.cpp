@@ -35,6 +35,7 @@ int main( int argc , char* argv[] ){
 void do_work( char* fname ){
 
 	/************   Reading the input file  ***********/
+
 	ifstream fp(fname);
 	string line,mcmcfile; stringstream ss;
 	int i,nfiles,nfq,mode,npar,bin1,bin2,fit_type,nrun,nburn,nwk; bool strict;
@@ -58,6 +59,7 @@ void do_work( char* fname ){
 	vector<vector<lcurve> > LC;
 	for(i=0;i<nfiles;i++) readLC( LC , files[i] , secL[i] , bin1 , bin2 , strict );
 	/********  END Read the light curves  ************/
+
 
 	if( mode > 0 or mode==-1 ){
 		vec errs; errs.setlength(nfq);
@@ -159,7 +161,6 @@ void readLC( vector<vector<lcurve> >&LC , string fname , int secL , int b1 , int
 	/*		Initialize file stream, define some variables		*/
 	ifstream fp(fname.c_str()); string line,sdum; stringstream ss;
 	int i,j,nlc,n,nsec,ns,sl; double dt;
-
 	/*		read dt from the description line 					*/
 	getline(fp,line); ss.str(line); ss >> sdum >> dt >> nlc; ss.clear();
 
@@ -193,6 +194,7 @@ void readLC( vector<vector<lcurve> >&LC , string fname , int secL , int b1 , int
 		}else {
 			Lc.push_back(lcurve(t,lc[b1],lce[b1],dt));
 		}
+	cerr << "Yo6!";
 		// Do we need a second light curve?
 		if(b2!=-1){Lc.push_back(lcurve(t,lc[b2],lce[b2],dt));}
 

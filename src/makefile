@@ -1,6 +1,7 @@
 
 
-incdir='/home/caes/science/psdlag-agn/src/'
+#incdir='/home/caes/science/psdlag-agn/src/'
+incdir='/Users/othoulrich/science/psdlag-agn/src'
 
 
 psdlag:
