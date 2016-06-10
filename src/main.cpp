@@ -194,7 +194,6 @@ void readLC( vector<vector<lcurve> >&LC , string fname , int secL , int b1 , int
 		}else {
 			Lc.push_back(lcurve(t,lc[b1],lce[b1],dt));
 		}
-	cerr << "Yo6!";
 		// Do we need a second light curve?
 		if(b2!=-1){Lc.push_back(lcurve(t,lc[b2],lce[b2],dt));}
 
