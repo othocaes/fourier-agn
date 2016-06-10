@@ -1,6 +1,6 @@
 
 
-incdir='/home/caes/science/fourier-agn/psdlag/src/'
+incdir='/home/caes/science/psdlag-agn/src/'
 
 
 psdlag:

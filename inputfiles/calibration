@@ -1,0 +1,10 @@
+2
+../data/calibration/lc_drive.dat 0
+../data/calibration/lc_1.dat 0
+1 5e-3 5e-1
+0
+1 1 1 1
+0:1 1
+0
+0
+100 50 50 mcmc.dat
