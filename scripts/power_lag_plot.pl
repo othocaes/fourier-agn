@@ -62,17 +62,17 @@ if ($debug) {
 
 
 # These arrays store the various quantities of interest.
-@freq_coords_avg = [];
+@freq_coords_mean = [];
 @freq_coords_err = [];
-@arr_power_curve_source_avg = [];
+@arr_power_curve_source_mean = [];
 @arr_power_curve_source_err = [];
-@arr_power_curve_reprocessed_avg = [];
+@arr_power_curve_reprocessed_mean = [];
 @arr_power_curve_reprocessed_err = [];
-@arr_cross_correlation_power_curve_avg = [];
+@arr_cross_correlation_power_curve_mean = [];
 @arr_cross_correlation_power_curve_err = [];
-@arr_phase_difference_avg = [];
+@arr_phase_difference_mean = [];
 @arr_phase_difference_err = [];
-@arr_time_lag_avg = [];
+@arr_time_lag_mean = [];
 @arr_time_lag_err = [];
 
 # This captures the frequency bins.
@@ -82,14 +82,14 @@ foreach (@bin_bounds) {
     $lower_bound = $upper_bound;
     $upper_bound = $_;
     if ($lower_bound == 0) {next}
-    my $avg = ($upper_bound + $lower_bound)/2;
+    my $mean = ($upper_bound + $lower_bound)/2;
     my $err = ($upper_bound - $lower_bound)/2;
-    #say ($avg,":",$err);
-    push(@freq_coords_avg,$avg);
+    #say ($mean,":",$err);
+    push(@freq_coords_mean,$mean);
     push(@freq_coords_err,$err);
 }
 
-$numbins = scalar @freq_coords_avg;
+$numbins = scalar @freq_coords_mean;
 say encode($charset,"$numbins frequency boundaries captured.");
 
 
@@ -100,65 +100,65 @@ while (<$outputfile>) {
     next if $_ =~ /\*+/;
     switch ($mode) {
         case 0 {
-            my $avg = my $err = $_;
-            $avg =~ s/^([\-\+e0-9\.]+)+\s+[\-\+e0-9\.]+\s*$/$1/;
-            $err =~ s/^[\-\+e0-9\.]+\s+([\-\+e0-9\.]+)\s*$/$1/;
+            our $power_curve_source_mean = my $power_curve_source_err = $_;
+            $power_curve_source_mean =~ s/^([\-\+e0-9\.]+)+\s+[\-\+e0-9\.]+\s*$/$1/;
+            $power_curve_source_err =~ s/^[\-\+e0-9\.]+\s+([\-\+e0-9\.]+)\s*$/$1/;
             if ($debug) {
                 say encode($charset,"");
                 say encode($charset,"                    New Bin");
                 say encode($charset,"─────────────────────────────────────────────────");
                 print encode($charset,"Driving light curve power from $_");
-                say encode($charset,"Average: $avg, Err: $err");
+                say encode($charset,"Average: $power_curve_source_mean, Err: $power_curve_source_err");
             }
-            push(@arr_power_curve_source_avg,$avg);
-            push(@arr_power_curve_source_err,$err);
+            push(@arr_power_curve_source_mean,$power_curve_source_mean);
+            push(@arr_power_curve_source_err,$power_curve_source_err);
             $mode++;
         }
         case 1 {
-            my $avg = my $err = $_;
-            $avg =~ s/^([\-\+e0-9\.]+)+\s+[\-\+e0-9\.]+\s*$/$1/;
-            $err =~ s/^[\-\+e0-9\.]+\s+([\-\+e0-9\.]+)\s*$/$1/;
+            my $power_curve_reprocessed_mean = my $power_curve_reprocessed_err = $_;
+            $power_curve_reprocessed_mean =~ s/^([\-\+e0-9\.]+)+\s+[\-\+e0-9\.]+\s*$/$1/;
+            $power_curve_reprocessed_err =~ s/^[\-\+e0-9\.]+\s+([\-\+e0-9\.]+)\s*$/$1/;
             if ($debug) {
                 print encode($charset,"Reprocessed light curve power from $_");
-                say encode($charset,"Average: $avg, Err: $err");
+                say encode($charset,"Average: $power_curve_reprocessed_mean, Err: $power_curve_reprocessed_err");
             }
-            push(@arr_power_curve_reprocessed_avg,$avg);
-            push(@arr_power_curve_reprocessed_err,$err);
+            push(@arr_power_curve_reprocessed_mean,$power_curve_reprocessed_mean);
+            push(@arr_power_curve_reprocessed_err,$power_curve_reprocessed_err);
             $mode++;
         }
         case 2 {
-            my $avg = my $err = $_;
-            $avg =~ s/^([\-\+e0-9\.]+)+\s+[\-\+e0-9\.]+\s*$/$1/;
-            $err =~ s/^[\-\+e0-9\.]+\s+([\-\+e0-9\.]+)\s*$/$1/;
+            my $cross_correlation_power_curve_mean = my $cross_correlation_power_curve_err = $_;
+            $cross_correlation_power_curve_mean =~ s/^([\-\+e0-9\.]+)+\s+[\-\+e0-9\.]+\s*$/$1/;
+            $cross_correlation_power_curve_err =~ s/^[\-\+e0-9\.]+\s+([\-\+e0-9\.]+)\s*$/$1/;
             if ($debug) {
                 print encode($charset,"Cross-Correlation from $_");
-                say encode($charset,"Average: $avg, Err: $err");
+                say encode($charset,"Average: $cross_correlation_power_curve_mean, Err: $cross_correlation_power_curve_err");
             }
-            push(@arr_cross_correlation_power_curve_avg,$avg);
-            push(@arr_cross_correlation_power_curve_err,$err);
+            push(@arr_cross_correlation_power_curve_mean,$cross_correlation_power_curve_mean);
+            push(@arr_cross_correlation_power_curve_err,$cross_correlation_power_curve_err);
             $mode++;
         }
         case 3 {
-            my $avg = my $err = $_;
-            $avg =~ s/^([\-\+e0-9\.]+)\s+[\-\+e0-9\.]+\s*$/$1/;
-            $err =~ s/^[\-\+e0-9\.]+\s+([\-\+e0-9\.]+)\s*$/$1/;
+            my $phase_difference_mean = my $phase_difference_err = $_;
+            $phase_difference_mean =~ s/^([\-\+e0-9\.]+)\s+[\-\+e0-9\.]+\s*$/$1/;
+            $phase_difference_err =~ s/^[\-\+e0-9\.]+\s+([\-\+e0-9\.]+)\s*$/$1/;
             if ($debug) {
                 print encode($charset,"Phase different from $_");
-                say encode($charset,"Average: $avg, Err: $err");
+                say encode($charset,"Average: $phase_difference_mean, Err: $phase_difference_err");
             }
-            push(@arr_phase_difference_avg,$avg);
-            push(@arr_phase_difference_err,$err);
-            my %freqrecord = ( "arr_power_curve_source_avg" => arr_power_curve_source_avg)
+            push(@arr_phase_difference_mean,$phase_difference_mean);
+            push(@arr_phase_difference_err,$phase_difference_err);
+            my %freqrecord = ( "arr_power_curve_source_mean" => arr_power_curve_source_mean);
             $mode = 0;
         }
     } # End switch
 }
 
-$numvals = scalar @arr_power_curve_source_avg;
+$numvals = scalar @arr_power_curve_source_mean;
 say encode($charset,"Retrieved $numvals sets of quantities.");
 
-# This section builds the records 
-foreach(@freq_coords_avg) {
+# This section builds the records
+foreach(@freq_coords_mean) {
 
 }
 
@@ -166,7 +166,7 @@ foreach(@freq_coords_avg) {
 open($datafile,'>',"tmp.sourcePSD") or die $!;
 open($datafile,'>',"tmp.reprocPSD") or die $!;
 
-foreach(@freq_coords_avg) 
+# foreach(@freq_coords_mean)
 
 
 
