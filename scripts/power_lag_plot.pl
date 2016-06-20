@@ -149,7 +149,7 @@ while (<$outputfile>) {
             push(@phase_difference_avg,$avg);
             push(@phase_difference_err,$err);
             $mode = 0;
-        }                 
+        }
     } # End switch
 }
 
