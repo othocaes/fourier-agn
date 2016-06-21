@@ -10,6 +10,7 @@ use constant PI    => 4 * atan2(1, 1);
 
 # Enables debug output.
 our $debug=1;
+our $verbosedebug=0;
 
 
 # This section locates the output data of interest in a
@@ -37,7 +38,7 @@ while(<$outputfile>) {
         $star_bytenum_2 = tell($outputfile);
     }
 }
-if ($debug) {
+if ($verbosedebug) {
     say encode($charset,"Final set found between lines "),
         $star_linenum_1,
         " and ",
@@ -55,7 +56,7 @@ $bin_bounds_line = <$outputfile>;
 $bin_bounds_line =~ s/^#\s*(.*)$/$1/;
 #$line =~ /
 @bin_bounds = split /\s/,$bin_bounds_line;
-if ($debug) {
+if ($verbosedebug) {
     print encode($charset,"Found bin boundaries: ");
     foreach (@bin_bounds) {print encode($charset,"$_ ");}
     say encode($charset," ");
@@ -84,8 +85,10 @@ $numbins = keys %function_bin;
 say encode($charset,"$numbins frequency bins captured in output.");
 
 if($debug) {
+    say encode($charset,"freq μ        freq σ");
     while (each %function_bin ) {
-        say encode($charset,$_ . " => " . $function_bin{$_}{"Δ"});
+        say encode($charset,
+            sprintf("%f      %f",$_,$function_bin{$_}{"Δ"}));
     }
 }
 
@@ -104,8 +107,7 @@ if ($debug) {
     say encode($charset,
         "           New Curve -- Source PSD");
     say encode($charset,
-        "─────────────────────────────────────────────────────────");
-
+        "──────────────────────────────────────────────────");
 }
 
 foreach ( sort { $a <=> $b } keys %function_bin ) {
@@ -120,16 +122,21 @@ foreach ( sort { $a <=> $b } keys %function_bin ) {
     $function_bin{$_}{"source_PSD_σ"} = $σ;
     if ($debug) {
         say encode($charset,
-            "freq = " . sprintf('%f',$_) . ": μ = " . $μ . "; σ = " . $σ);
+            "freq = " .
+            sprintf('%.3f',$_) .
+            ": μ = " .
+            sprintf('%10.3e',$μ) .
+            "; σ = " .
+            sprintf('%10.3e',$σ));
     }
 }
 
 if ($debug) {
     say encode($charset,"");
     say encode($charset,
-        "           New Curve -- Reprocessed PSD");
+        "          New Curve -- Reprocessed PSD");
     say encode($charset,
-        "─────────────────────────────────────────────────────────");
+        "──────────────────────────────────────────────────");
 }
 foreach ( sort { $a <=> $b } keys %function_bin ) {
     my $μ = my $σ = <$outputfile>;
@@ -143,7 +150,12 @@ foreach ( sort { $a <=> $b } keys %function_bin ) {
     $function_bin{$_}{"reproc_PSD_σ"} = $σ;
     if ($debug) {
         say encode($charset,
-            "freq = " . sprintf('%f',$_) . ": μ = " . $μ . "; σ = " . $σ);
+            "freq = " .
+            sprintf('%.3f',$_) .
+            ": μ = " .
+            sprintf('%10.3e',$μ) .
+            "; σ = " .
+            sprintf('%10.3e',$σ));
     }
 }
 
@@ -151,9 +163,9 @@ foreach ( sort { $a <=> $b } keys %function_bin ) {
 if ($debug) {
     say encode($charset,"");
     say encode($charset,
-        "           New Curve -- Cross-Correlation PSD");
+        "          New Curve -- Cross Spectra PSD");
     say encode($charset,
-        "─────────────────────────────────────────────────────────");
+        "──────────────────────────────────────────────────");
 }
 foreach ( sort { $a <=> $b } keys %function_bin ) {
     my $μ = my $σ = <$outputfile>;
@@ -167,16 +179,21 @@ foreach ( sort { $a <=> $b } keys %function_bin ) {
     $function_bin{$_}{"cc_PSD_σ"} = $σ;
     if ($debug) {
         say encode($charset,
-            "freq = " . sprintf('%f',$_) . ": μ = " . $μ . "; σ = " . $σ);
+            "freq = " .
+            sprintf('%.3f',$_) .
+            ": μ = " .
+            sprintf('%10.3e',$μ) .
+            "; σ = " .
+            sprintf('%10.3e',$σ));
     }
 }
 
 if ($debug) {
     say encode($charset,"");
     say encode($charset,
-        "           New Curve -- Phase Difference φ");
+        "         New Curve -- Phase Difference φ");
     say encode($charset,
-        "─────────────────────────────────────────────────────────");
+        "──────────────────────────────────────────────────");
 }
 foreach ( sort { $a <=> $b } keys %function_bin ) {
     my $μ = my $σ = <$outputfile>;
@@ -189,13 +206,30 @@ foreach ( sort { $a <=> $b } keys %function_bin ) {
     $function_bin{$_}{"φdiff_σ"} = $σ;
     if ($debug) {
         say encode($charset,
-            "freq = " . sprintf('%f',$_) . ": μ = " . $μ . "; σ = " . $σ);
+            "freq = " .
+            sprintf('%.3f',$_) .
+            ": μ = " .
+            sprintf('%10.3e',$μ) .
+            "; σ = " .
+            sprintf('%10.3e',$σ));
+    }
+    $μ = $μ/(2*PI*$_);
+    $σ = $σ/(2*PI*$_);
+    $function_bin{$_}{"timelag_μ"} = $μ;
+    $function_bin{$_}{"timelag_σ"} = $σ;
+    if ($debug) {
+        say encode($charset,
+            "     timelag: μ = " .
+            sprintf('%10.3e',$μ) .
+            "; σ = " .
+            sprintf('%10.3e',$σ)) .
+            "\n";
     }
 }
 
 say encode($charset,"");
 
-if($debug) {
+if($verbosedebug) {
     while (each %function_bin ) {
         print encode($charset,$_ . ": ");
         while ( my ($key,$value) = each %{$function_bin{$_}} ) {
@@ -237,7 +271,15 @@ while( each %function_bin) {
 }
 close($datafile);
 
-
+open($datafile,'>',"tmp.timelag") or die $!;
+while( each %function_bin) {
+    say $datafile
+        $_ . " " .
+        $function_bin{$_}{"timelag_μ"} . " " .
+        $function_bin{$_}{"Δ"} . " " .
+        $function_bin{$_}{"timelag_σ"};
+}
+close($datafile);
 
 
 #open($datafile,'>',"tmp.reprocPSD") or die $!;
