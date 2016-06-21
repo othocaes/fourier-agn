@@ -112,10 +112,10 @@ foreach ( sort { $a <=> $b } keys %function_bin ) {
     my $μ = my $σ = <$outputfile>;
     $μ =~ s/^([\-\+e0-9\.]+)+\s+[\-\+e0-9\.]+\s*$/$1/;
     $σ =~ s/^[\-\+e0-9\.]+\s+([\-\+e0-9\.]+)\s*$/$1/;
-    if ($μ<0) {
-        $μ = abs($μ);
-        $function_bin{$_}{"φdiff_μ"} = PI;
-    }
+#    if ($μ<0) {
+#        $μ = abs($μ);
+#        $function_bin{$_}{"φdiff_μ"} = PI;
+#    }
     $function_bin{$_}{"source_PSD_μ"} = $μ;
     $function_bin{$_}{"source_PSD_σ"} = $σ;
     if ($debug) {
@@ -135,10 +135,10 @@ foreach ( sort { $a <=> $b } keys %function_bin ) {
     my $μ = my $σ = <$outputfile>;
     $μ =~ s/^([\-\+e0-9\.]+)+\s+[\-\+e0-9\.]+\s*$/$1/;
     $σ =~ s/^[\-\+e0-9\.]+\s+([\-\+e0-9\.]+)\s*$/$1/;
-    if ($μ<0) {
-        $μ = abs($μ);
-        $function_bin{$_}{"φdiff_μ"} = PI;
-    }
+#    if ($μ<0) {
+#        $μ = abs($μ);
+#        $function_bin{$_}{"φdiff_μ"} = PI;
+#    }
     $function_bin{$_}{"reproc_PSD_μ"} = $μ;
     $function_bin{$_}{"reproc_PSD_σ"} = $σ;
     if ($debug) {
@@ -159,10 +159,10 @@ foreach ( sort { $a <=> $b } keys %function_bin ) {
     my $μ = my $σ = <$outputfile>;
     $μ =~ s/^([\-\+e0-9\.]+)+\s+[\-\+e0-9\.]+\s*$/$1/;
     $σ =~ s/^[\-\+e0-9\.]+\s+([\-\+e0-9\.]+)\s*$/$1/;
-    if ($μ<0) {
-        $μ = abs($μ);
-        $function_bin{$_}{"φdiff_μ"} = PI;
-    }
+#    if ($μ<0) {
+#        $μ = abs($μ);
+#        $function_bin{$_}{"φdiff_μ"} = PI;
+#    }
     $function_bin{$_}{"cc_PSD_μ"} = $μ;
     $function_bin{$_}{"cc_PSD_σ"} = $σ;
     if ($debug) {
