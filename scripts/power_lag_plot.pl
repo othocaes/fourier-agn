@@ -6,12 +6,13 @@ use feature 'say';
 use locale;
 use Switch;
 
+use constant PI    => 4 * atan2(1, 1);
 
 # Enables debug output.
-our $debug=0;
+our $debug=1;
 
 
-# This section locate the output data of interest in a
+# This section locates the output data of interest in a
 # psdlab output file.
 if (!${^UTF8LOCALE}) {
     say encode($charset,"You are not using UTF-8 encoding. :(");
@@ -61,161 +62,182 @@ if ($debug) {
 }
 
 
-# These arrays store the various quantities of interest.
-@freq_coords_mean = [];
-@freq_coords_err = [];
-@arr_power_curve_source_mean = [];
-@arr_power_curve_source_err = [];
-@arr_power_curve_reprocessed_mean = [];
-@arr_power_curve_reprocessed_err = [];
-@arr_cross_correlation_power_curve_mean = [];
-@arr_cross_correlation_power_curve_err = [];
-@arr_phase_difference_mean = [];
-@arr_phase_difference_err = [];
-@arr_time_lag_mean = [];
-@arr_time_lag_err = [];
 
 # This captures the frequency bins.
+our %function_bin = ();
+
 my $upper_bound = 0;
 my $lower_bound = 0;
 foreach (@bin_bounds) {
     $lower_bound = $upper_bound;
     $upper_bound = $_;
     if ($lower_bound == 0) {next}
-    my $mean = ($upper_bound + $lower_bound)/2;
-    my $err = ($upper_bound - $lower_bound)/2;
-    #say ($mean,":",$err);
-    push(@freq_coords_mean,$mean);
-    push(@freq_coords_err,$err);
+    my $μ = ($upper_bound + $lower_bound)/2;
+    my $Δ = ($upper_bound - $lower_bound)/2;
+    #say ($μ,":",$Δ);
+    # push(@freq_coords_mean,$μ);
+    # push(@freq_coords_err,$Δ);
+    $function_bin{$μ} = {"Δ" => $Δ};
 }
 
-$numbins = scalar @freq_coords_mean;
-say encode($charset,"$numbins frequency boundaries captured.");
+$numbins = keys %function_bin;
+say encode($charset,"$numbins frequency bins captured in output.");
 
-
-# This section collects the various quantities. The mode counter
-# increments to designate the data being captured.
-my $mode=0;
-while (<$outputfile>) {
-    next if $_ =~ /\*+/;
-    switch ($mode) {
-        case 0 {
-            our $power_curve_source_mean = my $power_curve_source_err = $_;
-            $power_curve_source_mean =~ s/^([\-\+e0-9\.]+)+\s+[\-\+e0-9\.]+\s*$/$1/;
-            $power_curve_source_err =~ s/^[\-\+e0-9\.]+\s+([\-\+e0-9\.]+)\s*$/$1/;
-            if ($debug) {
-                say encode($charset,"");
-                say encode($charset,"                    New Bin");
-                say encode($charset,"─────────────────────────────────────────────────");
-                print encode($charset,"Driving light curve power from $_");
-                say encode($charset,"Average: $power_curve_source_mean, Err: $power_curve_source_err");
-            }
-            push(@arr_power_curve_source_mean,$power_curve_source_mean);
-            push(@arr_power_curve_source_err,$power_curve_source_err);
-            $mode++;
-        }
-        case 1 {
-            my $power_curve_reprocessed_mean = my $power_curve_reprocessed_err = $_;
-            $power_curve_reprocessed_mean =~ s/^([\-\+e0-9\.]+)+\s+[\-\+e0-9\.]+\s*$/$1/;
-            $power_curve_reprocessed_err =~ s/^[\-\+e0-9\.]+\s+([\-\+e0-9\.]+)\s*$/$1/;
-            if ($debug) {
-                print encode($charset,"Reprocessed light curve power from $_");
-                say encode($charset,"Average: $power_curve_reprocessed_mean, Err: $power_curve_reprocessed_err");
-            }
-            push(@arr_power_curve_reprocessed_mean,$power_curve_reprocessed_mean);
-            push(@arr_power_curve_reprocessed_err,$power_curve_reprocessed_err);
-            $mode++;
-        }
-        case 2 {
-            my $cross_correlation_power_curve_mean = my $cross_correlation_power_curve_err = $_;
-            $cross_correlation_power_curve_mean =~ s/^([\-\+e0-9\.]+)+\s+[\-\+e0-9\.]+\s*$/$1/;
-            $cross_correlation_power_curve_err =~ s/^[\-\+e0-9\.]+\s+([\-\+e0-9\.]+)\s*$/$1/;
-            if ($debug) {
-                print encode($charset,"Cross-Correlation from $_");
-                say encode($charset,"Average: $cross_correlation_power_curve_mean, Err: $cross_correlation_power_curve_err");
-            }
-            push(@arr_cross_correlation_power_curve_mean,$cross_correlation_power_curve_mean);
-            push(@arr_cross_correlation_power_curve_err,$cross_correlation_power_curve_err);
-            $mode++;
-        }
-        case 3 {
-            my $phase_difference_mean = my $phase_difference_err = $_;
-            $phase_difference_mean =~ s/^([\-\+e0-9\.]+)\s+[\-\+e0-9\.]+\s*$/$1/;
-            $phase_difference_err =~ s/^[\-\+e0-9\.]+\s+([\-\+e0-9\.]+)\s*$/$1/;
-            if ($debug) {
-                print encode($charset,"Phase different from $_");
-                say encode($charset,"Average: $phase_difference_mean, Err: $phase_difference_err");
-            }
-            push(@arr_phase_difference_mean,$phase_difference_mean);
-            push(@arr_phase_difference_err,$phase_difference_err);
-            my %freqrecord = ( "arr_power_curve_source_mean" => arr_power_curve_source_mean);
-            $mode = 0;
-        }
-    } # End switch
+if($debug) {
+    while (each %function_bin ) {
+        say encode($charset,$_ . " => " . $function_bin{$_}{"Δ"});
+    }
 }
-
-$numvals = scalar @arr_power_curve_source_mean;
-say encode($charset,"Retrieved $numvals sets of quantities.");
-
-# This section builds the records
-foreach(@freq_coords_mean) {
-
-}
-
-
-open($datafile,'>',"tmp.sourcePSD") or die $!;
-open($datafile,'>',"tmp.reprocPSD") or die $!;
-
-# foreach(@freq_coords_mean)
-
-
-
-
-
-
-
-
-
 
 
 
 
 =pod
-    Tried to set up the program to find the boundaries on its own.
-    Should return to complete the program this way; just a syntax
-    problem.
 
-#while (<$outputfile>) {say $_;}
-#while (<$outputfile> =~ /^[^#]+(.*)$/) {}
-#if (eof($outputfile)) {
-#    say encode($charset,"Could not scrape values of energy bin boundaries.");
-#    exit 9;
-#}
+    This section collects the various quantities. The mode counter
+increments to designate the data being captured.
+
 =cut
 
+if ($debug) {
+    say encode($charset,"");
+    say encode($charset,
+        "           New Curve -- Source PSD");
+    say encode($charset,
+        "─────────────────────────────────────────────────────────");
+
+}
+
+foreach ( sort { $a <=> $b } keys %function_bin ) {
+    my $μ = my $σ = <$outputfile>;
+    $μ =~ s/^([\-\+e0-9\.]+)+\s+[\-\+e0-9\.]+\s*$/$1/;
+    $σ =~ s/^[\-\+e0-9\.]+\s+([\-\+e0-9\.]+)\s*$/$1/;
+    if ($μ<0) {
+        $μ = abs($μ);
+        $function_bin{$_}{"φdiff_μ"} = PI;
+    }
+    $function_bin{$_}{"source_PSD_μ"} = $μ;
+    $function_bin{$_}{"source_PSD_σ"} = $σ;
+    if ($debug) {
+        say encode($charset,
+            "freq = " . sprintf('%f',$_) . ": μ = " . $μ . "; σ = " . $σ);
+    }
+}
+
+if ($debug) {
+    say encode($charset,"");
+    say encode($charset,
+        "           New Curve -- Reprocessed PSD");
+    say encode($charset,
+        "─────────────────────────────────────────────────────────");
+}
+foreach ( sort { $a <=> $b } keys %function_bin ) {
+    my $μ = my $σ = <$outputfile>;
+    $μ =~ s/^([\-\+e0-9\.]+)+\s+[\-\+e0-9\.]+\s*$/$1/;
+    $σ =~ s/^[\-\+e0-9\.]+\s+([\-\+e0-9\.]+)\s*$/$1/;
+    if ($μ<0) {
+        $μ = abs($μ);
+        $function_bin{$_}{"φdiff_μ"} = PI;
+    }
+    $function_bin{$_}{"reproc_PSD_μ"} = $μ;
+    $function_bin{$_}{"reproc_PSD_σ"} = $σ;
+    if ($debug) {
+        say encode($charset,
+            "freq = " . sprintf('%f',$_) . ": μ = " . $μ . "; σ = " . $σ);
+    }
+}
+
+
+if ($debug) {
+    say encode($charset,"");
+    say encode($charset,
+        "           New Curve -- Cross-Correlation PSD");
+    say encode($charset,
+        "─────────────────────────────────────────────────────────");
+}
+foreach ( sort { $a <=> $b } keys %function_bin ) {
+    my $μ = my $σ = <$outputfile>;
+    $μ =~ s/^([\-\+e0-9\.]+)+\s+[\-\+e0-9\.]+\s*$/$1/;
+    $σ =~ s/^[\-\+e0-9\.]+\s+([\-\+e0-9\.]+)\s*$/$1/;
+    if ($μ<0) {
+        $μ = abs($μ);
+        $function_bin{$_}{"φdiff_μ"} = PI;
+    }
+    $function_bin{$_}{"cc_PSD_μ"} = $μ;
+    $function_bin{$_}{"cc_PSD_σ"} = $σ;
+    if ($debug) {
+        say encode($charset,
+            "freq = " . sprintf('%f',$_) . ": μ = " . $μ . "; σ = " . $σ);
+    }
+}
+
+if ($debug) {
+    say encode($charset,"");
+    say encode($charset,
+        "           New Curve -- Phase Difference φ");
+    say encode($charset,
+        "─────────────────────────────────────────────────────────");
+}
+foreach ( sort { $a <=> $b } keys %function_bin ) {
+    my $μ = my $σ = <$outputfile>;
+    $μ =~ s/^([\-\+e0-9\.]+)+\s+[\-\+e0-9\.]+\s*$/$1/;
+    $σ =~ s/^[\-\+e0-9\.]+\s+([\-\+e0-9\.]+)\s*$/$1/;
+    if (exists $function_bin{$_}{"φdiff_μ"}) {
+        $μ = $function_bin{$_}{"φdiff_μ"} + $μ;
+    }
+    $function_bin{$_}{"φdiff_μ"} = $μ;
+    $function_bin{$_}{"φdiff_σ"} = $σ;
+    if ($debug) {
+        say encode($charset,
+            "freq = " . sprintf('%f',$_) . ": μ = " . $μ . "; σ = " . $σ);
+    }
+}
+
+say encode($charset,"");
+
+if($debug) {
+    while (each %function_bin ) {
+        print encode($charset,$_ . ": ");
+        while ( my ($key,$value) = each %{$function_bin{$_}} ) {
+            print encode($charset,$key . " => " . $value . ";  ");
+        }
+        say encode($charset,"");
+    }
+}
+
+close($outputfile);
+
+open($datafile,'>',"tmp.sourcePSD") or die $!;
+while( each %function_bin) {
+    say $datafile
+        $_ . " " .
+        $function_bin{$_}{"source_PSD_μ"} . " " .
+        $function_bin{$_}{"Δ"} . " " .
+        $function_bin{$_}{"source_PSD_σ"};
+}
+close($datafile);
+
+open($datafile,'>',"tmp.reprocPSD") or die $!;
+while( each %function_bin) {
+    say $datafile
+        $_ . " " .
+        $function_bin{$_}{"reproc_PSD_μ"} . " " .
+        $function_bin{$_}{"Δ"} . " " .
+        $function_bin{$_}{"reproc_PSD_σ"};
+}
+close($datafile);
+
+open($datafile,'>',"tmp.ccPSD") or die $!;
+while( each %function_bin) {
+    say $datafile
+        $_ . " " .
+        $function_bin{$_}{"cc_PSD_μ"} . " " .
+        $function_bin{$_}{"Δ"} . " " .
+        $function_bin{$_}{"cc_PSD_σ"};
+}
+close($datafile);
 
 
 
 
-
-#$thing = <$outputfile>;
-#say encode($charset,"$thing");
-
-
-
-
-
-
-
-# switch ($val) {
-#             case 1      { print encode($charset,"number 1" )}
-#             case "a"    { print encode($charset,"string a" )}
-#             case [1..10,42] { print encode($charset,"number in list" )}
-#             case (@array)   { print encode($charset,"number in list" )}
-#             case /\w+/  { print encode($charset,"pattern" )}
-#             case qr/\w+/    { print encode($charset,"pattern" )}
-#             case (%hash)    { print encode($charset,"entry in hash" )}
-#             case (\%hash)   { print encode($charset,"entry in hash" )}
-#             case (\&sub)    { print encode($charset,"arg to subroutine" )}
-#             else        { print encode($charset,"previous case not true" )}
-#         }
+#open($datafile,'>',"tmp.reprocPSD") or die $!;
