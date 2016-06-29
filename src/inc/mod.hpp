@@ -9,8 +9,8 @@
 #define MOD_HPP_
 
 #include "def.hpp"
-#include <specialfunctions.h>
-#include <solvers.h>
+#include <alglib/specialfunctions.h>
+#include <alglib/solvers.h>
 
 class mod {
 
@@ -125,7 +125,8 @@ public:
 			// ---------- //
 			vector<int> ic,iv; sing = 0;
 			for( i=0; i <npar ; i++ ){ if( fabs(grad[i]) < 1e-5 ){ sing=1;ic.push_back(i); }else { iv.push_back(i);}}
-			if( sing == 1 and iv.size()!=0 ){
+			//if( sing == 1 and iv.size()!=0 ){
+			if( sing == 1 ){
 				np = iv.size();
 				vec	g; vec2 h,hi,iii; g.setlength(np); h.setlength(np,np); hi.setlength(np,np);iii.setlength(np,np);
 				for( i=0 ; i<np ; i++ ){
@@ -184,15 +185,19 @@ public:
 		vec		tmppars,dpar,grad,prevp; vec2 hess,hessi,ii;
 		tmppars.setlength(npar); dpar.setlength(npar); grad.setlength(npar); prevp.setlength(npar);
 		hess.setlength( npar , npar );ii.setlength(npar,npar);hessi.setlength(npar,npar);
-		vector<int> ic,iv; np = npar - 1;
-		vec	g; vec2 h,hi,iii; g.setlength(np); h.setlength(np,np); hi.setlength(np,np);iii.setlength(np,np);
-		ic.push_back(k);
+		vector<int> ic,iv;
+		vec	g; vec2 h,hi,iii;
+
+		dlikelihood( pars , loglike , grad , hess );
+		if( fabs(grad[k])<1e-5 ) { return loglike;}
 
 		for( i=0 ; i<npar ; i++ ){
 			tmppars[i] = pars[i]; dpar[i] = 0.01*pars[i]; ii(i,i)=1;for(j=0;j<i;j++){ii(i,j)=0;ii(j,i)=0;}
 			prevp[i] = pars[i];
-			if(i==k){continue;} iv.push_back(i);
+			if(i==k or fabs(grad[i])<1e-5 ){ic.push_back(i);}else{ iv.push_back(i); }
 		}
+		np = npar - ic.size();
+		g.setlength(np); h.setlength(np,np); hi.setlength(np,np);iii.setlength(np,np);
 
 
 		for( n=1 ; n<= nmax ; n++ ){
@@ -241,8 +246,8 @@ public:
 		errors( pars , errs2 , -1 );
 	}
 
-	void	errors( vec& pars , vec& errs , int sign=-1){
-		double		tol = 1e-3 , delchi = 1;
+	void	errors( vec& pars , vec& errs , int sign=1){
+		double		tol = 1e-2 , delchi = 1;
 		int			i,ip,ip1,ip2;
 		double		pu,pd,phalf=0,bestlike,tmplike,dl;
 		vec			pars0,errs0,tmpp; pars0.setlength(npar);errs0.setlength(npar);tmpp.setlength(npar);
@@ -253,6 +258,7 @@ public:
 
 		for( ip=ip1 ; ip<ip2 ; ip++ ){
 			cout << endl << "******* par " << ip << " *******" << endl << endl;
+			if( errs0[ip]>10 ) { continue ;}
 			pd	=	pars[ip];
 			for( i=0 ;i<npar ; i++ ){tmpp[i] = pars0[i]; }
 

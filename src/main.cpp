@@ -35,10 +35,9 @@ int main( int argc , char* argv[] ){
 void do_work( char* fname ){
 
 	/************   Reading the input file  ***********/
-
 	ifstream fp(fname);
-	string line,mcmcfile; stringstream ss;
-	int i,nfiles,nfq,mode,npar,bin1,bin2,fit_type,nrun,nburn,nwk; bool strict;
+	string line,mcmcfile,colon; stringstream ss;
+	int i,nfiles,nfq,mode,npar,bin1,bin2,fit_type,nrun,nburn,nwk,ref; bool strict;
 	getline(fp,line);ss.str(line); ss >> nfiles;								ss.clear();
 	vector<string> files(nfiles);ivec secL;secL.setlength(nfiles);for(i=0;i<nfiles;i++){
 	getline(fp,line); ss.str(line); ss >> files[i] >> secL[i];					ss.clear();}
@@ -47,7 +46,12 @@ void do_work( char* fname ){
 	getline(fp,line); ss.str(line); ss >> mode;									ss.clear();
 	npar = (mode==0)?4*nfq:nfq; vec pars; pars.setlength(npar);
 	getline(fp,line); ss.str(line); for(i=0;i<npar;i++){ss >> pars[i];}			ss.clear();
-	getline(fp,line); ss.str(line); ss >> bin1 >> bin2;							ss.clear();
+	getline(fp,line); ss.str(line); ss >> ref >> colon >> bin2;			ss.clear();
+	if(colon.compare(0,1,":") == 0 ){
+		bin1	=	atoi(colon.substr(1).c_str());
+	}else{
+		bin1	=	ref; ref = -10; bin2 = atoi(colon.c_str());
+	}
 	if(mode!=0){bin1 = (mode==-1)?-1:(mode-1);bin2=-1;}
 	getline(fp,line); ss.str(line); ss >> fit_type;								ss.clear();
 	getline(fp,line); ss.str(line); ss >> i; strict	= i!=0;						ss.clear();
@@ -55,48 +59,71 @@ void do_work( char* fname ){
 	fp.close();
 	/*********   END Reading the input file  **********/
 
+	std::cout << "Completed reading file." << bin1 << bin2 
+			<< files[0]
+			//<< files[1]
+			<< std::endl;
+
 	/**********  Read the light curves  **************/
-	vector<vector<lcurve> > LC;
-	for(i=0;i<nfiles;i++) readLC( LC , files[i] , secL[i] , bin1 , bin2 , strict );
+	//std::cout << "hello";
+	//std::cout << bin1 << bin2;
+	vector<vector<lcurve> > LC,LC_ref;
+	if ( ref == -10 ){
+		//std::cout << "yo";
+		for(i=0;i<nfiles;i++)  readLC( LC , files[i] , secL[i] , bin1 , bin2 , strict );
+	}else {
+		//std::cout << "yo2";
+		for(i=0;i<nfiles;i++) {
+			if( i!=ref ) { readLC( LC , files[i] , secL[i] , bin2 , -1 , strict ); }
+		}
+		readLC( LC_ref , files[ref] , secL[ref] , bin1 , -1 , strict );
+	}
 	/********  END Read the light curves  ************/
 
+	//std::cout << "Read lcs." << std::endl;
 
 	if( mode > 0 or mode==-1 ){
 		vec errs; errs.setlength(nfq);
 		vector<lcurve> lc1; for( i=0 ; i<int(LC.size()) ; i++ ){ lc1.push_back( LC[i][0]); }
-		Mod<psd10>	p1( lc1 , fqL );
+		Mod<psd10_rms>	p1( lc1 , fqL );
 
 		p1.optimize( pars , errs );
 		if( fit_type==1 ) p1.errors( pars , errs );
-	}else if( mode == 0 or mode==-1 ){
+	}else if( mode == 0 ){
 		vec ec,e1,e2,errs; ec.setlength(2*nfq);e1.setlength(nfq);e2.setlength(nfq);errs.setlength(4*nfq);
-		vector<lcurve> lc1,lc2; for( i=0 ; i<int(LC.size()) ; i++ ){ lc1.push_back( LC[i][0]); lc2.push_back( LC[i][1]); }
-		Mod<psd10>	p1( lc1 , fqL ), p2( lc2 , fqL );
+		vector<lcurve> lc1,lc2;
+		if( ref==-10 ){ // standard way of getting reference
+			for( i=0 ; i<int(LC.size()) ; i++ ){ lc1.push_back( LC[i][0]); lc2.push_back( LC[i][1]); }
+		}else{
+			for( i=0 ; i<int(LC_ref.size()) ; i++ ){ lc2.push_back( LC[i][0]);}
+			for( i=0 ; i<int(LC.size()) ; i++ ){ lc1.push_back( LC_ref[i][0]);}
+		}
+		Mod<psd10_rms>	p1( lc1 , fqL ), p2( lc2 , fqL );
 		vec		pars1,pars2;pars1.setlength(nfq);pars2.setlength(nfq);for(i=0;i<nfq;i++){pars1[i]=pars[i];pars2[i]=pars[i+nfq];}
 
 		p1.optimize( pars1 , e1 );
 		p2.optimize( pars2 , e2 );
 		if( fit_type==1 ) {
-			p1.errors_avg( pars1 , e1 );
-			p2.errors_avg( pars2 , e2 );
+			p1.errors( pars1 , e1 );
+			p2.errors( pars2 , e2 );
 		}
 
 		vec		pc; pc.setlength(2*nfq);
 		for(i=0;i<nfq;i++){pc[i]=pars[i+2*nfq];pc[i+nfq]=pars[i+3*nfq];pars[i]=pars1[i];pars[i+nfq]=pars2[i];pc[i]=(pars1[i]+pars2[i])/2;}
-		Mod<lag10>		l( lc1 , lc2 , fqL , pars );
+		Mod<lag10_rms>		l( lc1 , lc2 , fqL , pars );
 		l.optimize( pc , ec );
-		if( fit_type==1 ) l.errors_avg( pc , ec );
+		if( fit_type==1 ) l.errors( pc , ec );
 		if( fit_type==2 ) {
 			mcmc mc( 2*nfq , mcmc_lag10 , (void*)&l );
 			mc.nrun=nrun; mc.nburn=nburn; mc.nwk=nwk;
-			mc.run( pc , errs , mcmcfile.c_str() );
+			mc.run( pc , ec , mcmcfile.c_str() );
 		}
 
 		for(i=0;i<nfq;i++){ pars[i+2*nfq]=pc[i]; pars[i+3*nfq]=pc[i+nfq];}
 		for(i=0;i<nfq;i++){ errs[i] = e1[i]; errs[i+nfq] = e2[i]; errs[i+2*nfq]=ec[i]; errs[i+3*nfq]=ec[i+nfq];}
 
-		Mod<psdlag10>	pl( lc1 , lc2 , fqL );
-		if( fit_type==3 ) pl.errors_avg( pars , errs );
+		Mod<psdlag10_rms>	pl( lc1 , lc2 , fqL );
+		if( fit_type==3 ) pl.errors( pars , errs );
 		if( fit_type==4 ) {
 			mcmc mc( 4*nfq , mcmc_psdlag10 , (void*)&pl );
 			mc.nrun=nrun; mc.nburn=nburn; mc.nwk=nwk;
@@ -161,6 +188,7 @@ void readLC( vector<vector<lcurve> >&LC , string fname , int secL , int b1 , int
 	/*		Initialize file stream, define some variables		*/
 	ifstream fp(fname.c_str()); string line,sdum; stringstream ss;
 	int i,j,nlc,n,nsec,ns,sl; double dt;
+
 	/*		read dt from the description line 					*/
 	getline(fp,line); ss.str(line); ss >> sdum >> dt >> nlc; ss.clear();
 
