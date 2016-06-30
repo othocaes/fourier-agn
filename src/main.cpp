@@ -59,28 +59,17 @@ void do_work( char* fname ){
 	fp.close();
 	/*********   END Reading the input file  **********/
 
-	std::cout << "Completed reading file." << bin1 << bin2 
-			<< files[0]
-			//<< files[1]
-			<< std::endl;
-
 	/**********  Read the light curves  **************/
-	//std::cout << "hello";
-	//std::cout << bin1 << bin2;
 	vector<vector<lcurve> > LC,LC_ref;
 	if ( ref == -10 ){
-		//std::cout << "yo";
 		for(i=0;i<nfiles;i++)  readLC( LC , files[i] , secL[i] , bin1 , bin2 , strict );
 	}else {
-		//std::cout << "yo2";
 		for(i=0;i<nfiles;i++) {
 			if( i!=ref ) { readLC( LC , files[i] , secL[i] , bin2 , -1 , strict ); }
 		}
 		readLC( LC_ref , files[ref] , secL[ref] , bin1 , -1 , strict );
 	}
 	/********  END Read the light curves  ************/
-
-	//std::cout << "Read lcs." << std::endl;
 
 	if( mode > 0 or mode==-1 ){
 		vec errs; errs.setlength(nfq);
