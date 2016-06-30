@@ -16,7 +16,7 @@ $keep_digits = -1 * log10($Δt) + 2;
 $throw_digits = 5 - $keep_digits;
 
 # Skip first line -- shouldn't need this for a single filter
-# <>;
+<>;
 
 #Start file with number of light curves (1) and Δt
 my $linetoprint="# 1 $Δt";
@@ -47,11 +47,11 @@ while (<>) {
     $this_t = "$t𝓃.$t𝜀";
     if ($this_t == $last_t) {
         if ( $linetoprint =~ /([0-9\.]+)\s+([0-9e\-\.]+)\s+([0-9e\-\.]+)/ ) {
-            $new_flux_μ = (flux_μ + $2)/2;
+            $new_flux_μ = ($flux_μ + $2)/2;
             # Could just take the max error
             # $new_flux_σ = max($flux_σ,$3);
             # Average error seems fair
-            $new_flux_σ = (flux_σ + $3)/2;
+            $new_flux_σ = ($flux_σ + $3)/2;
             $linetoprint="$this_t  $new_flux_μ  $new_flux_σ";
             $num_avg++;
         }
