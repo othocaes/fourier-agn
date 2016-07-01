@@ -6,7 +6,7 @@ use utf8;
 # outputs (stdout) a lightcurve in psdlag circa 2016 Zoghbi @ UMY input format
 
 # smallest time interval.
-my $Δt = .01;
+my $Δt = .1;
 # normalization factor based on inspection of data
 my $flux_norm = 1e14;
 
