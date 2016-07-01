@@ -6,7 +6,7 @@ use utf8;
 # outputs (stdout) a lightcurve in psdlag circa 2016 Zoghbi @ UMY input format
 
 # smallest time interval.
-my $Δt = .1;
+my $Δt = 1;
 # normalization factor based on inspection of data
 my $flux_norm = 1e14;
 
@@ -33,6 +33,7 @@ while (<>) {
         $t𝓃 += 1;
         $t𝜀 = 0;
     }
+    if ($Δt >= 1) { $t𝜀 = 0; }
 
     # Print all values for this line
     # say "$λ\t$t𝓃.$t𝜀$vals";

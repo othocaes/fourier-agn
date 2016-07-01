@@ -8,6 +8,7 @@ plot 'tmp.timelag' using 1:2:3:4 with xyerrorbars
 #plot 'tmp.timelag' using 1:2:3:4 with xyerrorbars
 set logscale x
 set xrange [0.005:0.603]
+set arrow from 0.005,0 to 0.603,0 nohead lt 3 lc rgb 'black'
 # set yrange [:1]
 #    (x, y, ydelta),
 #    (x, y, ylow, yhigh),
