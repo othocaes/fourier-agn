@@ -6,7 +6,7 @@ use utf8;
 # outputs (stdout) a lightcurve in psdlag circa 2016 Zoghbi @ UMY input format
 
 # smallest time interval.
-my $Δt = .01;
+my $Δt = 0.1;
 # normalization factor based on inspection of data
 my $flux_norm = 1e14;
 
@@ -18,8 +18,8 @@ $throw_digits = 5 - $keep_digits;
 # Skip first line -- shouldn't need this for a single filter
 <>;
 
-#Start file with number of light curves (1) and Δt
-my $linetoprint="# 1 $Δt";
+#Start file  Δt and with number of light curves (1)
+my $linetoprint="# $Δt 1";
 
 my $num_avg = 0;
 while (<>) {
@@ -33,6 +33,7 @@ while (<>) {
         $t𝓃 += 1;
         $t𝜀 = 0;
     }
+    if ($Δt >= 1) { $t𝜀 = 0; }
 
     # Print all values for this line
     # say "$λ\t$t𝓃.$t𝜀$vals";

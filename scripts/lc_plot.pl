@@ -6,9 +6,14 @@ use feature 'say';
 use locale;
 use Switch;
 
+# This needs to be rewritten to plot the lightcurves instead
+# of the PSD and timelags.
+
 
 # Enables debug output.
 our $debug=0;
+our #verbose=0;
+
 
 
 # This section locate the output data of interest in a
