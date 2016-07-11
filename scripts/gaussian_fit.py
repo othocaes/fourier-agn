@@ -70,3 +70,5 @@ plt.plot(x, g(x), label='Gaussian')
 plt.xlabel('Position')
 plt.ylabel('Flux')
 plt.legend(loc=2)
+
+plt.show()
