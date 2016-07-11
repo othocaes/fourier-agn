@@ -1,0 +1,91 @@
+Running psdlag for data/STORM_III/lightcurves/Δt≔0.01/g_4775.lc.
+
+real	2m40.727s
+user	2m40.796s
+sys	0m0.048s
+Running psdlag for data/STORM_III/lightcurves/Δt≔0.01/HST1158.lc.
+
+real	10m30.431s
+user	10m30.804s
+sys	0m0.068s
+Running psdlag for data/STORM_III/lightcurves/Δt≔0.01/HST1367.lc.
+
+real	10m7.758s
+user	10m7.748s
+sys	0m0.060s
+Running psdlag for data/STORM_III/lightcurves/Δt≔0.01/HST1479.lc.
+
+real	4m27.970s
+user	4m28.108s
+sys	0m0.040s
+Running psdlag for data/STORM_III/lightcurves/Δt≔0.01/HST1746.lc.
+
+real	8m20.648s
+user	8m21.024s
+sys	0m0.024s
+Running psdlag for data/STORM_III/lightcurves/Δt≔0.01/i_7647.lc.
+
+real	3m43.410s
+user	3m43.556s
+sys	0m0.032s
+Running psdlag for data/STORM_III/lightcurves/Δt≔0.01/I_8560.lc.
+
+real	4m5.931s
+user	4m6.104s
+sys	0m0.024s
+Running psdlag for data/STORM_III/lightcurves/Δt≔0.01/r_6175.lc.
+
+real	22m19.665s
+user	22m20.624s
+sys	0m0.072s
+Running psdlag for data/STORM_III/lightcurves/Δt≔0.01/R_6439.lc.
+
+real	3m8.993s
+user	3m8.656s
+sys	0m0.072s
+Running psdlag for data/STORM_III/lightcurves/Δt≔0.01/Swiftb_4392.lc.
+
+real	5m10.129s
+user	5m9.848s
+sys	0m0.084s
+Running psdlag for data/STORM_III/lightcurves/Δt≔0.01/Swiftu_3465.lc.
+
+real	7m24.472s
+user	7m24.352s
+sys	0m0.100s
+Running psdlag for data/STORM_III/lightcurves/Δt≔0.01/Swiftv_5468.lc.
+
+real	27m38.625s
+user	27m38.644s
+sys	0m0.192s
+Running psdlag for data/STORM_III/lightcurves/Δt≔0.01/u_3471.lc.
+
+real	1m44.833s
+user	1m44.852s
+sys	0m0.052s
+Running psdlag for data/STORM_III/lightcurves/Δt≔0.01/UVM2_2246.lc.
+
+real	29m29.803s
+user	29m26.248s
+sys	0m0.272s
+Running psdlag for data/STORM_III/lightcurves/Δt≔0.01/UVW1_2600.lc.
+
+real	5m10.813s
+user	5m11.012s
+sys	0m0.048s
+Running psdlag for data/STORM_III/lightcurves/Δt≔0.01/UVW2_1928.lc.
+
+real	6m25.099s
+user	6m24.980s
+sys	0m0.080s
+Running psdlag for data/STORM_III/lightcurves/Δt≔0.01/V_5404.lc.
+
+real	13m14.659s
+user	13m13.724s
+sys	0m0.164s
+Running psdlag for data/STORM_III/lightcurves/Δt≔0.01/z_9157.lc.
+
+real	3m29.006s
+user	3m29.136s
+sys	0m0.036s
+
