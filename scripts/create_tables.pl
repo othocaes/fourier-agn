@@ -105,7 +105,7 @@ increments to designate the data being captured.
 if ($verbose) {
     say encode($charset,"");
     say encode($charset,
-        "           New Curve -- Source PSD");
+        "           New Curve -- Reference Curve PSD");
     say encode($charset,
         "──────────────────────────────────────────────────");
 }
@@ -118,8 +118,8 @@ foreach ( sort { $a <=> $b } keys %function_bin ) {
 #        $μ = abs($μ);
 #        $function_bin{$_}{"φdiff_μ"} = PI;
 #    }
-    $function_bin{$_}{"source_PSD_μ"} = $μ;
-    $function_bin{$_}{"source_PSD_σ"} = $σ;
+    $function_bin{$_}{"ref_PSD_μ"} = $μ;
+    $function_bin{$_}{"ref_PSD_σ"} = $σ;
     if ($verbose) {
         say encode($charset,
             "freq = " .
@@ -134,7 +134,7 @@ foreach ( sort { $a <=> $b } keys %function_bin ) {
 if ($verbose) {
     say encode($charset,"");
     say encode($charset,
-        "          New Curve -- Reprocessed PSD");
+        "          New Curve -- Reverberating Curve PSD");
     say encode($charset,
         "──────────────────────────────────────────────────");
 }
@@ -146,8 +146,8 @@ foreach ( sort { $a <=> $b } keys %function_bin ) {
 #        $μ = abs($μ);
 #        $function_bin{$_}{"φdiff_μ"} = PI;
 #    }
-    $function_bin{$_}{"reproc_PSD_μ"} = $μ;
-    $function_bin{$_}{"reproc_PSD_σ"} = $σ;
+    $function_bin{$_}{"echo_PSD_μ"} = $μ;
+    $function_bin{$_}{"echo_PSD_σ"} = $σ;
     if ($verbose) {
         say encode($charset,
             "freq = " .
@@ -163,7 +163,7 @@ foreach ( sort { $a <=> $b } keys %function_bin ) {
 if ($verbose) {
     say encode($charset,"");
     say encode($charset,
-        "          New Curve -- Cross Spectra PSD");
+        "          New Curve -- Cross Spectrum PSD");
     say encode($charset,
         "──────────────────────────────────────────────────");
 }
@@ -175,8 +175,8 @@ foreach ( sort { $a <=> $b } keys %function_bin ) {
 #        $μ = abs($μ);
 #        $function_bin{$_}{"φdiff_μ"} = PI;
 #    }
-    $function_bin{$_}{"cc_PSD_μ"} = $μ;
-    $function_bin{$_}{"cc_PSD_σ"} = $σ;
+    $function_bin{$_}{"crsspctrm_PSD_μ"} = $μ;
+    $function_bin{$_}{"crsspctrm_PSD_σ"} = $σ;
     if ($verbose) {
         say encode($charset,
             "freq = " .
@@ -241,33 +241,33 @@ if($debug) {
 
 close($outputfile);
 
-open($datafile,'>',"tmp.sourcePSD") or die $!;
+open($datafile,'>',"tmp.refPSD") or die $!;
 while( each %function_bin) {
     say $datafile
         $_ . " " .
-        $function_bin{$_}{"source_PSD_μ"} . " " .
+        $function_bin{$_}{"ref_PSD_μ"} . " " .
         $function_bin{$_}{"Δ"} . " " .
-        $function_bin{$_}{"source_PSD_σ"};
+        $function_bin{$_}{"ref_PSD_σ"};
 }
 close($datafile);
 
-open($datafile,'>',"tmp.reprocPSD") or die $!;
+open($datafile,'>',"tmp.echoPSD") or die $!;
 while( each %function_bin) {
     say $datafile
         $_ . " " .
-        $function_bin{$_}{"reproc_PSD_μ"} . " " .
+        $function_bin{$_}{"echo_PSD_μ"} . " " .
         $function_bin{$_}{"Δ"} . " " .
-        $function_bin{$_}{"reproc_PSD_σ"};
+        $function_bin{$_}{"echo_PSD_σ"};
 }
 close($datafile);
 
-open($datafile,'>',"tmp.ccPSD") or die $!;
+open($datafile,'>',"tmp.crsspctrmPSD") or die $!;
 while( each %function_bin) {
     say $datafile
         $_ . " " .
-        $function_bin{$_}{"cc_PSD_μ"} . " " .
+        $function_bin{$_}{"crsspctrm_PSD_μ"} . " " .
         $function_bin{$_}{"Δ"} . " " .
-        $function_bin{$_}{"cc_PSD_σ"};
+        $function_bin{$_}{"crsspctrm_PSD_σ"};
 }
 close($datafile);
 
@@ -282,4 +282,4 @@ while( each %function_bin) {
 close($datafile);
 
 
-#open($datafile,'>',"tmp.reprocPSD") or die $!;
+#open($datafile,'>',"tmp.echoPSD") or die $!;

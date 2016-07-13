@@ -1,5 +1,6 @@
 set terminal png
 set termoption dash
+set output "%OUTPUTFILE"
 
 
 plot 'tables/timelag_lc1.dat' using 1:2:3:4 with xyerrorbars, \

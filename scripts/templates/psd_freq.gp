@@ -1,11 +1,10 @@
 # This method assumes y values are in logarithm units already.
 
-set title "%TITLE"
 set terminal png
-set output "tmp.png"
+set output "%OUTPUTFILE"
 
-set title "Yo"
-set xlabel "Temporal Frequency [1/days]"
+set title "%TITLE\n{/*0.5 %SUBTITLE}"
+set xlabel "Temporal Frequency [days^{-1}]"
 set xrange [0.005:0.603]
 
 # Use this if you want to show PSD directly on a log axis
