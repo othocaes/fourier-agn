@@ -15,15 +15,16 @@ do
     echo "Plotting PSD and time lags for $echo_band, referred to ${ref_band}."
     echoPSD_tabfile=analyses/tables/${echo_band}PSD.tab
     refPSD_tabfile=analyses/tables/${ref_band}PSD.tab
+    timelag_tabfile=analyses/tables/${echo_band}_≻_${ref_band}_delay.tab
     PSD_plotfile=analyses/plots/${echo_band}_≻_${ref_band}_PSD.png
     timelag_plotfile=analyses/plots/${echo_band}_≻_${ref_band}_timelag.png
 
     # Output curves to temporary files using perl script, move tables to
     # permanent location. This just assumes there are no conflicts.
-    scripts/power_lag_plot.pl $analysis
+    scripts/create_tables.pl $analysis
     mv tmp.echoPSD $echoPSD_tabfile
     mv tmp.refPSD $refPSD_tabfile
-    mv 
+    mv tmp.timelag $timelag_tabfile
 
     # Plot PSD and save using gnuplot
     cat scripts/templates/psd_freq.gp|
