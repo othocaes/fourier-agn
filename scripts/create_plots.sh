@@ -21,17 +21,19 @@ do
 
     # Output curves to temporary files using perl script, move tables to
     # permanent location. This just assumes there are no conflicts.
-    scripts/create_tables.pl $analysis
+    scripts/create_tables.pl $analysis > /dev/null
     mv tmp.echoPSD $echoPSD_tabfile
     mv tmp.refPSD $refPSD_tabfile
     mv tmp.timelag $timelag_tabfile
 
     # Plot PSD and save using gnuplot
     cat scripts/templates/psd_freq.gp|
-        sed "s@%TITLE@Power Spectrum for Lightcurves $echo_band & $ref_band@"|
+        sed "s@%TITLE@Power Spectrum for Lightcurves $echo_band \& $ref_band@"|
         sed "s@%SUBTITLE@as reported by Fausnaugh et. al, STORM III, 2016@"|
         sed "s@%FILE1@$refPSD_tabfile@"|
+        sed "s@%LABEL1@${ref_band} PSD@"|
         sed "s@%FILE2@$echoPSD_tabfile@"|
+        sed "s@%LABEL2@${echo_band} PSD@"|
         sed "s@%OUTPUTFILE@$PSD_plotfile@" > tmp.gp
     gnuplot tmp.gp
 
@@ -40,6 +42,7 @@ do
         sed "s@%TITLE@Time Lag for Lightcurve $echo_band relative to $ref_band@"|
         sed "s@%SUBTITLE@as reported by Fausnaugh et. al, STORM III, 2016@"|
         sed "s@%FILE1@$timelag_tabfile@"|
+        sed "s@%LABEL1@${echo_band} Lag@"|
         sed "s@%OUTPUTFILE@$timelag_plotfile@" > tmp.gp
     gnuplot tmp.gp
 done
