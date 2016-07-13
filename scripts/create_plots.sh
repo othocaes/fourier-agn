@@ -13,8 +13,8 @@ do
 
     # Prepare files
     echo "Plotting PSD and time lags for $echo_band, referred to ${ref_band}."
-    echoPSD_tabfile=analyses/tables/${echo_band}PSD.tab
-    refPSD_tabfile=analyses/tables/${ref_band}PSD.tab
+    echoPSD_tabfile=analyses/tables/${echo_band}_PSD.tab
+    refPSD_tabfile=analyses/tables/${ref_band}_PSD.tab
     timelag_tabfile=analyses/tables/${echo_band}_≻_${ref_band}_delay.tab
     PSD_plotfile=analyses/plots/${echo_band}_≻_${ref_band}_PSD.png
     timelag_plotfile=analyses/plots/${echo_band}_≻_${ref_band}_timelag.png
@@ -32,18 +32,15 @@ do
         sed "s@%SUBTITLE@as reported by Fausnaugh et. al, STORM III, 2016@"|
         sed "s@%FILE1@$refPSD_tabfile@"|
         sed "s@%FILE2@$echoPSD_tabfile@"|
-        sed "s@%OUTPUTFILE@$PSD_plotfile@" >
-            tmp.gp
+        sed "s@%OUTPUTFILE@$PSD_plotfile@" > tmp.gp
     gnuplot tmp.gp
 
     # Plot time lags and save using gnuplot
     cat scripts/templates/timelag_freq.gp|
         sed "s@%TITLE@Time Lag for Lightcurve $echo_band relative to $ref_band@"|
         sed "s@%SUBTITLE@as reported by Fausnaugh et. al, STORM III, 2016@"|
-        sed "s@%FILE1@$refPSD_tabfile@"|
-        sed "s@%FILE2@$echoPSD_tabfile@"|
-        sed "s@%OUTPUTFILE@$PSD_plotfile@" >
-            tmp.gp
+        sed "s@%FILE1@$timelag_tabfile@"|
+        sed "s@%OUTPUTFILE@$timelag_plotfile@" > tmp.gp
     gnuplot tmp.gp
 done
 
