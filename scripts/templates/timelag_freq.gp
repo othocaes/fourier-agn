@@ -8,6 +8,7 @@ set xrange [0.005:0.603]
 set logscale x
 
 set ylabel "Lag [days]"
+#set yrange [%YMIN:%YMAX]
 
 # Draw line at origin
 set arrow from 0.005,0 to 0.603,0 nohead lt 3 lc rgb 'black'
