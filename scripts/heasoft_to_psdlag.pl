@@ -47,18 +47,28 @@ while (<>) {
     # This mess to average measurements occuring at the same time coordinate
     $this_t = "$t𝓃.$t𝜀";
     if ($this_t == $last_t) {
-        if ( $linetoprint =~ /([0-9\.]+)\s+([0-9e\-\.]+)\s+([0-9e\-\.]+)/ ) {
-            $new_flux_μ = ($flux_μ + $2)/2;
-            # Could just take the max error
-            # $new_flux_σ = max($flux_σ,$3);
-            # Average error seems fair
-            $new_flux_σ = ($flux_σ + $3)/2;
-            $linetoprint="$this_t  $new_flux_μ  $new_flux_σ";
-            $num_avg++;
-        }
-        else { die "Malformed data"; }
+    	if ($heap_count == 0) {
+    	        if ( $linetoprint =~ /([0-9\.]+)\s+([0-9e\-\.]+)\s+([0-9e\-\.]+)/ ) {
+    	            $new_flux_μ = $flux_μ + $2;
+    	            # Could just take the max error
+    	            # $new_flux_σ = max($flux_σ,$3);
+    	            # Average error seems fair
+    	            $new_flux_σ = $flux_σ + $3;
+    	            $num_avg++;
+    	        }
+    	        else { die "Malformed data"; }
+    	}
+    	else {
+    		$new_flux_μ += $flux_μ;
+    		$new_flux_σ += $flux_σ;
+    	}
+        $heap_count++;
     }
     else {
+    	$new_flux_μ /= $heap_count;
+    	$new_flux_σ /= $heap_count;
+    	$linetoprint="$this_t  $new_flux_μ  $new_flux_σ";
+        our $heap_count = 0;
         say $linetoprint;
         $linetoprint = "$t𝓃.$t𝜀  $flux_μ  $flux_σ";
     }
