@@ -9,10 +9,10 @@ do
     echo "$curvefile 0" >> tmp.psdlagargs
     echo "8 0.005 0.019 0.0425 0.07 0.11 0.17 0.24 0.4 0.603" >> tmp.psdlagargs
     # covariance matrix errors
-    # echo "0" >> tmp.psdlagargs
+    echo "0" >> tmp.psdlagargs
 
     # likelihood function errors
-    echo "1" >> tmp.psdlagargs
+    # echo "1" >> tmp.psdlagargs
 
     # monte carlo errors
     # echo "2" >> tmp.psdlagargs
@@ -22,5 +22,5 @@ do
     echo "0" >> tmp.psdlagargs
     echo "0" >> tmp.psdlagargs
     echo "100 50 50 mcmc.dat" >> tmp.psdlagargs
-    time bin/psdlag tmp.psdlagargs >> $newfilename
+    time bin/psdlag tmp.psdlagargs >> $newfilenam e
 done
