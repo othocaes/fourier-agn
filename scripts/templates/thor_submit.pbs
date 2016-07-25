@@ -6,4 +6,4 @@
 #PBS -j oe
 
 cd %ROOTDIR%
-time mpirun ~/psdlag-agn/bin/psdlag "%ROOTDIR%/%ARGSFILE%" > "%ROOTDIR%/%OUTPUTFILE%"
+time mpirun ~/psdlag-agn/bin/psdlag '%ROOTDIR%/%ARGSFILE%' > '%ROOTDIR%/%OUTPUTFILE%'
