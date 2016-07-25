@@ -1,9 +1,9 @@
 #!/bin/sh -login
-#PBS -l mem=128GB
+#PBS -l mem=64GB
 #PBS -l nodes=1:ppn=1:research
 #PBS -l walltime=48:00:00
-#PBS -N %NAME%
+#PBS -N "%NAME%"
 #PBS -j oe
 
 cd %ROOTDIR%
-time mpirun -machinefile ${PBS_NODEFILE} -np 1 ~/psdlag-agn/bin/psdlag "%ROOTDIR%/%ARGSFILE%" > "%ROOTDIR%/%OUTPUTFILE%"
+time mpirun ~/psdlag-agn/bin/psdlag "%ROOTDIR%/%ARGSFILE%" > "%ROOTDIR%/%OUTPUTFILE%"
