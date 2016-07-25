@@ -104,7 +104,7 @@ do
     echo "0:0 0" >> tmp.psdlagargs
     echo $error_type >> tmp.psdlagargs
     echo "0" >> tmp.psdlagargs
-    echo -n "100 50 50 mcmc_${echo_band}.dat" >> tmp.psdlagargs
+    echo -n "1000 50 50 mcmc_${echo_band}.dat" >> tmp.psdlagargs
 
     # Run psdlag with inputs
     if [[ -e $outputfile ]]
