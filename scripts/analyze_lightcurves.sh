@@ -81,7 +81,7 @@ do
     echo "2" > tmp.psdlagargs
     echo "$ref_curve 0" >> tmp.psdlagargs
     echo "$echo_curve 0" >> tmp.psdlagargs
-    echo "8 0.005 0.019 0.0425 0.07 0.11 0.17 0.24 0.4 0.603" >> tmp.psdlagargs
+    echo "0.0049999999 0.018619375 0.044733049 0.069336227 0.10747115 0.16658029 0.25819945 0.40020915 0.62032418" >> tmp.psdlagargs
     echo "0" >> tmp.psdlagargs
     echo "$initial_params" >> tmp.psdlagargs
     echo "0:0 0" >> tmp.psdlagargs
