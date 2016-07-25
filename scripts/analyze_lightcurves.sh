@@ -121,7 +121,7 @@ do
                 sed "s@%ROOTDIR%@$(pwd)@g"|
                 sed "s@%OUTPUTFILE%@${outputfile}@g" > $submitscript
             cd thor
-            qsub $submitscript >> submissions
+            qsub "$submitscript" >> submissions
             cd ..
         else    
             time bin/psdlag tmp.psdlagargs > $outputfile
