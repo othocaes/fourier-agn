@@ -114,6 +114,7 @@ do
         if [[ $1 == "thor" ]]
         then
             echo_band_noUTF=$(echo $echo_band|sed 's@𝛌@@g'|sed 's@＝@@g'|sed 's@Å@A@g')
+            outputfile_noUTF=$(echo $outputfile|sed 's@𝛌@@g'|sed 's@＝@@g'|sed 's@Å@A@g')
             argsfile="thor/arguments/$echo_band_noUTF.args"
             submitscript="thor/${echo_band_noUTF}.pbs"
             cp tmp.psdlagargs $argsfile
@@ -121,7 +122,7 @@ do
                 sed "s@%NAME%@psdlag_${echo_band_noUTF}@g"|
                 sed "s@%ARGSFILE%@${argsfile}@g"|
                 sed "s@%ROOTDIR%@$(pwd)@g"|
-                sed "s@%OUTPUTFILE%@${outputfile}@g" > $submitscript
+                sed "s@%OUTPUTFILE%@${outputfile_noUTF}@g" > $submitscript
             cd thor
             qsub $(basename $submitscript) >> submissions
             cd ..
