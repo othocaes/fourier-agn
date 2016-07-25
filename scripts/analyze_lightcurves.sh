@@ -13,6 +13,16 @@ error_type="2"
 # error types:
 #   0 for covariance matrix, 1 for likelihood function, 2 for monte carlo
 
+if [[ $1 == "thor" ]]
+then
+    echo Setting up Thor environment.
+    mkdir -p thor
+    mkdir -p thor/arguments
+    if [[ -e thor/submissions ]]; then echo "" >> thor/submissions; fi
+    date >> thor/submissions
+    echo "─────────────────────────────" >> thor/submissions
+fi
+
 echo Using lightcurves in $lc_dir.
 
 for echo_curve in $lc_dir/*
@@ -20,7 +30,7 @@ do
     # Determine band and inputs for band
     echo_band=$(basename $echo_curve|sed 's@\(.*\)\.lc@\1@')
     echo -n $(date "+%R")\: Running psdlag for $echo_band against $ref_band.
-    newfilename="analyses/${echo_band}≻${ref_band}_Δt＝${timestep}"
+    outputfile="analyses/${echo_band}≻${ref_band}_Δt＝${timestep}"
     case $echo_band in
         "g(𝛌＝4775Å)")
             initial_params="$refpsd_params -9.745e-01 -1.384e+00 -2.748e+00 -3.305e+00 -3.314e+00 -3.389e+00 -4.198e+00 -4.465e+00 -4.700e-01 -7.487e-01 -2.046e+00 -2.428e+00 -2.953e+00 -3.086e+00 -3.761e+00 -4.290e+00 9.862e-02 3.899e-01 8.650e-01 5.516e-01 2.228e-01 9.508e-01 -2.872e-01 9.059e-02"
@@ -95,11 +105,25 @@ do
     echo -n "100 50 50 mcmc_${echo_band}.dat" >> tmp.psdlagargs
 
     # Run psdlag with inputs
-    if [[ -e $newfilename ]]
+    if [[ -e $outputfile ]]
     then
         echo -n " Analysis already exists; skipping."
     else
-        time bin/psdlag tmp.psdlagargs >> $newfilename
+        if [[ $1 == "thor" ]]
+        then
+            argsfile="thor/arguments/$echo_band.args"
+            submitscript="thor/${echo_band}.pbs"
+            cp tmp.psdlagargs $argsfile
+            cat scripts/templates/thor_submit.pbs|
+                sed "s@%ARGSFILE%@${argsfile}@"|
+                sed "s@%ROOTDIR%@$(pwd)@"|
+                sed "s@%OUTPUTFILE%@${outputfile}@" > $submitscript
+            cd thor
+            qsub $submitscript >> $thordir/submissions
+            cd ..
+        else    
+            time bin/psdlag tmp.psdlagargs > $outputfile
+        fi
     fi
     echo ""
 done
