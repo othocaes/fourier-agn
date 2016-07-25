@@ -23,6 +23,8 @@ then
     echo "─────────────────────────────" >> thor/submissions
 fi
 
+mkdir -p analyses
+
 echo Using lightcurves in $lc_dir.
 
 for echo_curve in $lc_dir/*
@@ -115,9 +117,9 @@ do
             submitscript="thor/${echo_band}.pbs"
             cp tmp.psdlagargs $argsfile
             cat scripts/templates/thor_submit.pbs|
-                sed "s@%ARGSFILE%@${argsfile}@"|
-                sed "s@%ROOTDIR%@$(pwd)@"|
-                sed "s@%OUTPUTFILE%@${outputfile}@" > $submitscript
+                sed "s@%ARGSFILE%@${argsfile}@g"|
+                sed "s@%ROOTDIR%@$(pwd)@g"|
+                sed "s@%OUTPUTFILE%@${outputfile}@g" > $submitscript
             cd thor
             qsub $submitscript >> submissions
             cd ..
