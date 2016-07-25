@@ -114,7 +114,7 @@ do
         if [[ $1 == "thor" ]]
         then
             echo_band_noUTF=$(echo $echo_band|sed 's@𝛌@@g'|sed 's@＝@@g'|sed 's@Å@A@g')
-            outputfile_noUTF=$(echo $outputfile|sed 's@𝛌@@g'|sed 's@＝@@g'|sed 's@Å@A@g')
+            outputfile_noUTF=$(echo $outputfile|sed 's@𝛌@@g'|sed 's@＝@@g'|sed 's@Å@A@g'|sed 's@≻@_@g')
             argsfile="thor/arguments/$echo_band_noUTF.args"
             submitscript="thor/${echo_band_noUTF}.pbs"
             cp tmp.psdlagargs $argsfile
