@@ -17,3 +17,20 @@ A script has been created to read an output file from psdlag and then plot the s
 scripts/power_lag_plot.pl
 
 
+
+2016-07-11
+
+	created gnuplot templates for plotting the timelags and power spectrum densities
+		- still need to modify this for points to be evenly spaced in log space
+
+2016-07-15
+	Determined frequency binning for PSD and timelags:
+
+		0.0049999999	0.018619375    
+		0.018619375	0.044733049     
+		0.044733049	0.069336227     
+		0.069336227	0.10747115    
+		0.10747115	0.16658029      
+		0.16658029	0.25819945      
+		0.25819945	0.40020915      
+		0.40020915	0.62032418      
