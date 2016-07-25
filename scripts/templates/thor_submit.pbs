@@ -6,5 +6,4 @@
 #PBS -j oe
 
 cd %ROOTDIR%
-time mpirun -machinefile ${PBS_NODEFILE} -np 1 ~/psdlag-agn/bin/psdlag %ROOTDIR%/%ARGSFILE% > %ROOTDIR%/%OUTPUTFILE%
-
+time mpirun -machinefile ${PBS_NODEFILE} -np 1 "~/psdlag-agn/bin/psdlag %ROOTDIR%/%ARGSFILE%" > "%ROOTDIR%/%OUTPUTFILE%"
