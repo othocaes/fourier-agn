@@ -117,7 +117,7 @@ do
             submitscript="thor/${echo_band}.pbs"
             cp tmp.psdlagargs $argsfile
             cat scripts/templates/thor_submit.pbs|
-                sed "s@%NAME%@${echo_band} psdlag@g"|
+                sed "s@%NAME%@'${echo_band} psdlag'@g"|
                 sed "s@%ARGSFILE%@${argsfile}@g"|
                 sed "s@%ROOTDIR%@$(pwd)@g"|
                 sed "s@%OUTPUTFILE%@${outputfile}@g" > $submitscript
