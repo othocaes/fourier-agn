@@ -11,17 +11,23 @@ Given calibration data in the form of light curves produced by a known transfer 
 
 Did things, forgot to keep track
 
-
+Week 3-4ish:
 A script has been created to read an output file from psdlag and then plot the source and reprocessed power spectral densities, the cross-correlation power spectral density, and the phase difference between the signals.
 
 scripts/power_lag_plot.pl
 
+
+2016-
 
 
 2016-07-11
 
 	created gnuplot templates for plotting the timelags and power spectrum densities
 		- still need to modify this for points to be evenly spaced in log space
+
+2016-07-14
+	Ran through results with simple error checking and determined they made sense.
+	Project can continue.
 
 2016-07-15
 	Determined frequency binning for PSD and timelags:
@@ -34,3 +40,8 @@ scripts/power_lag_plot.pl
 		0.16658029	0.25819945      
 		0.25819945	0.40020915      
 		0.40020915	0.62032418      
+
+
+
+2016-07-18
+	Ran first MCMC run, need to analyze results
