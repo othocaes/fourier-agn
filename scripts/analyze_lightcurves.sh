@@ -1,4 +1,4 @@
-#!/usr/local/bin/bash
+#!/usr/bin/env bash
 
 timestep="0.1"
 lc_dir="data/STORM_III/lightcurves/Δt＝${timestep}"
