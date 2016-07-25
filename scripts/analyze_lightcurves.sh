@@ -4,7 +4,7 @@ timestep="0.1"
 lc_dir="data/STORM_III/lightcurves/Δt＝${timestep}"
 ref_band='HST(𝛌＝1367)'
 ref_curve="${lc_dir}/${ref_band}.lc"
-error_type="2"
+error_type="1"
 # error types:
 #   0 for covariance matrix, 1 for likelihood function, 2 for monte carlo
 
