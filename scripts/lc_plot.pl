@@ -1,4 +1,5 @@
-#!/usr/local/bin/perl
+#!/usr/bin/env perl
+
 
 use utf8;
 use Encode qw(encode decode);

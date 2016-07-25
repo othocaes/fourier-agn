@@ -1,4 +1,5 @@
-#!/usr/local/bin/perl
+#!/usr/bin/env perl
+
 use feature say;
 use utf8;
 
