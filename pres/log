@@ -8,3 +8,12 @@ mostly read papers
 
 Week 2:
 Given calibration data in the form of light curves produced by a known transfer function
+
+Did things, forgot to keep track
+
+
+A script has been created to read an output file from psdlag and then plot the source and reprocessed power spectral densities, the cross-correlation power spectral density, and the phase difference between the signals.
+
+scripts/power_lag_plot.pl
+
+
