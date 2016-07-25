@@ -113,11 +113,12 @@ do
     else
         if [[ $1 == "thor" ]]
         then
-            argsfile="thor/arguments/$echo_band.args"
-            submitscript="thor/${echo_band}.pbs"
+            echo_band_noUTF=$(echo $echo_band|sed 's@𝛌@@g'|sed 's@＝@@g'|sed 's@Å@A@g')
+            argsfile="thor/arguments/$echo_band_noUTF.args"
+            submitscript="thor/${echo_band_noUTF}.pbs"
             cp tmp.psdlagargs $argsfile
             cat scripts/templates/thor_submit.pbs|
-                sed "s@%NAME%@'${echo_band} psdlag'@g"|
+                sed "s@%NAME%@psdlag_${echo_band_noUTF}@g"|
                 sed "s@%ARGSFILE%@${argsfile}@g"|
                 sed "s@%ROOTDIR%@$(pwd)@g"|
                 sed "s@%OUTPUTFILE%@${outputfile}@g" > $submitscript
