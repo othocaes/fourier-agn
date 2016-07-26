@@ -22,17 +22,18 @@ mkdir -p analyses/plots
 for analysis in analyses/*
 do
     # Grab and determine labels of analyses, skip if over the same band.
-    ref_band=$(basename $analysis|sed 's@[^≻]*≻\([^≻_]*\)_[^_]*@\1@')
-    echo_band=$(basename $analysis|sed 's@\([^≻]*\)≻[^≻_]*_[^_]*@\1@')
+    ref_band=$(basename $analysis|sed 's@[^≻]*_≻_\([^≻_]*\)_[^_]*@\1@')
+    echo_band=$(basename $analysis|sed 's@\([^≻]*\)_≻_[^≻_]*_[^_]*@\1@')
     if [[ $ref_band == $echo_band ]]; then continue; fi
+    err_type=$(basename $analysis|sed 's@[^≻]*≻[^≻_]*_[^_]\(σ∊[CLM][MFC]\)*@\1@')
 
     # Prepare files
     echo "Plotting PSD and time lags for $echo_band, referred to ${ref_band}."
-    echoPSD_tabfile=analyses/tables/${echo_band}_PSD.tab
-    refPSD_tabfile=analyses/tables/${ref_band}_PSD.tab
-    timelag_tabfile=analyses/tables/${echo_band}_≻_${ref_band}_delay.tab
-    PSD_plotfile=analyses/plots/${echo_band}_≻_${ref_band}_PSD.png
-    timelag_plotfile=analyses/plots/${echo_band}_≻_${ref_band}_timelag.png
+    echoPSD_tabfile=analyses/tables/${echo_band}_${err_type}_PSD.tab
+    refPSD_tabfile=analyses/tables/${ref_band}_${err_type}_PSD.tab
+    timelag_tabfile=analyses/tables/${echo_band}_≻_${ref_band}_${err_type}_timelag.tab
+    PSD_plotfile=analyses/plots/${echo_band}_≻_${ref_band}_${err_type}_PSD.png
+    timelag_plotfile=analyses/plots/${echo_band}_≻_${ref_band}_${err_type}_timelag.png
 
     # Output curves to temporary files using perl script, move tables to
     # permanent location. This just assumes there are no conflicts.
