@@ -45,3 +45,8 @@ scripts/power_lag_plot.pl
 
 2016-07-18
 	Ran first MCMC run, need to analyze results
+
+2016-07-26
+	Determined MC is definitely the way to go, with at least 1000 simulations.
+
+	Setup scripts to run simulations on Thor, one simulation per processor.
