@@ -22,10 +22,10 @@ mkdir -p analyses/plots
 for analysis in analyses/*
 do
     # Grab and determine labels of analyses, skip if over the same band.
-    ref_band=$(basename $analysis|sed 's@\([^≺]*\)_≺_[^≺_]*_[^_]*_[^_]*@\1@')
-    echo_band=$(basename $analysis|sed 's@[^≺]*_≺_\([^≺_]*\)_[^_]*_[^_]*@\1@')
+    ref_band=$(basename $analysis|sed 's@\([^≺]*\)[_ ]≺[_ ][^≺_ ]*[_ ][^_ ]*[_ ][^_ ]*@\1@')
+    echo_band=$(basename $analysis|sed 's@[^≺]*[_ ]≺[_ ]\([^≺_ ]*\)[_ ][^_ ]*[_ ][^_ ]*@\1@')
     if [[ $ref_band == $echo_band ]]; then continue; fi
-    err_type=$(basename $analysis|sed 's@[^≺]*_≺_[^≺_]*_[^_]*_\(σ∊[CLM][MFC]\)@\1@')
+    err_type=$(basename $analysis|sed 's@[^≺]*[_ ]≺[_ ][^≺_ ]*[_ ][^_ ]*[_ ]\(σ∊[CLM][MFC]\)@\1@')
 
     # Prepare files
     echo "Plotting PSD and time lags for $echo_band, referred to ${ref_band}."
