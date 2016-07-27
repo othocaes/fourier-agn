@@ -19,21 +19,26 @@ mkdir -p analyses/tables
 mkdir -p analyses/plots
 
 
+# Restore the proper naming conventions for any files stripped
+# of their unicode characters.
+scripts/fix_thor_names.sh
+
+# Create tables and plot the power spectra distributions and time lags.
 for analysis in analyses/*
 do
     # Grab and determine labels of analyses, skip if over the same band.
-    ref_band=$(basename $analysis|sed 's@\([^≺]*\)[_ ]≺[_ ][^≺_ ]*[_ ][^_ ]*[_ ][^_ ]*@\1@')
-    echo_band=$(basename $analysis|sed 's@[^≺]*[_ ]≺[_ ]\([^≺_ ]*\)[_ ][^_ ]*[_ ][^_ ]*@\1@')
+    ref_band=$(basename $analysis|sed 's|\([^≺]*\)[_ ]≺[_ ][^≺_ ]*[_ ]{[^_ ]*}|\1|')
+    echo_band=$(basename $analysis|sed 's|[^≺]*[_ ]≺[_ ]\([^≺_ ]*\)[_ ]{[^_ ]*}|\1|')
     if [[ $ref_band == $echo_band ]]; then continue; fi
-    err_type=$(basename $analysis|sed 's@[^≺]*[_ ]≺[_ ][^≺_ ]*[_ ][^_ ]*[_ ]\(σ∊[CLM][MFC]\)@\1@')
+    err_str=$(basename $analysis|sed 's|[^≺]*[_ ]≺[_ ][^≺_ ]*[_ ]{[^_ ]*;\(σ∊[CLM][MFC]\)}|\1|')
 
     # Prepare files
     echo "Plotting PSD and time lags for $echo_band, referred to ${ref_band}."
-    echoPSD_tabfile=analyses/tables/${echo_band}_${err_type}_PSD.tab
-    refPSD_tabfile=analyses/tables/${ref_band}_${err_type}_PSD.tab
-    timelag_tabfile=analyses/tables/${ref_band}_≺_${echo_band}_${err_type}_timelag.tab
-    PSD_plotfile=analyses/plots/${ref_band}_≺_${echo_band}_${err_type}_PSD.png
-    timelag_plotfile=analyses/plots/${ref_band}_≺_${echo_band}_${err_type}_timelag.png
+    echoPSD_tabfile=analyses/tables/PSD_${echo_band}_\{${err_str}\}.tab
+    refPSD_tabfile=analyses/tables/PSD_${ref_band}_\{${err_str}\}.tab
+    timelag_tabfile=analyses/tables/timelag_${ref_band}_≺_${echo_band}_\{${err_str}\}.tab
+    PSD_plotfile=analyses/plots/PSD_${ref_band}_≺_${echo_band}_\{${err_str}\}.png
+    timelag_plotfile=analyses/plots/timelag_${ref_band}_≺_${echo_band}_\{${err_str}\}.png
 
     # Output curves to temporary files using perl script, move tables to
     # permanent location. This just assumes there are no conflicts.

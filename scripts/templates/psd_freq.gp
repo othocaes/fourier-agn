@@ -18,6 +18,10 @@ set xrange [0.005:0.620]
 set logscale x
 set ylabel "log_{10} PSD"
 #set yrange [%YMIN:%YMAX]
-set yrange [-5.5:0.5]
+#set yrange [-5.5:0.5]
+
+set key outside
+set key center bottom
+
 plot '%FILE1' using 1:2:3:4 with xyerrorbars title "%LABEL1", \
 '%FILE2' using 1:2:3:4 with xyerrorbars title "%LABEL2"

@@ -38,7 +38,7 @@ do
     # Determine band and inputs for band
     echo_band=$(basename $echo_curve|sed 's@\(.*\)\.lc@\1@')
     echo -n $(date "+%R")\: Running psdlag for $echo_band against $ref_band.
-    outputfile="analyses/${ref_band}_≺_${echo_band}_Δt＝${timestep}_σ∊${err_src}"
+    outputfile="analyses/${ref_band}_≺_${echo_band}_{Δt＝${timestep};σ∊${err_src}}"
     case $echo_band in
         "4775Å")
             initial_params="$refpsd_params -9.745e-01 -1.384e+00 -2.748e+00 -3.305e+00 -3.314e+00 -3.389e+00 -4.198e+00 -4.465e+00 -4.700e-01 -7.487e-01 -2.046e+00 -2.428e+00 -2.953e+00 -3.086e+00 -3.761e+00 -4.290e+00 9.862e-02 3.899e-01 8.650e-01 5.516e-01 2.228e-01 9.508e-01 -2.872e-01 9.059e-02"
@@ -120,18 +120,20 @@ do
         if [[ $1 == "thor" ]]
         then
             echo_band_noUTF=$(echo $echo_band|
-                sed 's|𝛌||g'|
-                sed 's|(|_|g'|
-                sed 's|)|_|g'|
+                #sed 's|𝛌||g'|
+                #sed 's|(|_|g'|
+                #sed 's|)|_|g'|
                 sed 's|＝||g'|
                 sed 's|Å|A|g')
             outputfile_noUTF=$(echo $outputfile|
-                sed 's|𝛌||g'|
-                sed 's|(|_|g'|
-                sed 's|)|_|g'|
+                #sed 's|𝛌||g'|
+                #sed 's|(|_|g'|
+                #sed 's|)|_|g'|
                 sed 's|＝||g'|
+                sed 's|[{}]|_|g'|
+                sed 's|;|_|'|
                 sed 's|Å|A|g'|
-                sed 's|≺|_|g'|
+                sed 's|_≺_|_|g'|
                 sed 's|σ∊|err|')
             argsfile="thor/arguments/$echo_band_noUTF.args"
             submitscript="thor/${echo_band_noUTF}.pbs"
