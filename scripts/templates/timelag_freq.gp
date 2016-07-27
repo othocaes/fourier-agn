@@ -4,7 +4,7 @@ set output "%OUTPUTFILE"
 
 set title "%TITLE\n{/*0.7 %SUBTITLE}"
 set xlabel "Temporal Frequency [days^{-1}]"
-set xrange [0.005:0.603]
+set xrange [0.005:0.620]
 set logscale x
 
 set ylabel "Lag [days]"

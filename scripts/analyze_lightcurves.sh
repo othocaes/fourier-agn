@@ -1,22 +1,23 @@
 #!/usr/bin/env bash
 
 timestep="0.1"
-lc_dir="data/STORM_III/lightcurves/Δt＝${timestep}"
 ref_band='HST(𝛌＝1367Å)'
 # Parameters for HST(𝛌＝1367Å) from MC results
 refpsd_params="6.533e-02 -9.694e-02 -1.175e+00 -1.525e+00 -2.166e+00 -2.492e+00 -3.258e+00 -9.328e+00"
 # Parameters for HST(𝛌＝1367Å) from covariance matrix estimates
 #refpsd_params="7.376e-02 -1.976e-01 -1.182e+00 -1.521e+00 -2.144e+00 -2.503e+00 -3.580e+00 -1.233e+01"
 
-ref_curve="${lc_dir}/${ref_band}.lc"
+
 error_type="2"
 # error types:
 #   0 for covariance matrix, 1 for likelihood function, 2 for monte carlo
-case $error_type in 
+case $error_type in
     "0") err_src="CM";;
     "1") err_src="LF";;
     "2") err_src="MC";;
 esac
+
+mkdir -p analyses
 
 if [[ $1 == "thor" ]]
 then
@@ -28,16 +29,16 @@ then
     echo "─────────────────────────────" >> thor/submissions
 fi
 
-mkdir -p analyses
-
+lc_dir="data/STORM_III/lightcurves/Δt＝${timestep}"
 echo Using lightcurves in $lc_dir.
+ref_curve="${lc_dir}/${ref_band}.lc"
 
 for echo_curve in $lc_dir/*
 do
     # Determine band and inputs for band
     echo_band=$(basename $echo_curve|sed 's@\(.*\)\.lc@\1@')
     echo -n $(date "+%R")\: Running psdlag for $echo_band against $ref_band.
-    outputfile="analyses/${echo_band}_≻_${ref_band}_Δt＝${timestep}_σ∊${err_src}"
+    outputfile="analyses/${ref_band}_≺_${echo_band}_Δt＝${timestep}_σ∊${err_src}"
     case $echo_band in
         "g(𝛌＝4775Å)")
             initial_params="$refpsd_params -9.745e-01 -1.384e+00 -2.748e+00 -3.305e+00 -3.314e+00 -3.389e+00 -4.198e+00 -4.465e+00 -4.700e-01 -7.487e-01 -2.046e+00 -2.428e+00 -2.953e+00 -3.086e+00 -3.761e+00 -4.290e+00 9.862e-02 3.899e-01 8.650e-01 5.516e-01 2.228e-01 9.508e-01 -2.872e-01 9.059e-02"
@@ -119,19 +120,19 @@ do
         if [[ $1 == "thor" ]]
         then
             echo_band_noUTF=$(echo $echo_band|
-                sed 's@𝛌@@g'|
-                sed 's@(@_@g'|
-                sed 's@)@_@g'|
-                sed 's@＝@@g'|
-                sed 's@Å@A@g')
+                sed 's|𝛌||g'|
+                sed 's|(|_|g'|
+                sed 's|)|_|g'|
+                sed 's|＝||g'|
+                sed 's|Å|A|g')
             outputfile_noUTF=$(echo $outputfile|
-                sed 's@𝛌@@g'|
-                sed 's@(@_@g'|
-                sed 's@)@_@g'|
-                sed 's@＝@@g'|
-                sed 's@Å@A@g'|
-                sed 's@≻@_@g'|
-                sed 's@σ∊@err@')
+                sed 's|𝛌||g'|
+                sed 's|(|_|g'|
+                sed 's|)|_|g'|
+                sed 's|＝||g'|
+                sed 's|Å|A|g'|
+                sed 's|≺|_|g'|
+                sed 's|σ∊|err|')
             argsfile="thor/arguments/$echo_band_noUTF.args"
             submitscript="thor/${echo_band_noUTF}.pbs"
             cp tmp.psdlagargs $argsfile
