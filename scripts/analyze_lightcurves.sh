@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 
 timestep="0.1"
-ref_band='HST(𝛌＝1367Å)'
+ref_band='1367Å'
 # Parameters for HST(𝛌＝1367Å) from MC results
 refpsd_params="6.533e-02 -9.694e-02 -1.175e+00 -1.525e+00 -2.166e+00 -2.492e+00 -3.258e+00 -9.328e+00"
 # Parameters for HST(𝛌＝1367Å) from covariance matrix estimates
 #refpsd_params="7.376e-02 -1.976e-01 -1.182e+00 -1.521e+00 -2.144e+00 -2.503e+00 -3.580e+00 -1.233e+01"
 
 
-error_type="2"
+error_type="0"
 # error types:
 #   0 for covariance matrix, 1 for likelihood function, 2 for monte carlo
 case $error_type in
