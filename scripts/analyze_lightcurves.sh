@@ -8,7 +8,7 @@ refpsd_params="6.533e-02 -9.694e-02 -1.175e+00 -1.525e+00 -2.166e+00 -2.492e+00 
 #refpsd_params="7.376e-02 -1.976e-01 -1.182e+00 -1.521e+00 -2.144e+00 -2.503e+00 -3.580e+00 -1.233e+01"
 
 
-error_type="0"
+error_type="2"
 # error types:
 #   0 for covariance matrix, 1 for likelihood function, 2 for monte carlo
 case $error_type in
@@ -110,7 +110,8 @@ do
     echo "0:0 0" >> tmp.psdlagargs
     echo $error_type >> tmp.psdlagargs
     echo "0" >> tmp.psdlagargs
-    echo -n "1000 50 50 mcmc_${echo_band}.dat" >> tmp.psdlagargs
+	# Use 10x num vars for walkers
+    echo -n "1000 50 400 mcmc_${echo_band}.dat" >> tmp.psdlagargs
 
     # Run psdlag with inputs
     if [[ -e $outputfile ]]
