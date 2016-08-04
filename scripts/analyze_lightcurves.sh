@@ -19,7 +19,14 @@ esac
 
 mkdir -p analyses
 
-if [[ $1 == "thor" ]]
+host=$1
+
+if [[ "$(hostname)" == "thor.cs.wmich.edu" ]]
+then
+    host="thor"
+fi
+
+if [[ $host == "thor" ]]
 then
     echo Setting up Thor environment.
     mkdir -p thor
@@ -114,7 +121,7 @@ do
     echo -n "1000 50 400 mcmc_${echo_band}.dat" >> tmp.psdlagargs
 
     # Run psdlag with inputs
-    if [[ $1 == "thor" || "$(hostname)" == "thor.cs.wmich.edu" ]]
+    if [[ $host == "thor" || "$(hostname)" == "thor.cs.wmich.edu" ]]
     then
         echo_band_noUTF=$(echo $echo_band|
             #sed 's|𝛌||g'|
