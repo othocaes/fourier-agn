@@ -114,28 +114,28 @@ do
     echo -n "1000 50 400 mcmc_${echo_band}.dat" >> tmp.psdlagargs
 
     # Run psdlag with inputs
-    if [[ -e $outputfile ]]
+    if [[ $1 == "thor" || $(hostname) == "thor.cs.wmich.edu"]]
     then
-        echo -n " Analysis already exists; skipping."
-    else
-        if [[ $1 == "thor" ]]
+        echo_band_noUTF=$(echo $echo_band|
+            #sed 's|𝛌||g'|
+            #sed 's|(|_|g'|
+            #sed 's|)|_|g'|
+            sed 's|＝||g'|
+            sed 's|Å|A|g')
+        outputfile_noUTF=$(echo $outputfile|
+            #sed 's|𝛌||g'|
+            #sed 's|(|_|g'|
+            #sed 's|)|_|g'|
+            sed 's|＝||g'|
+            sed 's|[{}]|_|g'|
+            sed 's|;|_|'|
+            sed 's|Å|A|g'|
+            sed 's|_≺_|_|g'|
+            sed 's|σ∊|err|')
+        if [[ -e $outputfile_noUTF ]]
         then
-            echo_band_noUTF=$(echo $echo_band|
-                #sed 's|𝛌||g'|
-                #sed 's|(|_|g'|
-                #sed 's|)|_|g'|
-                sed 's|＝||g'|
-                sed 's|Å|A|g')
-            outputfile_noUTF=$(echo $outputfile|
-                #sed 's|𝛌||g'|
-                #sed 's|(|_|g'|
-                #sed 's|)|_|g'|
-                sed 's|＝||g'|
-                sed 's|[{}]|_|g'|
-                sed 's|;|_|'|
-                sed 's|Å|A|g'|
-                sed 's|_≺_|_|g'|
-                sed 's|σ∊|err|')
+            echo -n " Analysis already exists; skipping."
+        else
             argsfile="thor/arguments/$echo_band_noUTF.args"
             submitscript="thor/${echo_band_noUTF}.pbs"
             cp tmp.psdlagargs $argsfile
@@ -147,9 +147,13 @@ do
             cd thor
             qsub $(basename $submitscript) >> submissions
             cd ..
+        fi
+    else
+        if [[ -e $outputfile ]]
+        then
+            echo -n " Analysis already exists; skipping."
         else
             time bin/psdlag tmp.psdlagargs > $outputfile
-        fi
     fi
     echo ""
 done
