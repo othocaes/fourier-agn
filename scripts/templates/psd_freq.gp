@@ -1,7 +1,9 @@
 # This method assumes y values are in logarithm units already.
 
-set terminal png
+set terminal pngcairo
 set output "%OUTPUTFILE"
+set termoption dash
+set termopt enhanced
 
 set title "%TITLE\n{/*0.7 %SUBTITLE}"
 set xlabel "Temporal Frequency [days^{-1}]"

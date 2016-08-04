@@ -8,12 +8,14 @@ do
     new_name=$(basename $analysis|
         #sed 's|_\([0-9]\+\)|\(𝛌＝\1|g'|
         sed 's|_|≺|'|
+        sed 's|A|Å|'|
+        sed 's|A_|Å%|'|
         sed 's|_|{|'|
         sed 's|_|;|'|
+        sed 's|_||g'|
         #sed 's|_|}|'|
-        sed 's|A|Å|'|
-        sed 's|A|Å_|'|
         sed 's|≺|_≺_|'|
+        sed 's|Å%|Å_|'|
         sed 's|Δt|Δt＝|'|
         sed 's|err|σ∊|')}
     mv $analysis analyses/$new_name

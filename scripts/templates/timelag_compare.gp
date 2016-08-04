@@ -1,5 +1,6 @@
-set terminal png
+set terminal pngcairo
 set termoption dash
+set termopt enhanced
 set output "%OUTPUTFILE"
 set encoding utf8
 
