@@ -114,7 +114,7 @@ do
     echo -n "1000 50 400 mcmc_${echo_band}.dat" >> tmp.psdlagargs
 
     # Run psdlag with inputs
-    if [[ $1 == "thor" || $(hostname) == "thor.cs.wmich.edu"]]
+    if [[ $1 == "thor" || "$(hostname)" == "thor.cs.wmich.edu" ]]
     then
         echo_band_noUTF=$(echo $echo_band|
             #sed 's|𝛌||g'|
