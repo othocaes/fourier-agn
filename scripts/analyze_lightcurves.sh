@@ -154,6 +154,7 @@ do
             echo -n " Analysis already exists; skipping."
         else
             time bin/psdlag tmp.psdlagargs > $outputfile
+        fi
     fi
     echo ""
 done
