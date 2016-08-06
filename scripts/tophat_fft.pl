@@ -21,3 +21,6 @@ for (my $k=0; $k<$N; $k++) {
 my $other_fft = $fft->clone($other_series);
 my $other_coeff = $other_fft->rdft();
 my $correlation = $fft->correl($other_fft);
+
+
+sub top_hat 
