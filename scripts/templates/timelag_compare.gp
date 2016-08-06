@@ -11,7 +11,7 @@ set logscale x
 
 set ylabel "Lag [days]"
 #set yrange [%YMIN:%YMAX]
-set yrange [-5:7]
+#set yrange [-5:7]
 set key outside
 set key center bottom
 
