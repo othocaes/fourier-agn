@@ -8,8 +8,8 @@
 #ifndef MCMC_HPP_
 #define MCMC_HPP_
 
-#include <ap.h>
-#include <alglibmisc.h>
+#include <alglib/ap.h>
+#include <alglib/alglibmisc.h>
 #include <fstream>
 #include <iostream>
 #include <iomanip>

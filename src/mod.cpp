@@ -32,7 +32,8 @@ void mod::init( vec fqL , int fac ){
 	Cfq2.resize( 3 );Sfq2.resize( 3 );
 	for( i=0 ; i<3 ; i++ ){ Cfq2[i].setlength( n , n ); Sfq2[i].setlength( n , n );}
 	vec		fqL2;fqL2.setlength(4); fqL2[0] = 1e-1*fqL[0]; fqL2[1] = fqL[0]; fqL2[2] = fqL[nfq]; fqL2[3] = 10*fqL[nfq];
-	f1 = 2; f2 = 0.5;
+	//f1 = 1.5; f2 = 0.6;
+	f1 = 0.5; f2 = .0;
 	_CSfq( fqL2 , Cfq2 , Sfq2 );
 	// ------------------------------------------ //
 
