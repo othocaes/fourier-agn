@@ -42,7 +42,7 @@ do
 
     # Output curves to temporary files using perl script, move tables to
     # permanent location. This just assumes there are no conflicts.
-    scripts/create_tables.pl $analysis > /dev/null
+    scripts/extract_tables.pl $analysis > /dev/null
     mv tmp.echoPSD $echoPSD_tabfile
     mv tmp.refPSD $refPSD_tabfile
     mv tmp.timelag $timelag_tabfile

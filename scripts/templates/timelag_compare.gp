@@ -2,7 +2,6 @@ set terminal pngcairo
 set termoption dash
 set termopt enhanced
 set output "%OUTPUTFILE"
-set encoding utf8
 
 set title "%TITLE\n{/*0.7 %SUBTITLE}"
 set xlabel "Temporal Frequency [days^{-1}]"

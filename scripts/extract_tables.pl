@@ -1,5 +1,8 @@
 #!/usr/bin/env perl
 
+# This extracts the gnuplot-ready tables from a psdlag analysis and saves them
+# to temporary files. propogate_tables.sh uses this script to create the
+# tables it saves to analyses/tables.
 
 use utf8;
 use Encode qw(encode decode);
