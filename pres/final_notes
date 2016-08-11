@@ -1,0 +1,30 @@
+Intro
+
+    continuum reverberation mapping
+    tradiational approach
+    our approach
+
+results
+
+future work
+
+
+
+This is looking good, and will be excellent once you finish including the figures at what I’m assuming are their place-holders.
+
+I think: “UV/optical reverberation mapping of NGC 5548 with frequency-resolved techniques” is a better title.  ‘Maximum Likelihood’ is a generic term, and doesn’t explain exactly what you’ve been doing.
+
+Slide showing the Fausnaugh et al. lag vs wavelength plot does not show ‘Frequency-dependent time delays’ as the title implies.  Maybe better to write ‘Time-domain lag analysis from STORM III'
+
+Motivation:  strictly speaking all the information available through the frequency-domain analysis is also available in the time domain analysis.  The cross correlation function (CCF) that is calculated in the time domain analysis can also be directly linked to the transfer function.  The point is more that from the standard cross correlation analysis, astronomers typically extract one number, the centroid time lag.  This throws out all the other information in the CCF.  The frequency-domain analysis that we do doesn’t lose any of this information.
+
+You should have a conclusions slide.
+
+Conclusions:
+a) This method works with the quality of optical AGN data available! This was an exploratory project, so it’s exciting to see it working.
+
+b) the PSD is wavelength dependent, with more power at the shortest wavelengths, and the power dropping systematically with wavelength. This is expected in the reverberation scenario since the ‘blurring’ of the lightcurve by the reverberation smooths out the lightcurves, removing variability.
+
+c) We see frequency-dependent lags.  The average lag shows the same systematic trend as from the time domain analysis. However, we also now see how the lag changes with frequency - this will help determine the shape of the transfer function.  This is an important next step - figuring out exactly what the frequency dependence means!
+
+Ed

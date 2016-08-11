@@ -14,11 +14,11 @@ echo Propagating tables.
 scripts/propagate_tables.sh > /dev/null
 
 case $1 in
-    "PSD")
+    "PSD"|"psd"|"PSDs"|"PSDS"|"psds")
         echo "Producing PSD atlas."
         gnuplot_file=psd_atlas.gp
         gnuplot_input=$(cat scripts/templates/${gnuplot_file}|perl -pe 's|\n|␤|g')
-        for tabfile in analyses/tables/PSD_*${errtype}*;
+        for tabfile in analyses/tables/PSD_*${errtype}*.tab;
         do
             echo_band=$(basename $tabfile|
                         sed 's|PSD[_ ]\(.\{5\}\)[_ ]{[^_ ]*}.tab|\1|')
@@ -33,11 +33,11 @@ case $1 in
 
     ;;
 
-    "lags")
+    "lags"|"lag"|"delay"|"delays")
         echo "Producing time delay atlas."
         gnuplot_file=timelag_atlas.gp
         gnuplot_input=$(cat scripts/templates/${gnuplot_file}|perl -pe 's|\n|␤|g')
-        for tabfile in analyses/tables/timelag_*${errtype}*;
+        for tabfile in analyses/tables/timelag_*${errtype}*.tab;
         do
             ref_band_extracted=$(basename $tabfile|sed 's|timelag_\([^≺]*\)[_ ]≺[_ ][^≺_ ]*[_ ]{[^_ ]*}.tab|\1|')
             echo_band=$(basename $tabfile|sed 's|timelag_[^≺]*[_ ]≺[_ ]\([^≺_ ]*\)[_ ]{[^_ ]*}.tab|\1|')
@@ -50,7 +50,13 @@ case $1 in
         echo "$gnuplot_input"|perl -pe 's|␤|\n|g' > ${gnuplot_file}
         gnuplot $gnuplot_file
     ;;
-    default)
+
+    "tophat")
+        gnuplot_file=tophat_w_fft.gp
+        
+    ;;
+    
+    *)
         echo "Did not understand plot type."
     ;; 
 esac
