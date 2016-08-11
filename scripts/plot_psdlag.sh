@@ -29,7 +29,6 @@ do
     # Grab and determine labels of analyses, skip if over the same band.
     ref_band=$(basename $analysis|sed 's|\([^≺]*\)[_ ]≺[_ ][^≺_ ]*[_ ]{[^_ ]*}|\1|')
     echo_band=$(basename $analysis|sed 's|[^≺]*[_ ]≺[_ ]\([^≺_ ]*\)[_ ]{[^_ ]*}|\1|')
-    if [[ $ref_band == $echo_band ]]; then continue; fi
     err_str=$(basename $analysis|sed 's|[^≺]*[_ ]≺[_ ][^≺_ ]*[_ ]{[^_ ]*;\(σ∊[CLM][MFC]\)}|\1|')
 
     # Prepare files
@@ -37,8 +36,8 @@ do
     echoPSD_tabfile=analyses/tables/PSD_${echo_band}_\{${err_str}\}.tab
     refPSD_tabfile=analyses/tables/PSD_${ref_band}_\{${err_str}\}.tab
     timelag_tabfile=analyses/tables/timelag_${ref_band}_≺_${echo_band}_\{${err_str}\}.tab
-    PSD_plotfile=analyses/plots/PSD_${ref_band}_≺_${echo_band}_\{${err_str}\}.png
-    timelag_plotfile=analyses/plots/timelag_${ref_band}_≺_${echo_band}_\{${err_str}\}.png
+    PSD_plotfile=analyses/plots/PSD_${echo_band}_\{${err_str}\}.pdf
+    timelag_plotfile=analyses/plots/timelag_${ref_band}_≺_${echo_band}_\{${err_str}\}.pdf
 
     # Output curves to temporary files using perl script, move tables to
     # permanent location. This just assumes there are no conflicts.
@@ -51,26 +50,26 @@ do
     # Plot PSD and save using gnuplot
 #    read ymin ymax <<< $(ywindow_of $timelag_tabfile)
 #    echo $ymin $ymax
-    cat scripts/templates/psd_freq.gp|
-        sed "s|%TITLE|Power Spectrum for Lightcurves $echo_band and $ref_band|"|
-        sed "s|%SUBTITLE|as reported by Fausnaugh et. al, STORM III, 2016|"|
-        sed "s|%FILE1|$refPSD_tabfile|"|
-        sed "s|%LABEL1|${ref_band} PSD|"|
-        sed "s|%FILE2|$echoPSD_tabfile|"|
-        sed "s|%LABEL2|${echo_band} PSD|"|
-        sed "s|%YMIN|$ymin|"|sed "s|%YMAX|$ymax|"|
-        sed "s|%OUTPUTFILE|$PSD_plotfile|" > tmp.gp
+    cat scripts/templates/psd.gp|
+        sed "s|%TITLE%|Power Spectrum for Lightcurves $echo_band and $ref_band|"|
+        sed "s|%SUBTITLE%|as reported by Fausnaugh et. al, STORM III, 2016|"|
+        sed "s|%FILE1%|$echoPSD_tabfile|"|
+        sed "s|%LABEL1%|${echo_band} PSD|"|
+        #sed "s|%FILE2%|$refPSD_tabfile|"|
+        #sed "s|%LABEL2%|${ref_band} PSD|"|
+        sed "s|%YMIN%|$ymin|"|sed "s|%YMAX|$ymax|"|
+        sed "s|%OUTPUTFILE%|$PSD_plotfile|" > tmp.gp
     gnuplot tmp.gp
 
     # Plot time lags and save using gnuplot
 #    read ymin ymax <<< $(ywindow_of $timelag_tabfile)
     cat scripts/templates/timelag_freq.gp|
-        sed "s|%TITLE|Time Lag for Lightcurve $echo_band relative to $ref_band|"|
-        sed "s|%SUBTITLE|as reported by Fausnaugh et. al, STORM III, 2016|"|
-        sed "s|%FILE1|$timelag_tabfile|"|
-        sed "s|%LABEL1|${echo_band} Lag|"|
-        sed "s|%YMIN|$ymin|"|sed "s|%YMAX|$ymax|"|
-        sed "s|%OUTPUTFILE|$timelag_plotfile|" > tmp.gp
+        sed "s|%TITLE%|Time Lag for Lightcurve $echo_band relative to $ref_band|"|
+        sed "s|%SUBTITLE%|as reported by Fausnaugh et. al, STORM III, 2016|"|
+        sed "s|%FILE1%|$timelag_tabfile|"|
+        sed "s|%LABEL1%|${echo_band} Lag|"|
+        sed "s|%YMIN%|$ymin|"|sed "s|%YMAX|$ymax|"|
+        sed "s|%OUTPUTFILE%|$timelag_plotfile|" > tmp.gp
     gnuplot tmp.gp
 done
 

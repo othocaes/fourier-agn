@@ -69,7 +69,7 @@ do
         sed 's|＝|=|g'|
         sed 's|Å|A|g')
 
-    cat scripts/templates/psd_freq.gp|
+    cat scripts/templates/psd.gp|
         sed "s|%TITLE|Error Fit Comparison for PSD of $echo_band|"|
         sed "s|%SUBTITLE|as reported by Fausnaugh et. al, STORM III, 2016|"|
         sed "s|%FILE1|$table|"|
