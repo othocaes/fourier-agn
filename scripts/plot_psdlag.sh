@@ -54,20 +54,20 @@ do
         sed "s|%TITLE%|Power Spectrum for Lightcurves $echo_band and $ref_band|"|
         sed "s|%SUBTITLE%|as reported by Fausnaugh et. al, STORM III, 2016|"|
         sed "s|%FILE1%|$echoPSD_tabfile|"|
-        sed "s|%LABEL1%|${echo_band} PSD|"|
+        sed "s|%LABEL1%|${echo_band}|"|
         #sed "s|%FILE2%|$refPSD_tabfile|"|
-        #sed "s|%LABEL2%|${ref_band} PSD|"|
+        #sed "s|%LABEL2%|${ref_band}|"|
         sed "s|%YMIN%|$ymin|"|sed "s|%YMAX|$ymax|"|
         sed "s|%OUTPUTFILE%|$PSD_plotfile|" > tmp.gp
     gnuplot tmp.gp
 
     # Plot time lags and save using gnuplot
 #    read ymin ymax <<< $(ywindow_of $timelag_tabfile)
-    cat scripts/templates/timelag_freq.gp|
+    cat scripts/templates/timelag.gp|
         sed "s|%TITLE%|Time Lag for Lightcurve $echo_band relative to $ref_band|"|
         sed "s|%SUBTITLE%|as reported by Fausnaugh et. al, STORM III, 2016|"|
         sed "s|%FILE1%|$timelag_tabfile|"|
-        sed "s|%LABEL1%|${echo_band} Lag|"|
+        sed "s|%LABEL1%|${echo_band}|"|
         sed "s|%YMIN%|$ymin|"|sed "s|%YMAX|$ymax|"|
         sed "s|%OUTPUTFILE%|$timelag_plotfile|" > tmp.gp
     gnuplot tmp.gp

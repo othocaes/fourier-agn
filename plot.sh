@@ -53,7 +53,6 @@ case $1 in
 
     "tophat")
         gnuplot_file=tophat_w_fft.gp
-        
     ;;
     
     *)
