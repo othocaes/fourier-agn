@@ -30,7 +30,6 @@ case $1 in
         done
         echo "$gnuplot_input"|perl -pe 's|␤|\n|g' > ${gnuplot_file}
         gnuplot $gnuplot_file
-
     ;;
 
     "lags"|"lag"|"delay"|"delays")
@@ -52,10 +51,10 @@ case $1 in
     ;;
 
     "tophat")
-        gnuplot_file=tophat_w_fft.gp
+        gnuplot_file="tophat_w_fft.gp"
     ;;
-    
+
     *)
         echo "Did not understand plot type."
-    ;; 
+    ;;
 esac
