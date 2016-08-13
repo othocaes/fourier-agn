@@ -12,7 +12,7 @@ my $twoPI = 2*3.1415926539;
 our $xres=.001;
 our $xmin = 0;
 our $xmax = 250;
-our $num_bins = ($xmax-$xmin)/$xres;
+our $xbins = ($xmax-$xmin)/$xres;
 
 # tophat parameters
 my $μ1=15;
@@ -22,7 +22,7 @@ my $Δ2=5; # full width
 my $μ3=15;
 my $Δ3=5; # full width
 
-say "Creating $num_bins bins";
+say "Creating $xbins bins";
 
 # Complex Number z(x) = u(x) + iv(x)
 my @th_list=tophat($μ1,$Δ1);
@@ -34,8 +34,8 @@ foreach (('1','2','3')) {
 
     # Output time-domain tophat
     open $tophattab, '>', "analyses/tables/tophat${$_}.tab";
-    for ($i=0; $i < $num_bins; $i++) {
-        my $x_coord = ($xmax-$xmin)*($i/$num_bins) + $xmin;
+    for ($i=0; $i < $xbins; $i++) {
+        my $x_coord = ($xmax-$xmin)*($i/$xbins) + $xmin;
         say $tophattab "$x_coord $th_list[$i]";
     }
     close $tophattab;
@@ -49,6 +49,8 @@ foreach (('1','2','3')) {
     say "Found $num_elements elements.";
     $f = $U->xlinvals(-($num_elements/2-1)/$num_elements/$xres,1/2/$xres)->rotate(-($num_elements/2 -1));
 
+    say "$f[1]";
+
     my $φdiff = atan2($V,$U);
     my $timelag = $φdiff/($twoPI*$f);
 
@@ -60,8 +62,8 @@ sub tophat {
     (my $mean,my $width) = @_;
     my $halfwidth = $width/2;
     my @vals = ();
-    for ($i=0; $i < $num_bins; $i++) {
-        my $x_coord = ($xmax-$xmin)*($i/$num_bins) + $xmin;
+    for ($i=0; $i < $xbins; $i++) {
+        my $x_coord = ($xmax-$xmin)*($i/$xbins) + $xmin;
         if ($x_coord >= ($mean - $halfwidth ) && $x_coord <= ($mean + $halfwidth)) { push @vals, 1/$width; }
         else { push @vals, 0; }
     }
