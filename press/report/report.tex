@@ -1,94 +1,14 @@
-% mnras_template.tex
-%
-% LaTeX template for creating an MNRAS paper
-%
-% v3.0 released 14 May 2015
-% (version numbers match those of mnras.cls)
-%
-% Copyright (C) Royal Astronomical Society 2015
-% Authors:
-% Keith T. Smith (Royal Astronomical Society)
+\documentclass[11pt,letterpaper]{article}
 
-% Change log
-%
-% v3.0 May 2015
-%    Renamed to match the new package name
-%    Version number matches mnras.cls
-%    A few minor tweaks to wording
-% v1.0 September 2013
-%    Beta testing only - never publicly released
-%    First version: a simple (ish) template for creating an MNRAS paper
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Basic setup. Most papers should leave these options alone.
-\documentclass[a4paper,fleqn,usenatbib]{article}
-
-% MNRAS is set in Times font. If you don't have this installed (most LaTeX
-% installations will be fine) or prefer the old Computer Modern fonts, comment
-% out the following line
-\usepackage{newtxtext,newtxmath}
-% Depending on your LaTeX fonts installation, you might get better results
-% with one of these:
-%\usepackage{mathptmx}
-%\usepackage{txfonts}
-
-% Use vector fonts, so it zooms properly in on-screen viewing software
-% Don't change these lines unless you know what you are doing
-\usepackage[T1]{fontenc}
-\usepackage{ae,aecompl}
-
-
-%%%%% AUTHORS - PLACE YOUR OWN PACKAGES HERE %%%%%
-
-% Only include extra packages if you really need them. Common packages are:
-\usepackage{graphicx}	% Including figure files
-\usepackage{amsmath}	% Advanced maths commands
-\usepackage{amssymb}	% Extra maths symbols
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage[margin=1.in,centering]{geometry}
 
 \begin{document}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%% AUTHORS - PLACE YOUR OWN COMMANDS HERE %%%%%
+Consider two lightcurves $x(t)$ and $y(t)$, where $x(t)$ is the driving lightcurve and $y(t)$ is the reprocessed lightcurve.  If they are related by a linear impulse response, $g(\tau)$, then: 
 
-% Please keep new commands to a minimum, and use \newcommand not \def to avoid
-% overwriting existing commands. Example:
-%\newcommand{\pcm}{\,cm$^{-2}$} % per cm-squared
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%% TITLE PAGE %%%%%%%%%%%%%%%%%%%
-
-% Title of the paper, and the short title which is used in the headers.
-% Keep the title short and informative.
-\title[Optical Reverberation with Max Likelihood; NGC 5548]{Optical
-Reverberation Mapping of NGC 5548 with Maximum Likelihood}
-
-% The list of authors, and the short list which is used in the headers.
-% If you need two or more lines of authors, add an extra line using \newauthor
-\author[Ulrich et al.]{
-Otho A. Ulrich,$^{2}$\thanks{E-mail: otho.a.ulrich@wmich.edu}
-Edward M. Cackett,$^{1}$
-\\
-% List of institutions
-$^{1}$Department of Physics and Astronomy, Wayne State University, 666 W.
-Hancock St., Detroit, MI 48201, USA\\
-$^{2}$Department of Physics, Western Michigan University, Kalamazoo, MI
-49008-5252, USA\\
-}
-
-% These dates will be filled out by the publisher
-%\date{Accepted XXX. Received YYY; in original form ZZZ}
-\date{August 8, 2016}
-
-% Enter the current year, for the copyright statements etc.
-% \pubyear{2016}
-
-% Don't change these lines
-\label{firstpage}
-%\pagerange{\pageref{firstpage}--\pageref{lastpage}}
-\maketitle
-
-% Abstract of the paper
 \begin{abstract}
 Power spectral densities and time delays of 19 wavelength bands are recovered
 as part of a reverberation mapping of NGC 5548. The latest time-variable light
@@ -104,15 +24,8 @@ be recoverable once those and any additional computational issues are
 resolved.
 \end{abstract}
 
-% Select between one and six entries from the list of approved keywords.
-% Don't make up new ones.
-\begin{keywords}
-keyword1 -- keyword2 -- keyword3
-\end{keywords}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%% BODY OF PAPER %%%%%%%%%%%%%%%%%%
 
 \section{Introduction}
 The local Type-I Seyfert galaxy NGC 5548, while perhaps the best-studied
@@ -278,43 +191,42 @@ is a significant step toward that goal.
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%% REFERENCES %%%%%%%%%%%%%%%%%%
-
-% The best way to enter references is to use BibTeX:
-
-\bibliographystyle{mnras}
-\bibliography{wsu_reu} % if your bibtex file is called example.bib
 
 
-% Alternatively you could enter them by hand, like this:
-% This method is tedious and prone to error if you have lots of references
-% \begin{thebibliography}{99}
-% \bibitem[\protect\citeauthoryear{Author}{2012}]{Author2012}
-% Author A.~N., 2013, Journal of Improbable Astronomy, 1, 1
-% \bibitem[\protect\citeauthoryear{Others}{2013}]{Others2013}
-% Others S., 2012, Journal of Interesting Stuff, 17, 198
-% \end{thebibliography}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%% APPENDICES %%%%%%%%%%%%%%%%%%%%%
-
-% \appendix
-% 
-% \section{Some extra material}
-% 
-% If you want to present additional material which would interrupt the flow of
-% the main paper, it can be placed in an Appendix which appears after the list
-% of references.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-% Don't change these lines
-\bsp	% typesetting comment
-\label{lastpage}
+
+
+\begin{equation}
+y(t) = \int_{-\infty}^{\infty} g(\tau) x(t-\tau)  {\rm d}\tau
+\end{equation} 
+
+So, $y(t)$ is a delayed and blurred version of $x(t)$, with the amount of delay and blurring encoded in $g(\tau)$.
+
+The power spectral density (PSD) of $x(t)$ is calculated from the Fourier transform of $x(t)$, which we denote $X(\nu)$.  The PSD is $|X(\nu)|^2 = X^*(\nu)X(\nu)$, where the $^*$ denotes the complex conjugate.  From the convolution theorem of Fourier transforms we can write:
+
+\begin{equation}
+Y(\nu) = G(\nu) X(\nu)
+\end{equation}
+
+This means it is easy to relate the PSD of the reprocessed lightcurve to the PSD of the driving lightcurve and the impulse response function:
+
+\begin{equation}
+|Y(\nu)|^2 = |G(\nu)|^2 |X(\nu)|^2
+\end{equation}
+
+The cross spectrum is defined as
+\begin{equation}
+C(\nu) = X^*(\nu) Y(\nu)
+\end{equation}
+the phase, $\phi$, of which gives the phase lag between X and Y at each Fourier frequency, $\nu$.  This can be converted to a time lag through: 
+\begin{equation}
+\tau(\nu) = \frac{\phi(\nu)}{2\pi\nu}
+\end{equation}
+Since $Y(\nu) = G(\nu) X(\nu)$,  the cross spectrum can be written as:
+\begin{equation}
+C(\nu) = X^*(\nu) G(\nu) X(\nu) =  G(\nu) |X(\nu)|^2 
+\end{equation}
+thus, for a given impulse response function, one can trivially predict the time lags as a function of frequency, $\tau(\nu)$, by calculating the phase of $G(\nu)$, and the frequency dependence of the lags directly relates to the shape of the response function.
+
 \end{document}
-
-% End of mnras_template.tex
