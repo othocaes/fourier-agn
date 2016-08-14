@@ -10,13 +10,10 @@ echo_bands=$(ls analyses/*CM*|sed 's|[^≺]*≺_\(.\{5\}\).*|\1|')
 
 # echo Using list of reverberated bands: $echo_bands
 
-echo Propagating tables.
-scripts/propagate_tables.sh > /dev/null
-
 case $1 in
     "PSD"|"psd"|"PSDs"|"PSDS"|"psds")
-        echo "Producing PSD atlas."
         gnuplot_file=psd_atlas.gp
+        scripts/propagate_tables.sh
         gnuplot_input=$(cat scripts/templates/${gnuplot_file}|perl -pe 's|\n|␤|g')
         for tabfile in analyses/tables/PSD_*${errtype}*.tab;
         do
@@ -33,9 +30,9 @@ case $1 in
     ;;
 
     "lags"|"lag"|"delay"|"delays")
-        echo "Producing time delay atlas."
         gnuplot_file=timelag_atlas.gp
         gnuplot_input=$(cat scripts/templates/${gnuplot_file}|perl -pe 's|\n|␤|g')
+        scripts/propagate_tables.sh
         for tabfile in analyses/tables/timelag_*${errtype}*.tab;
         do
             ref_band_extracted=$(basename $tabfile|sed 's|timelag_\([^≺]*\)[_ ]≺[_ ][^≺_ ]*[_ ]{[^_ ]*}.tab|\1|')
@@ -51,7 +48,9 @@ case $1 in
     ;;
 
     "tophat")
-        gnuplot_file="tophat_w_fft.gp"
+        scripts/tophat_fft.pl
+        gnuplot scripts/templates/tophat_freqdomain.gp
+        gnuplot scripts/templates/tophat_timedomain.gp
     ;;
 
     *)

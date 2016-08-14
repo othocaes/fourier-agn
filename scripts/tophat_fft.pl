@@ -23,13 +23,12 @@ my $Δ1=5; # full width
 my @tophat_list = ([$μ1,$Δ1],[28,8],[15,11]);
 
 our $tophat_count = 0;
-foreach my $pars (@tophat_list) {
+foreach (@tophat_list) {
     $tophat_count++;
 
     # Capture tophat into piddle
     # Complex Number z(x) = u(x) + iv(x)
-    my @tophat=tophat(@$pars[0],@$pars[1]);
-    my $u = pdl(@tophat);
+    my $u = tophat(@$_[0],@$_[1]);
     my $v = zeroes($u);
 
     $x_coords = $u->xlinvals($xmin,$xmax);
@@ -46,25 +45,28 @@ foreach my $pars (@tophat_list) {
     my $num_elements = nelem($U);
     say "Found $num_elements elements.";
 
-    if ($num_elements % 2 == 0) {
-        # even number of bins
-        $f = $U->xlinvals(
-                -(${num_elements}/2-1)/${num_elements}/${xres}, 1/2/${xres}
-                )->rotate(-(${num_elements}/2 -1));
-    }
-    else {
-        #odd number of bins
-        $f = $U->xlinvals(
-                    -(${num_elements}/2-0.5)/${num_elements}/${xres},
-                        (${num_elements}/2-0.5)/${num_elements}/${xres}
-                    )->rotate(-(${num_elements}-1)/2);
-    }
+    $f = ($num_elements % 2 == 0) ?
+        $U->xlinvals(
+            -(${num_elements}/2-1)/${num_elements}/${xres},
+            1/2/${xres}
+        )->rotate(-(${num_elements}/2 -1))
+    :
+        $U->xlinvals(
+            -(${num_elements}/2-0.5)/${num_elements}/${xres},
+            (${num_elements}/2-0.5)/${num_elements}/${xres}
+        )->rotate(-(${num_elements}-1)/2);
 
+    # Output frequency-domain tophat
+    wcols $f, $U, $V, "fft${tophat_count}.tab";
 
     # Calculate x offset
-    my $φdiff = atan2($V,$U);
+    #   This currently multiplies the imaginary component by -1,
+    #   and I really need to figure out why this is necessary for
+    #   proper output.
+    my $φdiff = atan2(-$V,$U);
     my $offset = $φdiff/($_2π*$f);
 
+    # Output frequency-domain time delay for given tophat
     wcols $f,$offset,"analyses/tables/tophat_fft${tophat_count}.tab";
 
 }
@@ -77,5 +79,5 @@ sub tophat {
         push @vals, ($x_coord >= ($mean - $halfwidth) &&
                     $x_coord <= ($mean + $halfwidth)) ? 1/$width : 0;
     }
-    return @vals;
+    return pdl(@vals);
 }
