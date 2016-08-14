@@ -65,7 +65,7 @@ foreach (@tophat_list) {
     #   proper output.
     my $φdiff = atan2($V,$U);
 
-    wcols $f,$φdiff,"analyses/tables/tophat_φdiff";
+    wcols $f,$φdiff,"analyses/tables/tophat_φdiff${tophat_count}.tab";
 
     my $offset = $φdiff/($_2π*$f);
 
