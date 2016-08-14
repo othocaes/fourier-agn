@@ -1,18 +1,35 @@
-\documentclass[11pt,letterpaper]{article}
+\documentclass[11pt,letterpaper,fleqn]{article}
 
 \usepackage{natbib}
+%\usepackage{cite}
 \usepackage{graphicx}
 \usepackage[margin=1.in,centering]{geometry}
+\usepackage{hyperref}
 
 \begin{document}
 
-Consider two lightcurves $x(t)$ and $y(t)$, where $x(t)$ is the driving lightcurve and $y(t)$ is the reprocessed lightcurve.  If they are related by a linear impulse response, $g(\tau)$, then: 
+\title{Optical/UV Band
+Reverberation Mapping of NGC 5548 with Frequency-Resolved Techniques}
 
+\author[Ulrich et al.]{
+Otho A. Ulrich,$^{2}$\thanks{E-mail: otho.a.ulrich@wmich.edu}
+Edward M. Cackett,$^{1}$
+\\
+% List of institutions
+$^{1}$Department of Physics and Astronomy, Wayne State University, 666 W.
+Hancock St., Detroit, MI 48201, USA\\
+$^{2}$Department of Physics, Western Michigan University, Kalamazoo, MI
+49008-5252, USA\\
+}
+\date{August 8, 2016}
+
+\maketitle
 
 \begin{abstract}
+
 Power spectral densities and time delays of 19 wavelength bands are recovered
 as part of a reverberation mapping of NGC 5548. The latest time-variable light
-curves are made available in STORM III by \cite{2016ApJ...821...56F}. The
+curves are made available in STORM III by \citet{2016ApJ...821...56F}. The
 uneven distribution of flux data in those curves necessitates the use of a
 maximum likelihood method in conjunction with Fourier transformations to
 produce the frequency-dependent values of interest. Variability in the
@@ -22,34 +39,36 @@ wavelength dependence. There are issues computing accurate error estimates for
 both distributions that remain as yet unresolved. The transfer function should
 be recoverable once those and any additional computational issues are
 resolved.
+
 \end{abstract}
 
-
-
-
 \section{Introduction}
+
 The local Type-I Seyfert galaxy NGC 5548, while perhaps the best-studied
 active galaxy, remains an object of intense interest and study to modern
-astronomy. An extensive observational campaign has been carried out on this
-object, producing the most complete set of time-dependent light curves yet
-collected from an active galactic nucleus (AGN). The physics underlying the
-nature of these light curves is not completely understood, and so remains a
-topic of debate and great interest.
+astronomy. Direct observation of active galactic nuclei (AGN) such as that
+thought to exist at the center of NGC 5548 is rarely possible. The astronomer
+may infer the properties of AGN from the dynamics of their variable spectra.
+\citet{2016ApJ...821...56F} published the most complete set of time-dependent
+light curves yet collected from an active galactic nucleus as part III of
+STORM, an extensive optical/UV observational campaign carried out on NGC 5548. 
 
 	\subsection{Reverberation Mapping}
 	A primary model of AGN suggests that an accretion disk is incident upon a
 	central super-massive black hole (SMBH). Electromagnetic emission emergent
-	from the accreting gases close to the SMBH is reprocessed by the
+	from a corona surrounding the SMBH is reprocessed by the
 	surrounding gas clouds, resulting in observed response delays between
 	emission peaks that are dependent on the geometry of the system. The
-	impulse response encodes this geometry, and astronomers have combined
+	impulse response encodes this geometry and other interactions, so recovering it from observed emission allows astronomers to probe the properties of 
+
+	and astronomers have combined
 	models for the orbiting gas velocities and ionization states with these
 	observed time delays to calculate it for some known systems. This
 	technique has become a standard for calculating the black hole mass of
-	AGN, and is well-described by \cite{2007MNRAS.380..669C} and
-	\cite{2014A&ARv..22...72U}. It continues to be refined, and may also
+	AGN, and is well-described by \citet{2007MNRAS.380..669C} and
+	\citet{2014A&ARv..22...72U}. It continues to be refined, and may also
 	become a tool to measure the black hole spin of these systems
-	\citep{2016arXiv160606736K}.
+	\citet{2016arXiv160606736K}.
 
 	(Probably would be good to put a picture here describing simple
 	reverberation.)
@@ -76,7 +95,7 @@ topic of debate and great interest.
 	toward
 	constituting the transfer function of a system. Very good explanations of
 	these techniques and the associated mathematics are available from
-	\cite{2014A&ARv..22...72U}.
+	\citet{2014A&ARv..22...72U}.
 
 	A top-hat function provides a simple model of the impulse response of a
 	delayed light curve. A fast Fourier transform method of this impulse
@@ -92,12 +111,12 @@ topic of debate and great interest.
 	\subsection{Unevenly-Spaced Data}
  	
  	Some X-ray datasets contain gaps due to orbital mechanics, which motivated
-	the work in \cite{2013ApJ...777...24Z}, where a maximum likelihood method
+	the work in \citet{2013ApJ...777...24Z}, where a maximum likelihood method
 	is used to perform Fourier analysis on light curves with gaps. Since its
 	development, this technique has found success among studies of
 	observations captured by low-orbit X-ray telescopes that exceed the
 	telescopes' orbital periods, such as the analysis performed by
-	\cite{2016arXiv160606736K}. Until now, reverberation mapping in the
+	\citet{2016arXiv160606736K}. Until now, reverberation mapping in the
 	optical bands has been limited to time-domain techniques. Many datasets
 	available for these bands have uneven sampling across the time domain,
 	however, and so do not lend themselves well to time-domain or traditional
@@ -115,7 +134,7 @@ each band in the dataset -- 18 bands not including the reference band.
 
 The light curves analysed here are unevenly distributed along the time axis,
 which suggests that the maximum likelihood method developed by
-\cite{2013ApJ...777...24Z} is a reasonable candidate for producing the PSD and
+\citet{2013ApJ...777...24Z} is a reasonable candidate for producing the PSD and
 time delays in the frequency domain. The latest version (CHECK THIS) of the
 C++ program psdlag associated with that work is used to directly produce the
 PSD and cross spectra. The time delay spectrum is produced from the cross
@@ -123,7 +142,7 @@ spectrum by dividing it by $2 \pi f$, with $f$ the mean frequency for a given
 bin.
 
 	\subsection{Dataset}
-	\cite{2016ApJ...821...56F} published the best dynamic data yet collected
+	\citet{2016ApJ...821...56F} published the best dynamic data yet collected
 	from NGC 5548 over a 200-day (CHECK THIS) period, for 19 bands throughout
 	the optical and into the UV spectra. These data were collected from a
 	variety of observatories, including both space and ground-based
@@ -138,9 +157,10 @@ bin.
 	limit of the true variability. Scanning the likelihood function can
 	provide better error estimates at the cost of computation time, as can
 	running Monte Carlo simulations. All of these methods are built into the
-	psdlag program provided by \cite{2013ApJ...777...24Z}, however, some
+	psdlag program provided by \citet{2013ApJ...777...24Z}, however, some
 	issues have prevented proper error analysis using the latter two methods.
 	This is discussed in more detail in section \ref{results}.
+
 
 \section{Results}
 \label{results}
@@ -189,7 +209,15 @@ and time delays. With reverberation mapping, the goal is to recover the transfer
 function, which encodes the geometry of the system. Recovering the time delays
 is a significant step toward that goal. 
 
+%\bsp
+\bibliographystyle{plainnat}
+\bibliography{wsu_reu}
 
+
+
+
+
+Consider two lightcurves $x(t)$ and $y(t)$, where $x(t)$ is the driving lightcurve and $y(t)$ is the reprocessed lightcurve.  If they are related by a linear impulse response, $g(\tau)$, then: 
 
 
 
@@ -228,5 +256,11 @@ Since $Y(\nu) = G(\nu) X(\nu)$,  the cross spectrum can be written as:
 C(\nu) = X^*(\nu) G(\nu) X(\nu) =  G(\nu) |X(\nu)|^2 
 \end{equation}
 thus, for a given impulse response function, one can trivially predict the time lags as a function of frequency, $\tau(\nu)$, by calculating the phase of $G(\nu)$, and the frequency dependence of the lags directly relates to the shape of the response function.
+
+
+
+
+
+
 
 \end{document}
