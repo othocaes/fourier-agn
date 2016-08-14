@@ -4,7 +4,7 @@ use feature say;
 use utf8;
 
 # reads (stdin) a heasoft data set (single filter) as compiled circa 2016 by Cackett @ WSU
-# outputs (stdout) a lightcurve in psdlag circa 2016 Zoghbi @ UMY input format
+# outputs (stdout) a lightcurve in psdlag circa 2016 by Zoghbi @ U of M input format
 
 # smallest time interval.
 my $Δt = 0.1;
