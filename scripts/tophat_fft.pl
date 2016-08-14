@@ -65,7 +65,8 @@ foreach (@tophat_list) {
     #   proper output.
     my $φdiff = atan2($V,$U);
 
-    wcols $f,$φdiff,"analyses/tables/tophat_φdiff"
+    wcols $f,$φdiff,"analyses/tables/tophat_φdiff";
+
     my $offset = $φdiff/($_2π*$f);
 
     # Output frequency-domain time delay for given tophat
