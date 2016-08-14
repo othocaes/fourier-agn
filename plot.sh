@@ -6,9 +6,6 @@
 # Only analyses with this error type will be represented in the atlas
 errtype="CM"
 ref_band="1367Å"
-echo_bands=$(ls analyses/*CM*|sed 's|[^≺]*≺_\(.\{5\}\).*|\1|')
-
-# echo Using list of reverberated bands: $echo_bands
 
 case $1 in
     "PSD"|"psd"|"PSDs"|"PSDS"|"psds")
@@ -47,7 +44,8 @@ case $1 in
         gnuplot $gnuplot_file
     ;;
 
-    "tophat")
+    "tophat"|"th")
+        mkdir -p analyses/tables/
         scripts/tophat_fft.pl
         gnuplot scripts/templates/tophat_freqdomain.gp
         gnuplot scripts/templates/tophat_timedomain.gp
