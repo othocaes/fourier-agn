@@ -1,7 +1,7 @@
 set terminal pdf
-set output "pres/img/tophat_timedomain.pdf"
+set output "tophat_timedomain.pdf"
 
-set xrange [0:25]
+set xrange [0:35]
 set xlabel "Time [days]" font "Times,24"
 set xtics font 'Times,16'
 set mxtics
