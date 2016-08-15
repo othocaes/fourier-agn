@@ -70,15 +70,15 @@ The local Type-I Seyfert galaxy NGC 5548, while perhaps the best-studied active 
     \end{equation}
 
     Given two bands, a cross spectrum can also be computed. The cross spectrum is defined as $C(\nu) = X^*(\nu) Y(\nu)$. The argument $\phi$ of the cross spectrum is the phase lag between the two signals. The time delay $\tau$ can therefore be computed from the cross spectrum using
-    
+
     \begin{equation}
         \tau(\nu) = \frac{\phi(\nu)}{2\pi\nu}
     \end{equation}
 
     Given equation \ref{freq_transfunc}, the cross spectrum can be written as
-        
+
     \begin{equation}
-        C(\nu) = X^*(\nu) G(\nu) X(\nu) =  G(\nu) |X(\nu)|^2 
+        C(\nu) = X^*(\nu) G(\nu) X(\nu) =  G(\nu) |X(\nu)|^2
     \end{equation}
 
     The time delays are therefore trivially predicted as a function of frequency from the cross spectrum. The frequency dependence of these lags in turn relates directly to the transfer function. Very good explanations of these techniques and the associated mathematics are available from \cite{2014A&ARv..22...72U}.
@@ -110,7 +110,7 @@ The local Type-I Seyfert galaxy NGC 5548, while perhaps the best-studied active 
     Traditional frequency-domain analyses require data that is evenly sampled. Due primarily to weather, optical reverberation mapping datasets generally contain unevenly sampling. Because of this, until now, optical reverberation mapping has been limited mainly to time-domain analyses, e.g., cross-correlation. While it can handle datasets with significant sampling-variability, cross-correlation is only able to determine the average time lag for a given light curve; however, more information is contained within the light curves than just their average time lag.
 
     Some X-ray datasets contain gaps due to orbital mechanics, which motivated the work by \cite{2013ApJ...777...24Z}, where a maximum likelihood method is used to perform Fourier analysis on light curves with gaps. Since its development, this technique has found success among studies of observations captured by low-orbit X-ray telescopes that exceed the telescopes' orbital periods, such as the analysis performed by \cite{2016arXiv160606736K}. This technique is now being applied to the optical datasets published in STORM III. If successful, it may provide new insight into the reverberations present in the accretion disk and other structures of the nucleus in NGC 5548.
- 	
+
 \section{Analysis}
 
 \cite{2016ApJ...821...56F} published the best dynamic data yet collected from NGC 5548 over a 260-day period, for 19 bands throughout the optical and into the UV domains. These data were collected from a variety of observatories, including both space and ground-based telescopes, and thus have significantly uneven and variable sampling rates. The 1367\AA$ $ light curve, obtained from observations made with the Hubble Space Telescope, is chosen as the reference curve. The power spectral densities and time delays as a function of temporal frequency are computed for each band in the dataset -- 18 bands not including the reference band.
@@ -181,9 +181,11 @@ The light curves analysed here are unevenly distributed along the time axis, whi
 
 \section{Discussion}
 
-Frequency-dependent power spectral densities confirm time-dependent variability in the emission strengths for each band. This  This behaviour is expected for any active galactic nucleus and has been long-confirmed in NGC 5548, so it comes as no surprise to find those results here.
+Frequency-dependent power spectral densities confirm time-dependent variability in the emission strengths for each band. This was apparent from inspection of the time-domain light curves, and is confirmed by the analysis. That behaviour is expected for any active galactic nucleus and has been long-confirmed in NGC 5548. The power spectral densities also show a decrease in variability with increasing wavelength. That behaviour is expected due to the blurring of reverberated emissions reprocessed by the accretion disk, and was one of the primary hypotheses of this reverberation mapping analysis. Better error sampling is preferred, but with the trend as clear as it is, even with low-estimate errors, it appears safe to say that this predicted trend is observed in these data.
 
-Analysis of the top-hat impulse response model predicted frequency-dependent time delays, which have been recovered from the light curves in this analysis. Furthermore, the distribution of time delays indicates a wavelength-dependent nature. This warrants further study and analysis.
+Analysis of the top-hat impulse response model predicted frequency-dependent time delays, which have been recovered from the light curves in this analysis. The time delays extracted from the light curves do not mimic very closely the saw-tooth character seen in the tophat model, so a more complex model may be a better choice for fitting the time delays and ultimately recovering the transfer function. A log-Gaussian distribution is likely a good function to try next.
+
+The time delays show an increase in overall magnitude as wavelength increases. This was predicted by the assumed geometry of the accretion disk coupled with a decreasing temperature distribution. The error computed for the time delay at 3465\AA is extremely large, but is probably no more suspicious than the values whose errors are extremely small. While, again, better error calculations are preferred, the trend is very strong, and this analysis appears protective of the accretion disk hypothesis.
 
 \begin{figure}
     \centering
@@ -202,7 +204,7 @@ Analysis of the top-hat impulse response model predicted frequency-dependent tim
     \end{minipage}
 \end{figure}
 
-The analyses performed on these data have elucidated clear trends in the PSD and time delays. With reverberation mapping, the goal is to recover the transfer function, which encodes the geometry of the system. Recovering the time delays is a significant step toward that goal.
+The analytical method developed by \cite{2013ApJ...777...24Z} applies well to the quality of data available for optical reverberation mapping. The analyses performed on these data have elucidated clear trends in the PSD and time delays. With reverberation mapping, the goal is to recover the transfer function, which encodes the geometry of the system. Recovering the time delays is a significant step toward that goal. The transfer function is within the reach of this analysis, and should be recovered in the next few steps. The error computation issues must be remedied so that any conclusions made from this analysis may be judged valid. It is our hope that this mode of analysis will be judged valid so it can be applied to datasets across the landscape of optical reverberation mapping, where consider information awaits discovery.
 
 %\bsp
 \bibliographystyle{plainnat}
