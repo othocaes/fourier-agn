@@ -63,7 +63,7 @@ foreach (@tophat_list) {
     #   This currently multiplies the imaginary component by -1,
     #   and I really need to figure out why this is necessary for
     #   proper output.
-    my $φdiff = atan2($V,$U);
+    my $φdiff = atan2(-1*$V,$U);
 
     wcols $f,$φdiff,"analyses/tables/tophat_φdiff${tophat_count}.tab";
 
@@ -71,7 +71,6 @@ foreach (@tophat_list) {
 
     # Output frequency-domain time delay for given tophat
     wcols $f,$offset,"analyses/tables/tophat_fft${tophat_count}.tab";
-
 }
 
 sub tophat {
