@@ -12,6 +12,7 @@
 \newcommand{\mnras}{MNRAS}
 \newcommand{\apj}{ApJ}
 \newcommand{\aapr}{A\&ARv}
+\newcommand{\nat}{Nature}
 
 \begin{document}
 
@@ -38,15 +39,18 @@ Power spectral densities and time lags of 19 wavelength bands are recovered as p
 
 \section{Introduction}
 
-Active galactic nuclei are powerful objects, both in luminosity and in the imaginations of modern astronomers. They are some of the brightest objects in the sky, with highly variable spectra 
+Active galactic nuclei are powerful objects, both in luminosity and in the imaginations of modern astronomers. They are some of the brightest objects in the sky, with strongly variable spectra 
 Seyfert galaxies are thought to have active galactic nuclei (AGN) at their center: very luminous and variable sources of electromagnetic radiation. The variability in these objects do not follow any pattern astronomers have been able to recognize. The Type-I Seyfert galaxy NGC 5548 is one of the most studied Seyfert galaxies, and yet remains an object of intense interest and study to modern astronomy. 
 
- Direct observation of active galactic nuclei (AGN) such as that thought to exist at the center of NGC 5548 is rarely possible. The astronomer may infer the properties of AGN from the dynamics of their variable spectra. \cite{2016ApJ...821...56F} published the most complete set of time-dependent light curves yet collected from an active galactic nucleus as part III of STORM, an extensive optical/UV observational campaign carried out on NGC 5548. We now attempt to use frequency-domain analyses to map the reverberation in the observed light curves.
+Direct observation of active galactic nuclei (AGN) such as that thought to exist at the center of NGC 5548 is rarely possible. The Space Telescope and Optical Reverberation Mapping Project encompasses the most in-depth study of NGC 5548 yet performed \citep{2015ApJ...806..128D} \citep{2015ApJ...806..129E} \citep{2016ApJ...821...56F}.
+
+
+ The astronomer may infer the properties of AGN from the dynamics of their variable spectra. \cite{2016ApJ...821...56F} published the most complete set of time-dependent light curves yet collected from an active galactic nucleus as part III of STORM, an extensive optical/UV observational campaign carried out on NGC 5548. We now attempt to use frequency-domain analyses to map the reverberation in the observed light curves.
 
 \section{Reverberation Mapping}
 	One model for AGN suggests that a hot accretion disk is incident upon a central super-massive black hole (SMBH). Electromagnetic emission emergent from the gas surrounding the SMBH is reprocessed by the disk, resulting in observed time lags between emission peaks. If the temperature of the disk decreases radially from the SMBH, the time lags can be expected to increase with decreasing wavelength. Furthermore, as the emission is reprocessed in the disk, it becomes blurred, so the variability can be expected to decrease with wavelength. A transfer function encodes the geometry of the system by describing the time-dependent response of each light curve against the others. Recovering the function from the observed light curves is a primary goal of reverberation mapping.
 
-	This technique has become a standard for calculating the black hole mass of AGN. It is well-described by \cite{2007MNRAS.380..669C} and \cite{2014A&ARv..22...72U} and many others. It continues to be refined, and may also become a tool to measure the black hole spin of these systems (\cite{2016arXiv160606736K}).
+	This technique has become a standard for calculating the black hole mass of AGN. It is well-described by \cite{2007MNRAS.380..669C} and \cite{2014A&ARv..22...72U} and many others. It continues to be refined, and may also become a tool to measure the black hole spin of these systems \citep{2016Natur.535..388K}.
 
 	\begin{figure}
 		\centering
@@ -114,7 +118,7 @@ Seyfert galaxies are thought to have active galactic nuclei (AGN) at their cente
 
     Traditional frequency-domain analyses require data that is evenly sampled. Due primarily to weather, optical reverberation mapping datasets generally contain unevenly sampling. Because of this, until now, optical reverberation mapping has been limited mainly to time-domain analyses, e.g., cross-correlation. While it can handle datasets with significant sampling-variability, cross-correlation is only able to determine the average time lag for a given light curve; however, more information is contained within the light curves than just their average time lag.
 
-    Some X-ray datasets contain gaps due to orbital mechanics, which motivated the work by \cite{2013ApJ...777...24Z}, where a maximum likelihood method is used to perform Fourier analysis on light curves with gaps. Since its development, this technique has found success among studies of observations captured by low-orbit X-ray telescopes that exceed the telescopes' orbital periods, such as the analysis performed by \cite{2016arXiv160606736K}. This technique is now being applied to the optical datasets published in STORM III. If successful, it may provide new insight into the reverberations present in the accretion disk and other structures of the nucleus in NGC 5548.
+    Some X-ray datasets contain gaps due to orbital mechanics, which motivated the work by \cite{2013ApJ...777...24Z}, where a maximum likelihood method is used to perform Fourier analysis on light curves with gaps. Since its development, this technique has found success among studies of observations captured by low-orbit X-ray telescopes that exceed the telescopes' orbital periods, such as the analysis performed by \cite{2016Natur.535..388K}. This technique is now being applied to the optical datasets published in STORM III. If successful, it may provide new insight into the reverberations present in the accretion disk and other structures of the nucleus in NGC 5548.
 
 \section{Analysis}
 
@@ -197,7 +201,7 @@ The time lags show an increase in overall magnitude as wavelength increases. Thi
 \begin{figure}
     \centering
     \begin{minipage}{.475\textwidth}
-        \centeringQ
+        \centering
         \includegraphics[width=1\linewidth]{../img/tophat_freqdomain.pdf}
         \captionof{figure}{Time lags modeled from tophat impulse responses.}
         \label{fig:top_freq_comp}
@@ -214,8 +218,8 @@ The time lags show an increase in overall magnitude as wavelength increases. Thi
 The analytical method developed by \cite{2013ApJ...777...24Z} applies well to the quality of data available for optical reverberation mapping. The analyses performed on these data have elucidated clear trends in the PSD and time lags. With reverberation mapping, the goal is to recover the transfer function, which encodes the geometry of the system. Recovering the time lags is a significant step toward that goal. The transfer function is within the reach of this analysis, and should be recovered in the next few steps. The error computation issues must be remedied so that any conclusions made from this analysis may be judged valid. It is our hope that this mode of analysis will be judged valid so it can be applied to datasets across the landscape of optical reverberation mapping, where consider information awaits discovery.
 
 %\bsp
-\bibliographystyle{plainnat}
-\bibliography{wsu_reu}
+\bibliographystyle{mnras}
+\bibliography{wsu_reu}{}
 
 
 
