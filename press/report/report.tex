@@ -14,17 +14,13 @@
 \title{Optical/UV Band
 Reverberation Mapping of NGC 5548 with Frequency-Resolved Techniques}
 
-\author{Otho A. Ulrich,$^{1,2}$ Edward M. Cackett$^{1}$
-\\
-% List of institutions
-$^{1}$Department of Physics and Astronomy, Wayne State University\\
-$^{2}$Department of Physics, Western Michigan University\\
-}
+\author{Adamo}
 \date{August 19, 2016}
 
 \maketitle
 
 \begin{abstract}
+
 Power spectral densities and time lags of 19 wavelength bands are recovered as part of a reverberation mapping of NGC 5548. The latest time-variable light curves are made available in STORM III by \cite{2016ApJ...821...56F}. The uneven sampling of the data in those curves necessitates the use of a maximum likelihood method in conjunction with Fourier transformations to produce the frequency-dependent values of interest. This is the first time frequency-resolved time lags have been measured from UV/optical light curves in AGN. Variability in the emission is confirmed in the power spectral densities, and the time lags show a complex frequency dependence. The total power seen in each PSD decreases with wavelength, and the average time lag increases with wavelength, both in support of thermal reprocessing by an accretion disk. There are computational issues yet to be resolved regarding accurate error estimates, so errors presented here can only be considered a lower limit. The transfer function should be recoverable once those and any additional computational issues are resolved.
 
 \end{abstract}
@@ -76,7 +72,7 @@ Reverberation mapping has become a standard technique for calculating the black 
     \subsection{Frequency-domain Analysis}
     \label{sec:freq_analysis}
 
-    The link between the driving and reprocessed light curves can be described using equation \ref{eq:time_transfunc}. The reprocessed curve $y(t)$ is seen to be the convolution of the driving light curve $x(t)$ with a transfer function $g(t)$. The transfer function encodes the geometry of the system by describing the time-dependent response of the reverberated light curve relative to the reference curve. Recovering the function from the observed light curves is a primary goal of reverberation mapping and theoretically allows the reconstruction of the structures within an AGN. The convolution theorem provides that convolution in the time domain is equivalent to pointwise multiplication in the frequency domain (equation \ref{eq:freq_transfunc}). The transfer function therefore lends itself well to frequency-domain analyses.
+    The link between the driving and reprocessed light curves can be described using a transfer equation (equation \ref{eq:time_transfunc}). The reprocessed curve $y(t)$ is seen to be the convolution of the driving light curve $x(t)$ with a response function $g(t)$. The transfer function encodes the geometry of the system by describing the time-dependent response of the reverberated light curve relative to the reference curve for all wavelengths in the system. Recovering the function from the observed light curves is a primary goal of reverberation mapping and theoretically allows the reconstruction of the structures within an AGN. The convolution theorem provides that convolution in the time domain is equivalent to pointwise multiplication in the frequency domain (equation \ref{eq:freq_transfunc}). The transfer function therefore lends itself well to frequency-domain analyses.
 
     \begin{equation}
         \label{eq:time_transfunc}
@@ -88,7 +84,7 @@ Reverberation mapping has become a standard technique for calculating the black 
         Y(\nu) = G(\nu) X(\nu)
     \end{equation}
 
-    The power spectral density (PSD) provides a measure of the variability of the flux in a band. It is defined as $|X(\nu)|^2 = X^*(\nu)X(\nu)$, where $^*$ denotes the complex conjugate, and can be produced using Fourier transforms. The transfer function is therefore related to the PSD of two light curves:
+    The power spectral density (PSD) provides a measure of the variability of the flux in a band. It is defined as $|X(\nu)|^2 = X^*(\nu)X(\nu)$, where $^*$ denotes the complex conjugate, and can be produced using Fourier transforms. The response function is therefore related to the PSD of two light curves:
 
     \begin{equation}
         |Y(\nu)|^2 = |G(\nu)|^2 |X(\nu)|^2
@@ -108,7 +104,7 @@ Reverberation mapping has become a standard technique for calculating the black 
 
     The time lags are therefore trivially predicted as a function of frequency from the cross spectrum. The frequency dependence of these lags in turn relates directly to the transfer function. Very good explanations of these techniques and the associated mathematics are available from \cite{2014A&ARv..22...72U}.
 
-    A tophat response function demonstrates these concepts. A tophat function provides a simple model of the impulse response of a delayed light curve for a single wavelength. A fast Fourier transform method provides the time lag spectrum (figure \ref{fig:th_freq}) for the tophat impulse response (figure \ref{fig:th_time}). Identifying some features can aid an intuitive understanding of time lag spectra of more complicated functions. In this simple case, the average time lag $\tau_0$ is shared across the frequency domain until $\nu=\frac{1}{2\tau_0}$, at which frequency the time lag phase wraps from $\pi$ to $-\pi$; in fact, this occurs at each interval of $\nu=\frac{n}{2\tau_0}$, with $n$ an odd integer. As the width of the time response function changes, i.e., the time response becomes more "smoothed out", the higher-frequency distribution of the time lag attenuates, but the wrapping frequency remains constant. \cite{2014A&ARv..22...72U} describes how even with dilution, the time lag distribution retains the feature, so this switching frequency can provide a measure of the average time lag from simple inspection. The time lag distribution can be recovered with a computational fit.
+    A tophat response function demonstrates these concepts. A tophat function provides a simple model of the time-dependent response of a delayed light curve for a single wavelength. A fast Fourier transform method provides the time lag spectrum (figure \ref{fig:th_freq}) for the tophat impulse response (figure \ref{fig:th_time}). Identifying some features can aid an intuitive understanding of time lag spectra of more complicated functions. In this simple case, the average time lag $\tau_0$ is shared across the frequency domain until $\nu=\frac{1}{2\tau_0}$, at which frequency the time lag phase wraps from $\pi$ to $-\pi$; in fact, this occurs at each interval of $\nu=\frac{n}{2\tau_0}$, with $n$ an odd integer. As the width of the time response function changes, i.e., the time response becomes more "smoothed out", the higher-frequency distribution of the time lag attenuates, but the wrapping frequency remains constant. \cite{2014A&ARv..22...72U} describes how even with dilution, the time lag distribution retains the feature, so this switching frequency can provide a measure of the average time lag from simple inspection. The time lag distribution can be recovered with a computational fit.
 
     Once the time lags are extracted from the observational datasets, they might be fitted with a tophat function, however, a more complicated function such as a log-Gaussian function is probably more appropriate, or physical models expected for an accretion can be tested too.
 
@@ -159,7 +155,7 @@ The uneven sampling of these data suggest that the maximum likelihood method dev
 \end{figure}
 
 
- The latest version as of July, 2016, of the C++ program "psdlag" developed by \cite{2013ApJ...777...24Z} is used to directly produce the PSD and cross spectra. For each wavelength, a time lag spectrum is produced by dividing the cross spectrum by $2 \pi \nu$, with $\nu$ the mean frequency for that bin.
+ The latest version as of July, 2016, of the C++ program "psdlag" developed by \cite{2013ApJ...777...24Z} is used to directly produce the PSD and cross spectra. For each wavelength, a time lag spectrum is produced by dividing the argument of the cross spectrum by $2 \pi \nu$, with $\nu$ the mean frequency for that bin.
 
 \begin{figure}[H]
     \centering
@@ -199,16 +195,16 @@ The uneven sampling of these data suggest that the maximum likelihood method dev
     \begin{figure}
         \centering
         \includegraphics[width=.9\textwidth]{../img/timelag_atlas.pdf}
-        \caption{Time lags for all observed light curves relative to 1367\AA. The lag increases with wavelength, as predicted for thermal reprocessing. These functions can ultimately be used to reconstruct the transfer function.}
+        \caption{Time lags for all observed light curves relative to 1367\AA. The lag increases with wavelength, as predicted for thermal reprocessing. These distributions can ultimately be used to reconstruct the transfer function.}
         \label{fig:timelag_atlas}
     \end{figure}
 
 \section{Discussion}
-The power spectral densities shown in figure \ref{fig:psd_atlas} each follow a trend with greater power at lowest frequencies, showing an approximate negative power-law distribution with increasing frequency. From inspection, it can be seen that the maximum power in the light curve decreases with increasing wavelength, meaning the UV light curves are more strongly variable than those in the near-IR. That behaviour is expected due to the blurring of reverberated emission reprocessed by the accretion disk. Better error sampling is preferred, but the trend appears clear enough to support the thermal reprocessing hypothesis. While this is apparent from inspecting the curves by eye, the exact shape of the PSD depends on the shape of the transfer function, and thus, will be important for modelling the transfer functions of this system.
+The power spectral densities shown in figure \ref{fig:psd_atlas} each follow a trend with greater power at lowest frequencies, showing an approximate negative power-law distribution with increasing frequency. From inspection, it can be seen that the maximum power in the light curve decreases with increasing wavelength, meaning the UV light curves are more strongly variable than those in the near-IR. That behaviour is expected due to the blurring of reverberated emission reprocessed by the accretion disk. Better error sampling is preferred, but the trend appears clear enough to support the thermal reprocessing hypothesis. While this is apparent from inspecting the curves by eye, the exact shape of the PSD depend on the shape of the transfer function, and thus, will be important for modelling the transfer function of this system.
 
-The time lags computed from the light curves and shown in figure \ref{fig:timelag_atlas} demonstrate an increase in magnitude in the low-to-mid frequencies as wavelength increases. As demonstrated using the tophat model, the magnitudes in this region indicate the average time lag for a given transfer function. This indicates that the average time lag increases with wavelength, which was also seen in the time-domain cross-correlation analysis. The accretion disk geometry coupled with a decreasing temperature distribution predicts this as well. The errors computed for the time lag at 3465\AA is extremely large, but are probably no more suspicious than those errors for other wavelengths that are extremely small. As with any conclusions made regarding the PSD, better error calculations are preferred, but the trend is very strong, and this analysis appears to support the thermal reprocessing hypothesis.
+The time lags computed from the light curves and shown in figure \ref{fig:timelag_atlas} demonstrate an increase in magnitude in the low-to-mid frequencies as wavelength increases. As demonstrated using the tophat model, the magnitudes in this region indicate the average time lag for a particular transfer function. This indicates that the average time lag increases with wavelength, which was also seen in the time-domain cross-correlation analysis. The accretion disk geometry coupled with a decreasing temperature distribution predicts this as well. The errors computed for the time lag at 3465\AA is extremely large, but are probably no more suspicious than those errors for other wavelengths that are extremely small. As with any conclusions made regarding the PSD, better error calculations are preferred, but the trend is very strong, and this analysis appears to support the thermal reprocessing hypothesis.
 
-The time lags follow a seemingly complex pattern with respect to frequency. Analysis of the tophat impulse response model predicted frequency-dependent time lags similar to those shown in figure \ref{fig:th_freq}. The time lag trends seen in this analysis do not resemble the saw-tooth character seen in the tophat model, so a more complex model may be a better choice for fitting the time lags and ultimately recovering the transfer function. A log-Gaussian distribution is likely a good function to try next. A good fit of these curves will be required for proper recovery of the transfer function.
+The time lags follow a seemingly complex pattern with respect to frequency. Analysis of the tophat impulse response model predicted frequency-dependent time lags similar to those shown in figure \ref{fig:th_freq}. The time lag trends seen in this analysis do not resemble the saw-tooth character seen in the tophat model, so a more complex model may be a better choice for fitting the time lags. A log-Gaussian distribution is likely a good function to try next. A good fit of these curves will be required for proper recovery of the transfer function.
 
 The analytical method developed by \cite{2013ApJ...777...24Z} applies well to the quality of data available for optical reverberation mapping. The analyses performed on these data have elucidated clear trends in the PSD and time lags. With reverberation mapping, the goal is to recover the transfer function, which encodes the geometry of the system. Recovering the time lags is a significant step toward that goal. The transfer function is within the reach of this analysis, and should be recovered in the next few steps. The error computation issues must be resolved so that any conclusions made from this analysis may be judged valid. It is our hope that this mode of analysis will be judged valid so it can be applied to datasets across the landscape of optical reverberation mapping, where considerable information awaits discovery.
 
