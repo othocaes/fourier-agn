@@ -75,7 +75,7 @@ do
         sed "s|%TITLE%|Error Fit Comparison for PSD of $echo_band|"|
         sed "s|%SUBTITLE%|as reported by Fausnaugh et. al, STORM III, 2016|"|
         sed "s|%FILE1%|$table|"|
-        sed "s|%LABEL1%|${echo_band}|"|
+        sed "s|%LABEL1%|${echo_band} PSD with Monte Carlo Fit|"|
         sed "s|%FILE2%|$CMtable|"|
         sed "s|%LABEL2%|${echo_band} PSD with Covariance Matrix Fit|"|
         sed "s|%YMIN%|$ymin|"|sed "s|%YMAX|$ymax|"|
