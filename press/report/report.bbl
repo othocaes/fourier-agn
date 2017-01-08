@@ -1,0 +1,84 @@
+\begin{thebibliography}{}
+\makeatletter
+\relax
+\def\mn@urlcharsother{\let\do\@makeother \do\$\do\&\do\#\do\^\do\_\do\%\do\~}
+\def\mn@doi{\begingroup\mn@urlcharsother \@ifnextchar [ {\mn@doi@}
+  {\mn@doi@[]}}
+\def\mn@doi@[#1]#2{\def\@tempa{#1}\ifx\@tempa\@empty \href
+  {http://dx.doi.org/#2} {doi:#2}\else \href {http://dx.doi.org/#2} {#1}\fi
+  \endgroup}
+\def\mn@eprint#1#2{\mn@eprint@#1:#2::\@nil}
+\def\mn@eprint@arXiv#1{\href {http://arxiv.org/abs/#1} {{\tt arXiv:#1}}}
+\def\mn@eprint@dblp#1{\href {http://dblp.uni-trier.de/rec/bibtex/#1.xml}
+  {dblp:#1}}
+\def\mn@eprint@#1:#2:#3:#4\@nil{\def\@tempa {#1}\def\@tempb {#2}\def\@tempc
+  {#3}\ifx \@tempc \@empty \let \@tempc \@tempb \let \@tempb \@tempa \fi \ifx
+  \@tempb \@empty \def\@tempb {arXiv}\fi \@ifundefined
+  {mn@eprint@\@tempb}{\@tempb:\@tempc}{\expandafter \expandafter \csname
+  mn@eprint@\@tempb\endcsname \expandafter{\@tempc}}}
+
+\bibitem[\protect\citeauthoryear{{Bentz} \& {Katz}}{{Bentz} \&
+  {Katz}}{2015}]{2015PASP..127...67B}
+{Bentz} M.~C.,  {Katz} S.,  2015, \mn@doi [\pasp] {10.1086/679601}, \href
+  {http://adsabs.harvard.edu/abs/2015PASP..127...67B} {127, 67}
+
+\bibitem[\protect\citeauthoryear{{Cackett}, {Horne}  \& {Winkler}}{{Cackett}
+  et~al.}{2007}]{2007MNRAS.380..669C}
+{Cackett} E.~M.,  {Horne} K.,   {Winkler} H.,  2007, \mn@doi [MNRAS]
+  {10.1111/j.1365-2966.2007.12098.x}, \href
+  {http://adsabs.harvard.edu/abs/2007MNRAS.380..669C} {380, 669}
+
+\bibitem[\protect\citeauthoryear{{Collier}, {Horne}, {Wanders}  \&
+  {Peterson}}{{Collier} et~al.}{1999}]{1999MNRAS.302L..24C}
+{Collier} S.,  {Horne} K.,  {Wanders} I.,   {Peterson} B.~M.,  1999, \mn@doi
+  [\mnras] {10.1046/j.1365-8711.1999.02250.x}, \href
+  {http://adsabs.harvard.edu/abs/1999MNRAS.302L..24C} {302, L24}
+
+\bibitem[\protect\citeauthoryear{{De Rosa} et~al.,}{{De Rosa}
+  et~al.}{2015}]{2015ApJ...806..128D}
+{De Rosa} G.,  et~al., 2015, \mn@doi [\apj] {10.1088/0004-637X/806/1/128},
+  \href {http://adsabs.harvard.edu/abs/2015ApJ...806..128D} {806, 128}
+
+\bibitem[\protect\citeauthoryear{{Edelson} et~al.,}{{Edelson}
+  et~al.}{2015}]{2015ApJ...806..129E}
+{Edelson} R.,  et~al., 2015, \mn@doi [\apj] {10.1088/0004-637X/806/1/129},
+  \href {http://adsabs.harvard.edu/abs/2015ApJ...806..129E} {806, 129}
+
+\bibitem[\protect\citeauthoryear{{Fabian}}{{Fabian}}{2012}]{2012ARA&A..50..455F}
+{Fabian} A.~C.,  2012, \mn@doi [\araa] {10.1146/annurev-astro-081811-125521},
+  \href {http://adsabs.harvard.edu/abs/2012ARA%26A..50..455F} {50, 455}
+
+\bibitem[\protect\citeauthoryear{{Fausnaugh} et~al.,}{{Fausnaugh}
+  et~al.}{2016}]{2016ApJ...821...56F}
+{Fausnaugh} M.~M.,  et~al., 2016, \mn@doi [ApJ] {10.3847/0004-637X/821/1/56},
+  \href {http://adsabs.harvard.edu/abs/2016ApJ...821...56F} {821, 56}
+
+\bibitem[\protect\citeauthoryear{{Kara}, {Miller}, {Reynolds}  \& {Dai}}{{Kara}
+  et~al.}{2016}]{2016Natur.535..388K}
+{Kara} E.,  {Miller} J.~M.,  {Reynolds} C.,   {Dai} L.,  2016, \mn@doi [\nat]
+  {10.1038/nature18007}, \href
+  {http://adsabs.harvard.edu/abs/2016Natur.535..388K} {535, 388}
+
+\bibitem[\protect\citeauthoryear{{Peterson}}{{Peterson}}{2014}]{2014SSRv..183..253P}
+{Peterson} B.~M.,  2014, \mn@doi [\ssr] {10.1007/s11214-013-9987-4}, \href
+  {http://adsabs.harvard.edu/abs/2014SSRv..183..253P} {183, 253}
+
+\bibitem[\protect\citeauthoryear{{Shakura} \& {Sunyaev}}{{Shakura} \&
+  {Sunyaev}}{1973}]{1973A&A....24..337S}
+{Shakura} N.~I.,  {Sunyaev} R.~A.,  1973, \aap, \href
+  {http://adsabs.harvard.edu/abs/1973A%26A....24..337S} {24, 337}
+
+\bibitem[\protect\citeauthoryear{{Uttley}, {Cackett}, {Fabian}, {Kara}  \&
+  {Wilkins}}{{Uttley} et~al.}{2014}]{2014A&ARv..22...72U}
+{Uttley} P.,  {Cackett} E.~M.,  {Fabian} A.~C.,  {Kara} E.,   {Wilkins} D.~R.,
+  2014, \mn@doi [A\&ARv] {10.1007/s00159-014-0072-0}, \href
+  {http://adsabs.harvard.edu/abs/2014A%26ARv..22...72U} {22, 72}
+
+\bibitem[\protect\citeauthoryear{{Zoghbi}, {Reynolds}  \& {Cackett}}{{Zoghbi}
+  et~al.}{2013}]{2013ApJ...777...24Z}
+{Zoghbi} A.,  {Reynolds} C.,   {Cackett} E.~M.,  2013, \mn@doi [ApJ]
+  {10.1088/0004-637X/777/1/24}, \href
+  {http://adsabs.harvard.edu/abs/2013ApJ...777...24Z} {777, 24}
+
+\makeatother
+\end{thebibliography}
