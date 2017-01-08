@@ -4,7 +4,7 @@
 # document-rady plots.
 
 # Only analyses with this error type will be represented in the atlas
-errtype="CM"
+errtype="LF"
 ref_band="1367Å"
 
 case $1 in
