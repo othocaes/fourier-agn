@@ -20,8 +20,9 @@ lc1 = np.loadtxt(args[0])
 # works if first two entries represent minimum spacing, from example
 # dt = lc1[1,0] - lc1[0, 0]
 
-# Time resolution determined from inspection and testing.
-dt = 0.01
+# Time resolution determined from inspection and testing. This script
+# does not expect evenly spaced data in time.
+dt = 0.1
 
 
 _ = plot(lc1[:,0], lc1[:,1])
@@ -36,10 +37,12 @@ lc1_strength  = [lc1[i, 1] for i in index]
 lc1_strength_err = [lc1[i, 2] for i in index]
 
 # This would work if both curves are in same file
-# Lc2  = [lc1[i, 3] for i in index]
+# lc2  = [lc1[i, 3] for i in index]
 #Lc2e = [lc1[i, 4] for i in index]
 
 
+# Load second light curve
+lc2 = np.loadtxt(args[1])
 
 #### Get the psd for the first light curve ####
 
@@ -86,7 +89,7 @@ errorbar(fqd[1:-1], psd1[1:-1], yerr=psd1e[1:-1], fmt='o', ms=10, label='fit')
 
 ## Now do the second light curve
 
-P2  = clag.clag('psd', lc1_time, Lc2, Lc2e, dt, fqL)
+P2  = clag.clag('psd', lc1_time, lc2, Lc2e, dt, fqL)
 
 psd2, psd2e = clag.optimize(P2, inpars)
 
@@ -99,7 +102,7 @@ psd2, psd2e = clag.optimize(P2, inpars)
 ### We also give it the calculated psd values as input ###
 Cx = clag.clag('cxd', 
                [list(i) for i in zip(lc1_time,lc1_time)], 
-               [list(i) for i in zip(lc1_strength,Lc2)],
+               [list(i) for i in zip(lc1_strength,lc2)],
                [list(i) for i in zip(lc1_strength_err,Lc2e)], 
                dt, fqL, psd1, psd2)
 
