@@ -4,18 +4,23 @@
 # the analyses. Parameters that this script should control: Δt, σ type, input
 # dataset(lightcurve directory), more?
 
-ref_band=
+ref_band=$(cat ref_band)
+ref_curve="/lightcurves/${ref_band}.lc"
+err_str=$(cat err_type)
 
 mkdir -p analyses/tables
 
 #for analysis in analyses/*
-for echo_curve in $lc_dir/*
+for echo_curve in "lightcurves/*"
 do
     # Grab and determine labels of analyses, skip if over the same band.
-    ref_band=$(basename $analysis|sed 's|\([^≺]*\)[_ ]≺[_ ][^≺_ ]*[_ ]{[^_ ]*}|\1|')
-    echo_band=$(basename $analysis|sed 's|[^≺]*[_ ]≺[_ ]\([^≺_ ]*\)[_ ]{[^_ ]*}|\1|')
+    echo_band=$(basename $echo_curve|sed 's|\(.*\)\.lc|\1|')
     if [[ $ref_band == $echo_band ]]; then continue; fi
-    err_str=$(basename $analysis|sed 's|[^≺]*[_ ]≺[_ ][^≺_ ]*[_ ]{[^_ ]*;\(σ∊[CLM][MFC]\)}|\1|')
+
+echo "Running analysis for $echo_band ≺ $ref_band"
+
+    python scripts/analyze_lightcurve.py "$ref_curve $echo_curve" >> "analyses/${ref_band}_≺_${echo_band}"
+    scripts/extract_tables.pl
 
 echo "Tabling PSD and time lags referred to ${ref_band} for $echo_band{${err_str}}."
 
