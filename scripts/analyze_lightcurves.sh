@@ -152,7 +152,8 @@ do
                 sed "s@%ROOTDIR%@$(pwd)@g"|
                 sed "s@%OUTPUTFILE%@${outputfile_noUTF}@g" > $submitscript
             cd thor
-            qsub $(basename $submitscript) >> submissions
+            # qsub $(basename $submitscript) >> submissions
+            echo CURRENTLY NOT IMPLEMENTED!!!
             cd ..
         fi
     else
@@ -160,7 +161,10 @@ do
         then
             echo -n " Analysis already exists; skipping."
         else
-            time bin/psdlag tmp.psdlagargs > $outputfile
+            #time bin/psdlag tmp.psdlagargs > $outputfile
+            time python scripts/analyze_lightcurve.py "$ref_curve $echo_curve"
+            scripts/extract_tables.pl
+             
         fi
     fi
     echo ""

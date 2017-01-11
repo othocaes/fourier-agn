@@ -7,10 +7,6 @@ import getopt
 sys.path.insert(1,"/usr/local/science/clag/")
 import clag
 
-# psd1_output = open("psd1.tmp")
-# psd2_output = open("psd2.tmp")
-# lag_output = open("lag.tmp")
-
 # For jupyter notebook
 # %pylab inline
 
@@ -76,7 +72,7 @@ P1.logLikelihood(inpars)
 
 
 ## Now do the fitting and find the best fit psd values at the given frequency bins ##
-psd1, psd1e = clag.optimize(P1, inpars)
+ref_psd, ref_psd_err = clag.optimize(P1, inpars)
 
 
 
@@ -85,7 +81,7 @@ psd1, psd1e = clag.optimize(P1, inpars)
 fqd = 10**(np.log10( (fqL[:-1]*fqL[1:]) )/2.)
 
 #loglog(fqd, 0.1*fqd**(-1.5), label='input psd')
-#errorbar(fqd[1:-1], psd1[1:-1], yerr=psd1e[1:-1], fmt='o', ms=10, label='fit')
+#errorbar(fqd[1:-1], ref_psd[1:-1], yerr=ref_psd_err[1:-1], fmt='o', ms=10, label='fit')
 
 # load second lightcurve
 
@@ -110,7 +106,7 @@ lc2_strength_err = [lc2_table[i, 2] for i in index]
 
 P2  = clag.clag('psd', lc2_time, lc2_strength, lc2_strength_err, dt, fqL)
 
-psd2, psd2e = clag.optimize(P2, inpars)
+echo_psd, echo_psd_err = clag.optimize(P2, inpars)
 
 
 
@@ -123,26 +119,18 @@ Cx = clag.clag('cxd',
                [list(i) for i in zip(lc1_time,lc1_time)], 
                [list(i) for i in zip(lc1_strength,lc2_strength)],
                [list(i) for i in zip(lc1_strength_err,lc2_strength_err)], 
-               dt, fqL, psd1, psd2)
+               dt, fqL, ref_psd, echo_psd)
 
-inpars = np.concatenate( (0.3*(psd1*psd2)**0.5, psd1*0+1.) )
+inpars = np.concatenate( (0.3*(ref_psd*echo_psd)**0.5, ref_psd*0+1.) )
 p, pe = clag.optimize(Cx, inpars)
 phi, phie = p[nfq:], pe[nfq:]
 lag, lage = phi/(2*np.pi*fqd), phie/(2*np.pi*fqd)
 cx, cxe   = p[:nfq], pe[:nfq]
 
-np.savetxt("lag.out",lag)
+np.savetxt("freq.out",fqL.reshape((-1,len(fqL))))
+np.savetxt("ref_psd.out",[ref_psd,ref_psd_err])
+np.savetxt("echo_psd.out",[echo_psd,echo_psd_err])
+np.savetxt("crsspctrm.out",[cx,cxe])
+np.savetxt("timelag.out",[lag,lage])
 
-
-
-
-
-
-
-
-## plot ##
-
-#semilogx(fqd, fqd*0+1.0, label='input phase lag')
-#ylim([0.8, 1.2])
-#errorbar(fqd[1:-1], phi[1:-1], yerr=phie[1:-1], fmt='o', ms=10, label='fit')
 
