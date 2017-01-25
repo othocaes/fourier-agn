@@ -16,6 +16,8 @@ use constant PI    => 4 * atan2(1, 1);
 our $verbose=1;
 our $debug=0;
 
+if ($debug) { $verbose=1; }
+
 
 # This section locates the output data of interest in a
 # psdlab output file.
@@ -68,19 +70,19 @@ foreach (@bin_bounds) {
     #say ($μ,":",$Δ);
     # push(@freq_coords_mean,$μ);
     # push(@freq_coords_σ,$Δ);
-    $function_bin{$μ} = {"Δ" => $Δ};
-    $function_bin{$μ}{"ref_PSD_μ"} = $ref_psd[$count];
-    $function_bin{$μ}{"ref_PSD_σ"} = $ref_psd_σ[$count];
-    $function_bin{$μ}{"echo_PSD_μ"} = $echo_psd[$count];
-    $function_bin{$μ}{"echo_PSD_σ"} = $echo_psd_σ[$count];
-    $function_bin{$μ}{"crsspctrm_μ"} = $crosssp_psd[$count];
-    $function_bin{$μ}{"crsspctrm_σ"} = $crosssp_psd_σ[$count];
+    $function_bin{$μ} = {"Δ" => $Δ,
+                        "ref_PSD_μ" => $ref_psd[$count],
+                        "ref_PSD_σ" => $ref_psd_σ[$count],
+                        "echo_PSD_μ" => $echo_psd[$count],
+                        "echo_PSD_σ" => $echo_psd_σ[$count],
+                        "crsspctrm_μ" => $crosssp_psd[$count],
+                        "crsspctrm_σ" => $crosssp_psd_σ[$count],
+                        "timelag_μ" => $timelag[$count],
+                        "timelag_σ" => $timelag_σ[$count]};
     # $function_bin{$μ}{"φdiff_μ"} = $μ;
     # $function_bin{$μ}{"φdiff_σ"} = $σ;
     # $μ = $μ/(2*PI*$μ);
     # $σ = $σ/(2*PI*$μ);
-    $function_bin{$μ}{"timelag_μ"} = $timelag[$count];
-    $function_bin{$μ}{"timelag_σ"} = $timelag_σ[$count];
     $count = $count + 1;
 }
 
@@ -94,10 +96,20 @@ $numbins = keys %function_bin;
 say encode($charset,"$numbins frequency bins captured in output.");
 
 if($verbose) {
-    say encode($charset,"freq μ        freq σ");
-    while (each %function_bin ) {
+    say encode($charset,"freq μ        freq σ      ref_PSD_μ      ref_PSD_σ      echo_PSD_μ      echo_PSD_σ      timelag_μ      timelag_σ");
+
+    foreach (sort { $a <=> $b } keys %function_bin) {
         say encode($charset,
-            sprintf("%f      %f",$_,$function_bin{$_}{"Δ"}));
+            sprintf("%f      %f      %f      %f      %f      %f      %f      %f      ",
+                $_,
+                $function_bin{$_}{"Δ"},
+                $function_bin{$_}{"ref_PSD_μ"},
+                $function_bin{$_}{"ref_PSD_σ"},
+                $function_bin{$_}{"echo_PSD_μ"},
+                $function_bin{$_}{"echo_PSD_σ"},
+                $function_bin{$_}{"timelag_μ"},
+                $function_bin{$_}{"timelag_σ"}
+        ));
     }
 }
 

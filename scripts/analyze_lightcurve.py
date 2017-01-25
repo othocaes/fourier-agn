@@ -47,11 +47,12 @@ lc1_strength_err = [lc1_table[i, 2] for i in index]
 #### Get the psd for the first light curve ####
 
 # These bin values determined summer 2016 for STORM III optical/UV lightcurves
-fqL = np.array([0.0049999999, 0.018619375, 0.044733049, 0.069336227, 0.10747115, 0.16658029, 0.25819945, 0.40020915, 0.62032418])
+# fqL = np.array([0.0049999999, 0.018619375, 0.044733049, 0.069336227, 0.10747115, 0.16658029, 0.25819945, 0.40020915, 0.62032418])
 
 # using utilities to set up frequency bins #
-# fqL = np.logspace(np.log10(1.1/seg_length),np.log10(.5/dt),7)
-# fqL = np.concatenate(([0.5/seg_length], fqL))
+seg_length = 256;
+fqL = np.logspace(np.log10(1.1/seg_length),np.log10(.5/dt),7)
+fqL = np.concatenate(([0.5/seg_length], fqL))
 
 nfq = len(fqL) - 1
 
