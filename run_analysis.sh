@@ -16,7 +16,7 @@ do
     echo_band=$(basename $echo_curve|sed 's|\(.*\)\.lc|\1|')
     if [[ $ref_band == $echo_band ]]; then continue; fi
 
-echo "Analysing $echo_band ≺ $ref_band."
+    echo "Analysing $echo_band ≺ $ref_band."
 
     if [[ -e "analyses/${ref_band}_≺_${echo_band}/" ]]; then
         echo "Results already exists. Create tables from stored results."
@@ -27,7 +27,7 @@ echo "Analysing $echo_band ≺ $ref_band."
         cp *.out analyses/${ref_band}_≺_${echo_band}/
     fi
 
-echo "Tabling PSD and time lags referred to ${ref_band} for $echo_band{${err_str}}."
+    echo "Tabling PSD and time lags referred to ${ref_band} for $echo_band{${err_str}}."
 
     # Propagate tables into analyses/tables
     echoPSD_tabfile=analyses/tables/PSD_${echo_band}_\{${err_str}\}.tab
