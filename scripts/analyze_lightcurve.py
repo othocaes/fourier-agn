@@ -59,7 +59,7 @@ fqd = 10**(np.log10( (fqL[:-1]*fqL[1:]) )/2.)
 
 
 ## load the first light curve
-lc1_time, lc1_strength, lc1_strength_err = np.loadtxt(args[0],skiprows=1)
+lc1_time, lc1_strength, lc1_strength_err = np.loadtxt(args[0],skiprows=1).T
 
 # for pylab: errorbar(t1,l1,yerr=l1e,fmt='o')
 
@@ -77,7 +77,7 @@ ref_psd, ref_psd_err = clag.errors(P1, ref_psd, ref_psd_err)
 #errorbar(fqd, ref_psd, yerr=ref_psd_err, fmt='o', ms=10)
 
 # Load second light curve
-lc2_time, lc2_strength, lc2_strength_err = np.loadtxt(args[1],skiprows=1)
+lc2_time, lc2_strength, lc2_strength_err = np.loadtxt(args[1],skiprows=1).T
 P2  = clag.clag('psd10r', [lc2_time], [lc2_strength], [lc2_strength_err], dt, fqL)
 echo_psd, echo_psd_err = clag.optimize(P2, initial_args)
 echo_psd, echo_psd_err = clag.errors(P2, echo_psd, echo_psd_err)
@@ -88,7 +88,7 @@ echo_psd, echo_psd_err = clag.errors(P2, echo_psd, echo_psd_err)
 ### We also give it the calculated psd values as input ###
 Cx = clag.clag('cxd10r',
 				[[lc1_time,lc1_time]], 
-            	[[lc1_strength,lc2_strengt]],
+            	[[lc1_strength,lc2_strength]],
             	[[lc1_strength_err,lc2_strength_err]], 
                dt, fqL, ref_psd, echo_psd)
 
@@ -97,7 +97,7 @@ Cx_vals = np.concatenate( ((ref_psd+echo_psd)*0.5-0.3,ref_psd*0+0.1) )
 Cx_vals, Cx_err = clag.optimize(Cx, Cx_vals)
 
 #?????? %autoreload
-Cx_vals, Cx_err = clas.errors(Cx,Cx_vals,Cx_err)
+Cx_vals, Cx_err = clag.errors(Cx,Cx_vals,Cx_err)
 
 phi, phie = Cx_vals[nfq:], Cx_err[nfq:]
 lag, lage = phi/(2*np.pi*fqd), phie/(2*np.pi*fqd)
