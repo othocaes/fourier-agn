@@ -54,6 +54,12 @@ fqL = np.array([0.0049999999, 0.018619375, 0.044733049, 0.069336227, 0.10747115,
 # fqL = np.concatenate(([0.5/seg_length], fqL))
 #
 
+f1 = 1/270.
+f2 = 0.5/dt
+
+fqL = np.hstack((np.array(0.5*f1),np.logspace(np.log10(0.9*f1),np.log10(.5*f2),7),np.array(2*f2)))
+
+
 nfq = len(fqL) - 1
 fqd = 10**(np.log10( (fqL[:-1]*fqL[1:]) )/2.)
 
