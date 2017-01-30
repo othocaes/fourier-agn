@@ -16,122 +16,97 @@ except getopt.GetoptError:
     print 'analyze_lightcure.py <reference curve> <compared curve>'
     sys.exit(2)
 
-## load the first light curve
-lc1_table = np.loadtxt(args[0],skiprows=1)
-
-# works if first two entries represent minimum spacing, from example
-# dt = lc1_table[1,0] - lc1_table[0, 0]
-
 # Time resolution determined from inspection and testing. This script
 # does not expect evenly spaced data in time.
-dt = 0.1
-
-
-# _ = plot(lc1_table[:,0], lc1_table[:,1])
-# _ = plot(lc1_table[:,0], lc1_table[:,3])
-
-
-# Split the light curve into segments #
-#seg_length = 256
-#index = np.arange(len(data)).reshape((-1, seg_length))
-
-# For now, instead of splitting up the curves, the program will assume 
-# that the data list is shorter than 256 elemements. so,
-
-index = np.arange(len(lc1_table)).reshape(-1,len(lc1_table))
-
-lc1_time = [lc1_table[i, 0] for i in index]
-lc1_strength  = [lc1_table[i, 1] for i in index]
-lc1_strength_err = [lc1_table[i, 2] for i in index]
+dt = 0.01
 
 #### Get the psd for the first light curve ####
 
 # These bin values determined summer 2016 for STORM III optical/UV lightcurves
-# fqL = np.array([0.0049999999, 0.018619375, 0.044733049, 0.069336227, 0.10747115, 0.16658029, 0.25819945, 0.40020915, 0.62032418])
+fqL = np.array([0.0049999999, 0.018619375, 0.044733049, 0.069336227, 0.10747115, 0.16658029, 0.25819945, 0.40020915, 0.62032418])
 
-# using utilities to set up frequency bins #
-seg_length = 256;
-fqL = np.logspace(np.log10(1.1/seg_length),np.log10(.5/dt),7)
-fqL = np.concatenate(([0.5/seg_length], fqL))
+#A general rules for fqL is as follows:
+#
+#    define f1, f2 as the two extreme frequencies allowed by the data. i.e.
+#    f1=1/T with T being the length of observation in time units, and
+#    f2=0.5/Δt
+#
+#	The frequency limits where the psd/lag can be constrained are about
+#	~0.9f1−0.5f2. The 0.9 factor doesn't depend on the data much, but
+#	values in the range ~[0.9-1.1] are ok. The factor in front of f2
+#	depends on the quality of the data, for low qualily data, use ~0.1--
+#	0.2, and for high quality data, increase it up to 0.9−−1.
+#
+#	Always include two dummy bins at the low and high frequencies and
+#	ignore them. The first and last bins are generally biased, So I suggest
+#	using the first bin as 0.5f1−0.9f1 (or whatever value you use instead
+#	of 0.9f1, see second point above), and the last bin should be
+#	0.5f2−2∗f2 (or whatever value instead of 0.5f2, see second point
+#	above). So the frequency bins should be something like:
+#	[0.5f1,0.9f1,...,0.5f2,2f2], the bins in between can be devided as
+#	desired.
+#
+#fqd is the bin center
+#
+# If lightcurves need to be split:
+# seg_length = 256;
+# fqL = np.logspace(np.log10(1.1/seg_length),np.log10(.5/dt),7)
+# fqL = np.concatenate(([0.5/seg_length], fqL))
+#
 
 nfq = len(fqL) - 1
+fqd = 10**(np.log10( (fqL[:-1]*fqL[1:]) )/2.)
+
+
+## load the first light curve
+lc1_time, lc1_strength , lc1_strength_err = np.loadtxt(args[0],skiprows=1)
+
+# for pylab: errorbar(t1,l1,yerr=l1e,fmt='o')
+
+# Used throughout
+initial_args = np.ones(nfq)
 
 
 ## initialize the psd class for multiple light curves ##
-P1  = clag.clag('psd', lc1_time, lc1_strength, lc1_strength_err, dt, fqL)
-
-
-
-
-
-## initial parameters, start with ones
-inpars = np.ones(nfq)
-
-## print the loglikelihood for the input values ##
-P1.logLikelihood(inpars)
-
-
-
-## Now do the fitting and find the best fit psd values at the given frequency bins ##
-ref_psd, ref_psd_err = clag.optimize(P1, inpars)
-
-
-
+P1  = clag.clag('psd10r', [lc1_time], [lc1_strength], [lc1_strength_err], dt, fqL)
+ref_psd, ref_psd_err = clag.optimize(P1, initial_args)
+ref_psd, ref_psd_err = clag.errors(P1, ref_psd, ref_psd_err)
 
 ## plot ##
-fqd = 10**(np.log10( (fqL[:-1]*fqL[1:]) )/2.)
-
-#loglog(fqd, 0.1*fqd**(-1.5), label='input psd')
-#errorbar(fqd[1:-1], ref_psd[1:-1], yerr=ref_psd_err[1:-1], fmt='o', ms=10, label='fit')
-
-# load second lightcurve
-
-# This would work if both curves are in same file
-# lc2_strength  = [lc1_table[i, 3] for i in index]
-# lc2_strength_err = [lc1_table[i, 4] for i in index]
-
-# But, they aren't, so,
+#xscale('log'); ylim(-4,2)
+#errorbar(fqd, ref_psd, yerr=ref_psd_err, fmt='o', ms=10)
 
 # Load second light curve
-lc2_table = np.loadtxt(args[1],skiprows=1)
-
-index = np.arange(len(lc2_table)).reshape(-1,len(lc2_table))
-
-lc2_time = [lc2_table[i, 0] for i in index]
-lc2_strength  = [lc2_table[i, 1] for i in index]
-lc2_strength_err = [lc2_table[i, 2] for i in index]
-
-
-
-## Now do the second light curve
-
-P2  = clag.clag('psd', lc2_time, lc2_strength, lc2_strength_err, dt, fqL)
-
-echo_psd, echo_psd_err = clag.optimize(P2, inpars)
-
-
-
+lc2_time, lc2_strength, lc2_strength_err = np.loadtxt(args[1],skiprows=1)
+P2  = clag.clag('psd10r', [lc2_time], [lc2_strength], [lc2_strength_err], dt, fqL)
+echo_psd, echo_psd_err = clag.optimize(P2, initial_args)
+echo_psd, echo_psd_err = clag.errors(P2, echo_psd, echo_psd_err)
 
 
 
 ### Now the cross spectrum ###
 ### We also give it the calculated psd values as input ###
-Cx = clag.clag('cxd', 
-               [list(i) for i in zip(lc1_time,lc1_time)], 
-               [list(i) for i in zip(lc1_strength,lc2_strength)],
-               [list(i) for i in zip(lc1_strength_err,lc2_strength_err)], 
+Cx = clag.clag('cxd10r',
+				[[lc1_time,lc1_time]], 
+            	[[lc1_strength,lc2_strengt]],
+            	[[lc1_strength_err,lc2_strength_err]], 
                dt, fqL, ref_psd, echo_psd)
 
-inpars = np.concatenate( (0.3*(ref_psd*echo_psd)**0.5, ref_psd*0+1.) )
-p, pe = clag.optimize(Cx, inpars)
-phi, phie = p[nfq:], pe[nfq:]
+#Cx_vals = np.concatenate( (0.3*(ref_psd*echo_psd)**0.5, ref_psd*0+1.) )
+Cx_vals = np.concatenate( ((ref_psd+echo_psd)*0.5-0.3,ref_psd*0+0.1) )
+Cx_vals, Cx_err = clag.optimize(Cx, Cx_vals)
+
+#?????? %autoreload
+Cx_vals, Cx_err = clas.errors(Cx,Cx_vals,Cx_err)
+
+phi, phie = Cx_vals[nfq:], Cx_err[nfq:]
 lag, lage = phi/(2*np.pi*fqd), phie/(2*np.pi*fqd)
-cx, cxe   = p[:nfq], pe[:nfq]
+cross_spectrm, cross_spectrm_err = Cx_vals[:nfq], Cx_err[:nfq]
 
 np.savetxt("freq.out",fqL.reshape((-1,len(fqL))))
 np.savetxt("ref_psd.out",[ref_psd,ref_psd_err])
 np.savetxt("echo_psd.out",[echo_psd,echo_psd_err])
-np.savetxt("crsspctrm.out",[cx,cxe])
+np.savetxt("crsspctrm.out",[cross_spectrm,cross_spectrm_err])
 np.savetxt("timelag.out",[lag,lage])
 
 
