@@ -22,7 +22,7 @@ do
         echo "Results already exists. Create tables from stored results."
         cp analyses/${ref_band}_≺_${echo_band}/*.out .
     else
-        time python scripts/analyze_lightcurve.py $ref_curve $echo_curve >> log_${echo_curve}
+        time python scripts/analyze_lightcurve.py $ref_curve $echo_curve >> ${echo_curve}.log
         mkdir -p "analyses/${ref_band}_≺_${echo_band}"
         cp *.out analyses/${ref_band}_≺_${echo_band}/
     fi
