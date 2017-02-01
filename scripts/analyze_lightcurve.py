@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 import sys
 import numpy as np
 import getopt
-sys.path.insert(1, "~/science/clag/")
+sys.path.insert(1, "/home/caes/science/clag/")
 import clag
 
 
