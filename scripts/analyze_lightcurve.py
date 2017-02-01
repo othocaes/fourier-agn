@@ -100,7 +100,7 @@ echo_psd, echo_psd_err = clag.errors(P2, echo_psd, echo_psd_err)
 ### Now the cross spectrum ###
 ### We also give it the calculated psd values as input ###
 Cx = clag.clag('cxd10r',
-				[[lc1_time,lc1_time]], 
+				[[lc1_time,lc2_time]], 
             	[[lc1_strength,lc2_strength]],
             	[[lc1_strength_err,lc2_strength_err]], 
                dt, fqL, ref_psd, echo_psd)
