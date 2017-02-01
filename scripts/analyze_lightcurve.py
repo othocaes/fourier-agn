@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 import sys
 sys.path.insert(1, "~/science/clag/")
-from __future__ import unicode_literals
 import numpy as np
 import getopt
 import clag
