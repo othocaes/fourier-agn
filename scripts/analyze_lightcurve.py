@@ -5,7 +5,7 @@ import sys
 import getopt
 import clag
 
-sys.path.insert(1, "/home/caes/science/clag/")
+sys.path.insert(1, "~/science/clag/")
 
 # For jupyter notebook
 # %pylab inline
