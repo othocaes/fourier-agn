@@ -62,7 +62,7 @@ fqL = np.array([0.0049999999, 0.018619375, 0.044733049, 0.069336227,
 #f2 = 0.5/dt
 #fqL = np.hstack((np.array(0.5*f1),np.logspace(np.log10(0.9*f1),
 #                np.log10(0.3*f2),9),np.array(2*f2)))
-fqL = np.logspace(np.log10(0.0049999999),np.log10(0.62032418),9)
+#fqL = np.logspace(np.log10(0.0049999999),np.log10(0.62032418),9)
 nfq = len(fqL) - 1
 fqd = 10**(np.log10( (fqL[:-1]*fqL[1:]) )/2.)
 
