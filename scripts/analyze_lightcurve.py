@@ -68,8 +68,8 @@ fqd = 10**(np.log10( (fqL[:-1]*fqL[1:]) )/2.)
 
 
 ## load the first light curve
-lc1_time, lc1_strength, lc1_strength_err = 
-    np.loadtxt(args[0],skiprows=1).T
+lc1_time, lc1_strength, lc1_strength_err = np.loadtxt(args[0],
+                                                      skiprows=1).T
 
 # for pylab: errorbar(t1,l1,yerr=l1e,fmt='o')
 
