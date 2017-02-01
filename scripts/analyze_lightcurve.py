@@ -21,7 +21,7 @@ except getopt.GetoptError:
 dt = 0.1
 
 ### Get the psd for the #fqL = np.hstack((np.array(0.5*f1),np.logspace(np.log10(0.9*f1),
-first light curve ###
+# first light curve ###
 
 
 # These bin values determined summer 2016 for STORM III optical/UV lightcurves
