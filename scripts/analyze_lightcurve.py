@@ -74,14 +74,14 @@ lc1_time, lc1_strength, lc1_strength_err = np.loadtxt(args[0],
 # for pylab: errorbar(t1,l1,yerr=l1e,fmt='o')
 
 # Used throughout
-initial_args = np.ones(nfq)
 
 
 ## initialize the psd class for multiple light curves ##
 P1  = clag.clag('psd10r',
                 [lc1_time], [lc1_strength], [lc1_strength_err],
                 dt, fqL)
-ref_psd, ref_psd_err = clag.optimize(P1, initial_args)
+ref_psd = np.ones(nfq)
+ref_psd, ref_psd_err = clag.optimize(P1, ref_psd)
 ref_psd, ref_psd_err = clag.errors(P1, ref_psd, ref_psd_err)
 
 ## plot ##
@@ -91,7 +91,8 @@ ref_psd, ref_psd_err = clag.errors(P1, ref_psd, ref_psd_err)
 # Load second light curve
 lc2_time, lc2_strength, lc2_strength_err = np.loadtxt(args[1],skiprows=1).T
 P2  = clag.clag('psd10r', [lc2_time], [lc2_strength], [lc2_strength_err], dt, fqL)
-echo_psd, echo_psd_err = clag.optimize(P2, initial_args)
+echo_psd = np.ones(nfq)
+echo_psd, echo_psd_err = clag.optimize(P2, echo_psd)
 echo_psd, echo_psd_err = clag.errors(P2, echo_psd, echo_psd_err)
 
 
