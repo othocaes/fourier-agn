@@ -3,15 +3,15 @@ from __future__ import unicode_literals
 import numpy as np
 import sys
 import getopt
-
-sys.path.insert(1,"/usr/local/science/clag/")
 import clag
+
+sys.path.insert(1, "/usr/local/science/clag/")
 
 # For jupyter notebook
 # %pylab inline
 
 try:
-    opts,args = getopt.getopt(sys.argv[1:], "")
+    opts, args = getopt.getopt(sys.argv[1:], "")
 except getopt.GetoptError:
     print 'analyze_lightcure.py <reference curve> <compared curve>'
     sys.exit(2)
@@ -20,10 +20,14 @@ except getopt.GetoptError:
 # does not expect evenly spaced data in time.
 dt = 0.1
 
-#### Get the psd for the first light curve ####
+### Get the psd for the #fqL = np.hstack((np.array(0.5*f1),np.logspace(np.log10(0.9*f1),
+first light curve ###
+
 
 # These bin values determined summer 2016 for STORM III optical/UV lightcurves
-fqL = np.array([0.0049999999, 0.018619375, 0.044733049, 0.069336227, 0.10747115, 0.16658029, 0.25819945, 0.40020915, 0.62032418])
+fqL = np.array([0.0049999999, 0.018619375, 0.044733049, 0.069336227,
+                0.10747115, 0.16658029, 0.25819945, 0.40020915,
+                0.62032418])
 
 #A general rules for fqL is as follows:
 #
@@ -54,15 +58,18 @@ fqL = np.array([0.0049999999, 0.018619375, 0.044733049, 0.069336227, 0.10747115,
 # fqL = np.concatenate(([0.5/seg_length], fqL))
 #
 
-f1 = 1/175.
-f2 = 0.5/dt
-fqL = np.hstack((np.array(0.5*f1),np.logspace(np.log10(0.9*f1),np.log10(0.3*f2),9),np.array(2*f2)))
+#f1 = 1/175.
+#f2 = 0.5/dt
+#fqL = np.hstack((np.array(0.5*f1),np.logspace(np.log10(0.9*f1),
+#                np.log10(0.3*f2),9),np.array(2*f2)))
+fqL = np.logspace(np.log10(0.0049999999),np.log10(0.62032418),9)
 nfq = len(fqL) - 1
 fqd = 10**(np.log10( (fqL[:-1]*fqL[1:]) )/2.)
 
 
 ## load the first light curve
-lc1_time, lc1_strength, lc1_strength_err = np.loadtxt(args[0],skiprows=1).T
+lc1_time, lc1_strength, lc1_strength_err = 
+    np.loadtxt(args[0],skiprows=1).T
 
 # for pylab: errorbar(t1,l1,yerr=l1e,fmt='o')
 
@@ -71,7 +78,9 @@ initial_args = np.ones(nfq)
 
 
 ## initialize the psd class for multiple light curves ##
-P1  = clag.clag('psd10r', [lc1_time], [lc1_strength], [lc1_strength_err], dt, fqL)
+P1  = clag.clag('psd10r',
+                [lc1_time], [lc1_strength], [lc1_strength_err],
+                dt, fqL)
 ref_psd, ref_psd_err = clag.optimize(P1, initial_args)
 ref_psd, ref_psd_err = clag.errors(P1, ref_psd, ref_psd_err)
 
